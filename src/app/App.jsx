@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.scss'
-import MainPage from './components/MainPage'
+import MainPage from '../pages/MainPage'
 
 function App() {
 
