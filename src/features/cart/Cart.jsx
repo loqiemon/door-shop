@@ -1,15 +1,17 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components';
 
-const DoorList = styled.div`
+
+const CartList = styled.div`
   width: 100%;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   justify-content: space-around;
 `
-const DoorItem = styled.div`
+
+const CartItem = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -24,27 +26,25 @@ const DoorItem = styled.div`
   }
 ` 
 
-const DoorImage = styled.img`
+const CartImage = styled.img`
   
 `
 
-
-function MainPage() {
-  const cartItems = useSelector((state) => state.cart.cartItems)
-  const dispatch = useDispatch()
-
-  
+function Cart() {
+    const cartItems = useSelector((state) => state.cart.cartItems)
+    const dispatch = useDispatch()
+    
   return (
-    <DoorList>
+    <CartList>
         {cartItems.map(item => 
-          <DoorItem key={item.id}>
-            <DoorImage src={item.image}/>
+          <CartItem key={item.id}>
+            <CartImage src={item.image}/>
             <span>{item.name}</span>
             <span>{item.price}руб.</span>
-          </DoorItem>
+          </CartItem>
         )}
-    </DoorList>
+    </CartList>
   )
 }
 
-export default MainPage
+export default Cart
