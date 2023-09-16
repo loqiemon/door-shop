@@ -34,6 +34,7 @@ const CategoriesItem = styled(Link)`
         cursor: pointer;
         background-color: #0064fa;
         color: #fff;
+        transform: scale(1.07);
     }
 `
 
