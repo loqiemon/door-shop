@@ -5,12 +5,13 @@ import { API_URL } from "../services/constants";
 import { authSlice } from "../features/auth/authSlice";
 import AuthService from "../services/authService";
 import { modalSlice } from "../features/modal/modalSlice";
+import { productsSlice } from "../features/products/productsSlice";
 
-
+//КАТЕГОРИИ
 export const fetchCategories = () => async(dispatch) => {
     try {
         dispatch(categoriesSlice.actions.categoriesFetching())
-        const response = await axios.get(API_URL+"categories");
+        const response = await axios.get(API_URL+"AccessoryTypes");
         dispatch(categoriesSlice.actions.categoriesFetchingSuccess(response.data))
     } catch (e) {
         if (e) {
@@ -19,7 +20,43 @@ export const fetchCategories = () => async(dispatch) => {
     }
 }
 
+export const addCategory = (category) => async(dispatch) => {
+    try {
+        const response = await axios.post(API_URL+"AccessoryTypes", category);
+        dispatch(categoriesSlice.actions.addCategorySuccess(response.data))
+    } catch (e) {
+        if (e) {
+            dispatch(categoriesSlice.actions.addCategoryError(e.message))
+        }
+    }
+}
 
+export const deleteCategory = (id) => async(dispatch) => {
+    try {
+        await axios.delete(API_URL+`AccessoryTypes/${id}`);
+        dispatch(categoriesSlice.actions.deleteCategorySuccess(id))
+    } catch (e) {
+        if (e) {
+            dispatch(categoriesSlice.actions.deleteCategoryError(e.message))
+        }
+    }
+}
+
+export const editCategory = (category) => async(dispatch) => {
+    try {
+        await axios.put(API_URL+`AccessoryTypes/${category.id}`);
+        dispatch(categoriesSlice.actions.editCategorySuccess(category))
+    } catch (e) {
+        if (e) {
+            dispatch(categoriesSlice.actions.editCategoryError(e.message))
+        }
+    }
+}
+//КАТЕГОРИИ
+
+
+
+//АВТОРИЗАЦИЯ
 export const loginFunc = (login, password) => async(dispatch) => {
     try {
         dispatch(authSlice.actions.login());
@@ -71,3 +108,53 @@ export const checkAuth = () => async(dispatch) => {
         }
     }
 }
+//АВТОРИЗАЦИЯ
+
+
+//Товары
+export const fetchProducts = () => async(dispatch) => {
+    try {
+        dispatch(productsSlice.actions.productsFetching())
+        const response = await axios.get(API_URL+"Accessories");
+        dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
+    } catch (e) {
+        if (e) {
+            dispatch(productsSlice.actions.productsFetchingError(e.message))
+        }
+    }
+}
+
+export const addProduct = (product) => async(dispatch) => {
+    try {
+        const response = await axios.post(API_URL+"Accessories", product);
+        dispatch(productsSlice.actions.addProductSuccess(response.data))
+    } catch (e) {
+        if (e) {
+            dispatch(productsSlice.actions.addProductError(e.message))
+        }
+    }
+}
+
+export const deleteProduct = (id) => async(dispatch) => {
+    try {
+        await axios.delete(API_URL+`Accessories/${id}`);
+        dispatch(productsSlice.actions.deleteProductSuccess(id))
+    } catch (e) {
+        if (e) {
+            dispatch(productsSlice.actions.deleteProductError(e.message))
+        }
+    }
+}
+
+export const editProduct = (product) => async(dispatch) => {
+    try {
+        await axios.put(API_URL+`Accessories/${product.id}`);
+        dispatch(productsSlice.actions.editProductSuccess(product))
+    } catch (e) {
+        if (e) {
+            dispatch(productsSlice.actions.editProductError(e.message))
+        }
+    }
+}
+
+//Товары
