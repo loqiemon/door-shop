@@ -44,7 +44,7 @@ export const deleteCategory = (id) => async(dispatch) => {
 
 export const editCategory = (category) => async(dispatch) => {
     try {
-        await axios.put(API_URL+`AccessoryTypes/${category.id}`);
+        await axios.put(API_URL+`AccessoryTypes/${category.id}`, {...category});
         dispatch(categoriesSlice.actions.editCategorySuccess(category))
     } catch (e) {
         if (e) {
@@ -148,7 +148,7 @@ export const deleteProduct = (id) => async(dispatch) => {
 
 export const editProduct = (product) => async(dispatch) => {
     try {
-        await axios.put(API_URL+`Accessories/${product.id}`);
+        await axios.put(API_URL+`Accessories/${product.id}`, {...product});
         dispatch(productsSlice.actions.editProductSuccess(product))
     } catch (e) {
         if (e) {

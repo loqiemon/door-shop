@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import logo from '../../public/logo.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalSlice } from '../features/modal/modalSlice'
 
 const Nav = styled.nav`
-  padding: 10px;
+  /* padding: 10px; */
+  position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #fff;
   font-weight: 500;
   font-size: 22px;
   @media (max-width: 767px) {
@@ -21,6 +26,15 @@ const Nav = styled.nav`
 
 const NavLogo = styled.img`
     width: 300px;
+`
+
+const NavContainer = styled.div`
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `
 
 const NavLinks = styled.div`
@@ -69,6 +83,7 @@ export const NavLink = styled(Link)`
         text-align: center;
     }
 `
+
 const HideOnMobile = styled.div`
   @media (max-width: 767px) {
     display: none;
@@ -115,30 +130,39 @@ const Hamburger = styled.div`
   }
 `;
 
-function Navbar() {
+function Navbar({currency}) {
     const [isNavActive, setIsNavActive] = useState(false);
+    const isAuth = useSelector(state => state.auth.isAuth)
+    const dispatch = useDispatch()
 
     const toggleNav = () => {
         setIsNavActive(!isNavActive);
     };
 
+
     return (
         <Nav>
-            <HideOnMobile>
-                <NavLink to='/'>
-                    <NavLogo src={logo}/>
-                </NavLink>
-            </HideOnMobile>
-            <NavLinks className={isNavActive ? 'active' : ''}>
-                <NavLink to='/catalog'>Каталог</NavLink>
-                <NavLink to='/cart'>Корзина</NavLink>
-                <NavLink to='/profile'>Профиль</NavLink>
-            </NavLinks>
-            <Hamburger className={isNavActive ? 'hamburger-active' : ''} onClick={toggleNav}>
-                <span></span>
-                <span></span>
-                <span></span>
-            </Hamburger>
+            <NavContainer>
+                <HideOnMobile>
+                    <NavLink to='/'>
+                        <NavLogo src={logo}/>
+                    </NavLink>
+                </HideOnMobile>
+                <NavLinks className={isNavActive ? 'active' : ''}>
+                    <NavLink to='/catalog'>Каталог</NavLink>
+                    <NavLink to='/cart'>Корзина</NavLink>
+                    {isAuth === true ? 
+                        <NavLink to='/profile'>Профиль</NavLink>:
+                        <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
+                    }
+                    <NavLink>{currency}</NavLink>
+                </NavLinks>
+                <Hamburger className={isNavActive ? 'hamburger-active' : ''} onClick={toggleNav}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </Hamburger>
+            </NavContainer>
         </Nav>
     )
 }

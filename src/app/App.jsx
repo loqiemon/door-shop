@@ -13,19 +13,22 @@ import Categories from '../features/categories/Categories'
 
 import { checkAuth } from './actionCreators'
 
-import './App.scss'
 import Register from '../features/auth/Register'
+import ProfilePage from '../pages/ProfilePage'
+import { getCurrency } from '../services/currencyApi'
 
 
 function App() {
   const [showRegister, setShowRegister] = useState(false);
-  const { isOpen } = useSelector(state => state.modal)
+  const { isOpen } = useSelector(state => state.modal);
+  const [currency, setCurrency] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-        dispatch(checkAuth())
-    }
+    // if (localStorage.getItem('token')) { 
+    //     dispatch(checkAuth())
+    // }
+    // getCurrency()
   }, [])
 
   return (
@@ -38,11 +41,12 @@ function App() {
               <Login setShowRegister={setShowRegister}/>}
             onClose={() => dispatch(modalSlice.actions.close())}
         />}
-        <Navbar/>
+        <Navbar currency={currency}/>
         <Routes>
           <Route path='/' element={<Categories/>}/>
           <Route path='/catalog' element={<MainPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
+          <Route path='/profile' element={<ProfilePage/>}/>
         </Routes>
        </BrowserRouter> 
     </>

@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 
 import useInput from '../hooks/useInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '../app/actionCreators';
 
 
 const AsideList = styled.aside`
@@ -25,6 +27,7 @@ const AsideItem = styled.div`
     border-radius: 15px;
     background-color: #fff;
     gap: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
 const Search =styled.input`
@@ -66,45 +69,55 @@ const AsideButton = styled.button`
         font-weight: 700;
         color: #fff;
     }
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 `
 
-const categories = [
-    {name: 'Не очень двери', id: 1},
-    {name: 'Двери', id: 2},
-    {name: 'Крутые двери', id: 3},
-    {name: 'Деревянные двери', id: 4},
-    {name: 'Каменные двери', id: 5},
-    {name: 'Железные двери', id: 6},
-    {name: 'Армор двери', id: 7}
-  ]
+// const categories = [
+//     {name: 'Не очень двери', id: 1},
+//     {name: 'Двери', id: 2},
+//     {name: 'Крутые двери', id: 3},
+//     {name: 'Деревянные двери', id: 4},
+//     {name: 'Каменные двери', id: 5},
+//     {name: 'Железные двери', id: 6},
+//     {name: 'Армор двери', id: 7}
+//   ]
 
 function Aside() {
-  const search = useInput();
+  const {search, handleSearch} = useInput();
   const [selectedCategory, setSelectedCategory] = useState(1);
+
+  // const { categories, isLoading } = useSelector(state => state.categories);
+
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     console.log('clicked');
   }
+
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  // }, []);
 
   return (
     <AsideList>
         <AsideItem>
             <Search 
                 placeholder='Поиск'
-                {...search}
+                value={search}
+                onChange={e => handleSearch(e.target.value)}
             />
         </AsideItem>
         <AsideItem>
-            {categories.map(category => 
+            {/* {categories.map(category => 
                 <Category
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
                     className={category.id == selectedCategory ? 'active' : ''}
                 >
-                    {category.name}  
+                    {category.Type}  
                 </Category>
-            )}
+            )} */}
         </AsideItem>
         <AsideButton
             onClick={handleClick}

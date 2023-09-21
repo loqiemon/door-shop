@@ -30,9 +30,33 @@ const CartImage = styled.img`
   
 `
 
+const Counter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 5px;
+`;
+
 function Cart() {
     const cartItems = useSelector((state) => state.cart.cartItems)
     const dispatch = useDispatch()
+
+    const handleIncrement = (item) => {
+    
+    };
+  
+    const handleDecrement = (item) => {
+     
+    };
     
   return (
     <CartList>
@@ -41,6 +65,11 @@ function Cart() {
             <CartImage src={item.image}/>
             <span>{item.name}</span>
             <span>{item.price}руб.</span>
+            <Counter>
+              <Button onClick={() => handleDecrement(item)}>-</Button>
+              <span>0</span> 
+              <Button onClick={() => handleIncrement(item)}>+</Button>
+            </Counter>
           </CartItem>
         )}
     </CartList>

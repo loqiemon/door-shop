@@ -1,12 +1,12 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 
 export default function useInput() {
     const [value, setValue] = useState('');
     
-    const onChange = (e) => {
-        setValue(e.target.value);
+    const onChange = (text) => {
+        setValue(text);
     }
-    
+
     return {
         value,
         onChange

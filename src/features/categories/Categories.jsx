@@ -1,31 +1,35 @@
-import React, {useState} from 'react';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import door from '../../../public/images/doors/door.double.hinged.metal.png';
 import useSearch from '../../hooks/useSearch'
 import Loader from '../../components/Loader';
+import { fetchCategories } from '../../app/actionCreators';
 
 
 const CategoriesContainer = styled.div`
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-wrap: wrap;
     max-width: 1280px;
     margin: 0 auto;
     padding-top: 20px;
+
 `
 
 const CategoriesItem = styled(Link)`
     background-color: #fff;
-    padding: 30px;
+    padding: 30px 0;
     display: flex;
     align-items: center;
+    justify-content: fle;
     transition: all .3s ease-in;
     font-size: 20px;
-    width: 25%;
+    width: 20%;
+    max-height: 150px;
     border: solid 1px #9c9898;
     gap: 10px;
     color: #000;
@@ -81,7 +85,13 @@ const CategoriesSearchTitle = styled.h2`
 function Categories() {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
   const [searchText, setSearchText] = useState('');
-  const { searchedArray } = useSearch(categories, searchText)
+  const { searchedArray } = useSearch(categories, searchText, 'Type')
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [])
 
   return (
     <>
@@ -99,11 +109,11 @@ function Categories() {
                 <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle>: 
                 <>
                     {searchedArray.map(category => 
-                    <CategoriesItem to={`/catalog/${category.link}`}>
-                        <CategoriesImage src={door} />
-                        <CategoriesText>{category.name}</CategoriesText>
-                    </CategoriesItem>
-                )}
+                        <CategoriesItem to={`/catalog/${category.link}`} key={category.Type}>
+                            <CategoriesImage src={door} />
+                            <CategoriesText>{category.Type}</CategoriesText>
+                        </CategoriesItem>
+                    )}
                 </>
             }
         </CategoriesContainer>
