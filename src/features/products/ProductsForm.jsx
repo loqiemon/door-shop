@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
 import useInput from '../../hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
@@ -73,6 +74,10 @@ const Button = styled.button`
 const ImageInput = styled.input`
     display: none; 
 `;
+
+const StyledTextarea = styled(TextareaAutosize)`
+
+`
 
 
 function ProductsForm({handleSubmit, inputValues = {
@@ -205,7 +210,15 @@ function ProductsForm({handleSubmit, inputValues = {
           onChange={e => weightInput.onChange(e.target.value)}
           label="Вес"
         />
-        <Input
+        {/* <Input
+          value={descriptionInput.value}
+          onChange={e => descriptionInput.onChange(e.target.value)}
+          label="Описание"
+        /> */}
+        <StyledTextarea
+          aria-label="Описание"
+          minRows={3} // Минимальное количество строк
+          // placeholder="Введите текст"
           value={descriptionInput.value}
           onChange={e => descriptionInput.onChange(e.target.value)}
           label="Описание"
