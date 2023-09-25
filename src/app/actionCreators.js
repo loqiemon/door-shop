@@ -63,12 +63,10 @@ export const editCategory = (category) => async(dispatch) => {
 export const loginFunc = (login, password) => async(dispatch) => {
     try {
         dispatch(authSlice.actions.login());
-        console.log(login, password)
         const response = await axios.post(API_URL+"Auth/login", {email: login, password});
-        console.log(response.data)
         // const response = await AuthService.login(login, password);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', {email: response.data.email, role: response.data.role});
+        localStorage.setItem('user', JSON.stringify({email: response.data.email, role: response.data.role}));
         dispatch(authSlice.actions.loginSuccess(response.data));
         dispatch(modalSlice.actions.close())
     } catch (e) {
