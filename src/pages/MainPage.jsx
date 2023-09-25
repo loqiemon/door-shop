@@ -107,6 +107,9 @@ const Title = styled.h2`
   font-weight: 600;
   font-size: 27px;
   color: #000;
+  position: absolute;
+  left: 43%;
+  top: 43%;
 `
 
 
