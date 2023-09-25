@@ -95,7 +95,10 @@ const Button = styled.button`
       color: white;
     }
 `
-
+const TableImage = styled.img`
+  max-width: 100px;
+  max-height: 100px;
+`
 
 function ProductList({handleEdit, handleDelete}) {
   const { products, isLoading, getProductsError } = useSelector(state => state.products)
@@ -157,7 +160,7 @@ function ProductList({handleEdit, handleDelete}) {
                     <TableCell>{row.vendorCode} </TableCell>
                     <TableCell>{row.retailPrice} руб</TableCell>
                     <TableCell>{row.wholesalePrice} руб</TableCell>
-                    <TableCell><img src={`${row.image}`} alt="" /></TableCell>
+                    <TableCell><TableImage src={`${row.image}`} alt="" /></TableCell>
                     {/* <TableCell>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCell> */}
                     <TableCell>
                         <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>

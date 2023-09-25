@@ -103,6 +103,12 @@ const Price = styled.span`
 
 `
 
+const Title = styled.h2`
+  font-weight: 600;
+  font-size: 27px;
+  color: #000;
+`
+
 
 function MainPage() {
   const { categoryId } = useParams();
@@ -178,6 +184,9 @@ function MainPage() {
               }
             </SellItem>
           )}
+          {!isLoading && filteredArray.length === 0 &&
+            <Title>Таких товаров нет</Title>
+          }
       </SellList>
       {selectedItem && (
         <Modal onClose={closeModal}>
