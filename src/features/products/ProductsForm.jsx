@@ -145,7 +145,7 @@ function ProductsForm({handleSubmit, inputValues = {
         isNaN(wholesalePrice) ||
         !accessoryTypeId ||
         !vendorCodeInput.value ||
-        selectedImage.length === 0
+        !selectedImage
     ) {
         alert('Пожалуйста, заполните все поля и выберите значение в селекте');
         return;

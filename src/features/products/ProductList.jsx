@@ -150,7 +150,7 @@ function ProductList({handleEdit, handleDelete}) {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.nanufacturer}</TableCell>
+                    <TableCell>{row.manufacturer}</TableCell>
                     <TableCell>{row.country}</TableCell>
                     <TableCell>{row.weight}</TableCell>
                     <TableCell>{row.description}</TableCell>

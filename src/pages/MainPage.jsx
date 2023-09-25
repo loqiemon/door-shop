@@ -152,7 +152,7 @@ function MainPage() {
   useEffect(() => {
     dispatch(fetchProducts(categoryId))
     dispatch(readCart())
-  }, []);
+  }, [categoryId]);
   
   
   return (

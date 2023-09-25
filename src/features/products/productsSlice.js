@@ -18,6 +18,7 @@ export const productsSlice = createSlice({
     reducers: {
         productsFetching(state) {
             state.isLoading = true;
+            state.products = [];
         },
         productsFetchingSuccess(state, action) {
             state.isLoading = false;
@@ -25,6 +26,7 @@ export const productsSlice = createSlice({
             state.products = action.payload;
         },
         productsFetchingError(state, action) {
+            state.products = [];
             state.isLoading = false;
             state.getProductsError = action.payload;
         },

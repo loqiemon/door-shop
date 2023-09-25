@@ -19,6 +19,7 @@ export const categoriesSlice = createSlice({
     reducers: {
         categoriesFetching(state) {
             state.isLoading = true;
+            state.categories = [];
         },
         categoriesFetchingSuccess(state, action) {
             state.isLoading = false;
@@ -26,6 +27,7 @@ export const categoriesSlice = createSlice({
             state.categories = action.payload;
         },
         categoriesFetchingError(state, action) {
+            state.categories = [];
             state.isLoading = false;
             state.getCategoriesError = action.payload;
         },
