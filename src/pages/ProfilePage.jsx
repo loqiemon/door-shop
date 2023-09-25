@@ -90,6 +90,12 @@ const Button = styled.button`
     }
 `
 
+const ActiveMenuItem = styled(ProfileAsideItem)`
+  background-color: #56195d;
+  color: #fff;
+`;
+
+
 function ProfilePage() {
   const [currentContent, setCurrentContent] = useState('profile');
   const user = useSelector(state => state.auth.user);
@@ -139,9 +145,24 @@ function ProfilePage() {
       <ProfileTitle>Настройки</ProfileTitle>
       <ProfileMain>
         <ProfileAside>
+        {currentContent === 'products' ? 
+          <ActiveMenuItem onClick={() => setCurrentContent('profile')}>Профиль</ActiveMenuItem>:
           <ProfileAsideItem onClick={() => setCurrentContent('profile')}>Профиль</ProfileAsideItem>
-          {user.role === 'admin' && <ProfileAsideItem onClick={() => setCurrentContent('products')}>Товары</ProfileAsideItem>}
-          {user.role === 'admin' && <ProfileAsideItem onClick={() => setCurrentContent('categories')}>Категории</ProfileAsideItem>}
+        }
+        {user.role === 'admin' && (
+          currentContent === 'products' ? (
+            <ActiveMenuItem onClick={() => setCurrentContent('products')}>Товары</ActiveMenuItem>
+          ) : (
+            <ProfileAsideItem onClick={() => setCurrentContent('products')}>Товары</ProfileAsideItem>
+          )
+        )}
+        {user.role === 'admin' && (
+          currentContent === 'categories' ? (
+            <ActiveMenuItem onClick={() => setCurrentContent('categories')}>Категории</ActiveMenuItem>
+          ) : (
+            <ProfileAsideItem onClick={() => setCurrentContent('categories')}>Категории</ProfileAsideItem>
+          )
+        )}
         </ProfileAside>
         <ProfileContent>
           {currentContent === 'profile' && (
