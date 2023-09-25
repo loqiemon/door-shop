@@ -20,6 +20,24 @@ const ModalContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-height: 900px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+		width: 5px;           
+	}
+	  
+  &::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0);      
+  }
+	  
+	&::-webkit-scrollbar-thumb {
+		background-color: #555;  
+		border-radius: 20px;      
+	}
+	
+	scrollbar-width: thin;
+	scrollbar-color: #555 rgba(0,0,0,0);  
 `;
 
 const ModalSpan = styled.button`

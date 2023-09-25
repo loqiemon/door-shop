@@ -76,7 +76,18 @@ const ImageInput = styled.input`
 `;
 
 const StyledTextarea = styled(TextareaAutosize)`
+  background-color: #f7f7f7;
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  max-width: 100%;
 
+  &:focus {
+    background-color: #ffffff; 
+    border: 1px solid #56195d; 
+    outline: none;
+  }
+  
 `
 
 
@@ -140,6 +151,22 @@ function ProductsForm({handleSubmit, inputValues = {
     const retailPrice = parseFloat(retailPriceInput.value);
     const wholesalePrice = parseFloat(wholesalePriceInput.value);
 
+
+    const productData = {
+      id: inputValues.id,
+      name: nameInput.value,
+      manufacturer: manufacturerInput.value,
+      country: countryInput.value,
+      weight: weightInput.value,
+      description: descriptionInput.value,
+      retailPrice: retailPriceInput.value,
+      wholesalePrice: wholesalePriceInput.value,
+      accessoryTypeId: accessoryTypeId,
+      vendorCode: vendorCodeInput.value,
+      image: selectedImage
+  };
+  console.log(productData.image, productData.accessoryTypeId);
+    console.log(descriptionInput)
     if (
         !nameInput.value ||
         !manufacturerInput.value ||
@@ -156,20 +183,7 @@ function ProductsForm({handleSubmit, inputValues = {
         return;
     }
     
-    const productData = {
-        id: inputValues.id,
-        name: nameInput.value,
-        manufacturer: manufacturerInput.value,
-        country: countryInput.value,
-        weight: weightInput.value,
-        description: descriptionInput.value,
-        retailPrice: retailPriceInput.value,
-        wholesalePrice: wholesalePriceInput.value,
-        accessoryTypeId: accessoryTypeId,
-        vendorCode: vendorCodeInput.value,
-        image: selectedImage
-    };
-    console.log(productData);
+
 
     // dispatch(addCategory({Type: val.value}))
     handleSubmit(productData)
