@@ -101,7 +101,7 @@ function ProductList({handleEdit, handleDelete}) {
   const { products, isLoading, getProductsError } = useSelector(state => state.products)
   const { categories } = useSelector(state => state.categories)
   const { value: search, onChange: setSearch} = useInput()
-  const { searchedArray } = useSearch(products, search, 'Name')
+  const { searchedArray } = useSearch(products, search, 'name')
 
   const dispatch = useDispatch();
 

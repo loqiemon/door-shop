@@ -102,7 +102,7 @@ function CategoryList() {
   const [isOpen, setIsOpen] = useState(false);
   const [editInput, setEditInput] = useState({});
   const { value: search, onChange: setSearch} = useInput()
-  const { searchedArray } = useSearch(categories, search, 'Type')
+  const { searchedArray } = useSearch(categories, search, 'type')
   const [edit, setEdit] = useState(false);
 
   const dispatch = useDispatch();
@@ -120,10 +120,10 @@ function CategoryList() {
   } = usePagination({ array: searchedArray });
 
 
-  const handleEdit = (id, Type) => {
+  const handleEdit = (id, type) => {
     setEdit(true);
     setIsOpen(true);
-    setEditInput({id, Type})
+    setEditInput({id, type})
   }
 
   const handleDelete = (id) => {

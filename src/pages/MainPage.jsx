@@ -126,10 +126,10 @@ function MainPage() {
     setSelectedItem(null);
   };
 
-  const { searchedArray } = useSearch(products, search, 'Name')
+  const { searchedArray } = useSearch(products, search, 'name')
 
   const filteredArray = searchedArray.filter(item => {
-    const price = parseFloat(item.WholesalePrice); 
+    const price = parseFloat(item.wholesalePrice); 
     const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
     const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
 

@@ -85,7 +85,7 @@ const CategoriesSearchTitle = styled.h2`
 function Categories() {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
   const [searchText, setSearchText] = useState('');
-  const { searchedArray } = useSearch(categories, searchText, 'Type')
+  const { searchedArray } = useSearch(categories, searchText, 'type')
 
   const dispatch = useDispatch();
 

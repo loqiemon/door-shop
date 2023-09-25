@@ -160,7 +160,7 @@ export const deleteProduct = (id) => async(dispatch) => {
 export const editProduct = (product) => async(dispatch) => {
     try {
         const response = await $api.put(API_URL+`Accessories/${product.id}`, {...product});
-        dispatch(productsSlice.actions.editProductSuccess(response.data))
+        dispatch(productsSlice.actions.editProductSuccess(product))
     } catch (e) {
         if (e) {
             console.error(e)
