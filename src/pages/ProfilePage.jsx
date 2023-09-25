@@ -104,7 +104,9 @@ function ProfilePage() {
     Description: '',
     RetailPrice: '',
     WholesalePrice: '',
-    AccessoryTypeId: ''
+    AccessoryTypeId: '',
+    Image: '',
+    VendorCode: ''
   });
 
   const dispatch = useDispatch();
@@ -168,7 +170,9 @@ function ProfilePage() {
                         Description: product1.Description,
                         RetailPrice: product1.RetailPrice,
                         WholesalePrice: product1.WholesalePrice,
-                        AccessoryType: product1.AccessoryTypeId
+                        AccessoryType: product1.AccessoryTypeId,
+                        VendorCode: product1.VendorCode,
+                        Image: product1.Image
                       }}
                     />
                   } 

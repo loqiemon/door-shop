@@ -149,7 +149,7 @@ function Navbar({currency}) {
                     </NavLink>
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
-                    <NavLink to='/catalog'>Каталог</NavLink>
+                    <NavLink to='/'>Каталог</NavLink>
                     <NavLink to='/cart'>Корзина</NavLink>
                     {isAuth === true ? 
                         <NavLink to='/profile'>Профиль</NavLink>:

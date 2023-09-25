@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     cartItems: [
-        {name: "High External Stone Gate", id: 3, description: "The High External Stone Gate is used with High External Stone Walls as a door for a player's compound.", image: "/images/doors/gates.external.high.stone.png", price: 29000},
+        
     ]
 };
 
@@ -10,15 +10,25 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
+        readCart : (state) => {
+            const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+            state.cartItems = storedCart;
+        },
         addToCart: (state, action) => {
-            state.cartItems = [...state.cartItems, action.payload]
+            const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+            const updatedCart = [...storedCart, action.payload];
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            state.cartItems = updatedCart;
         },
         removeFromCart: (state, action) => {
-            state.cartItems = state.cartItems.filter(item => item.id !== action.payload)
+            const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+            const filtered = storedCart.filter(item => item.id !== action.payload);
+            localStorage.setItem('cart', JSON.stringify(filtered));
+            state.cartItems = filtered;
         }
     }
 })
 
-export const { addToCart, removeFromCart } = cartSlice.actions
+export const { addToCart, removeFromCart, readCart } = cartSlice.actions
 
 export default cartSlice.reducer

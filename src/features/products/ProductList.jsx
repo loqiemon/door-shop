@@ -135,8 +135,10 @@ function ProductList({handleEdit, handleDelete}) {
                 <TableCellHeader align="left">Страна</TableCellHeader>
                 <TableCellHeader align="left">Вес</TableCellHeader>
                 <TableCellHeader align="left">Описание</TableCellHeader>
+                <TableCellHeader align="left">Артикул</TableCellHeader>
                 <TableCellHeader align="left">Розничная цена</TableCellHeader>
                 <TableCellHeader align="left">Оптовая цена</TableCellHeader>
+                <TableCellHeader align="left">Картинка</TableCellHeader>
                 {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
                 <TableCellHeader align="left">Действия</TableCellHeader>
             </TableRow>
@@ -152,8 +154,10 @@ function ProductList({handleEdit, handleDelete}) {
                     <TableCell>{row.Country}</TableCell>
                     <TableCell>{row.Weight}</TableCell>
                     <TableCell>{row.Description}</TableCell>
-                    <TableCell>{row.RetailPrice}</TableCell>
-                    <TableCell>{row.WholesalePrice}</TableCell>
+                    <TableCell>{row.VendorCode} </TableCell>
+                    <TableCell>{row.RetailPrice} руб</TableCell>
+                    <TableCell>{row.WholesalePrice} руб</TableCell>
+                    <TableCell><img src={`${row.Image}`} alt="" /></TableCell>
                     {/* <TableCell>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCell> */}
                     <TableCell>
                         <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>

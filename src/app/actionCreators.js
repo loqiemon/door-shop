@@ -7,6 +7,8 @@ import AuthService from "../services/authService";
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
 
+
+
 //КАТЕГОРИИ
 export const fetchCategories = () => async(dispatch) => {
     try {
@@ -112,11 +114,16 @@ export const checkAuth = () => async(dispatch) => {
 
 
 //Товары
-export const fetchProducts = () => async(dispatch) => {
+export const fetchProducts = (id) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
-        const response = await axios.get(API_URL+"Accessories");
-        dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
+        if (id) {
+            const response = await axios.get(API_URL+`Accessories?type=${id}`);
+            dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
+        } else {
+            const response = await axios.get(API_URL+"Accessories");
+            dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
+        }
     } catch (e) {
         if (e) {
             dispatch(productsSlice.actions.productsFetchingError(e.message))
@@ -126,7 +133,7 @@ export const fetchProducts = () => async(dispatch) => {
 
 export const addProduct = (product) => async(dispatch) => {
     try {
-        const response = await axios.post(API_URL+"Accessories", product);
+        const response = await axios.post(API_URL+"Accessories", {...product});
         dispatch(productsSlice.actions.addProductSuccess(response.data))
     } catch (e) {
         if (e) {
@@ -148,10 +155,11 @@ export const deleteProduct = (id) => async(dispatch) => {
 
 export const editProduct = (product) => async(dispatch) => {
     try {
-        await axios.put(API_URL+`Accessories/${product.id}`, {...product});
-        dispatch(productsSlice.actions.editProductSuccess(product))
+        const response = await axios.put(API_URL+`Accessories/${product.id}`, {...product});
+        dispatch(productsSlice.actions.editProductSuccess(response.data))
     } catch (e) {
         if (e) {
+            console.error(e)
             dispatch(productsSlice.actions.editProductError(e.message))
         }
     }

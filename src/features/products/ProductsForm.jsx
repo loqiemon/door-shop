@@ -5,10 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-
+import TextField from '@mui/material/TextField';
 
 import useInput from '../../hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
+import { convertImageToBase64 } from '../../utils/convertImage';
 
 
 const Container = styled.div`
@@ -35,7 +36,21 @@ const Title = styled.h2`
     color: #000;
 `
 
-const Input = styled.input`
+const Input = styled(TextField)`
+  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px; 
+    border-color: #56195d;
+
+  }
+
+  & .MuiInputLabel-root.Mui-focused {
+    color: #56195d; 
+  }
+
+  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px;
+  }
+
     background-color: #f7f7f7;
     padding: 12px;
     border-radius: 15px;
@@ -55,6 +70,10 @@ const Button = styled.button`
     }
 `
 
+const ImageInput = styled.input`
+    display: none; 
+`;
+
 
 function ProductsForm({handleSubmit, inputValues = {
   id: '',
@@ -65,17 +84,27 @@ function ProductsForm({handleSubmit, inputValues = {
   Description: '',
   RetailPrice: '',
   WholesalePrice: '',
+  Image: '',
+  VendorCode: '',
   AccessoryType: ''
 }, btnText = 'Добавить', title = 'Добавление товара' }) {
   const nameInput = useInput();
+  const vendorCodeInput = useInput();
   const manufacturerInput = useInput();
   const countryInput = useInput();
   const weightInput = useInput();
   const descriptionInput = useInput();
   const retailPriceInput = useInput();
   const wholesalePriceInput = useInput();
+  const [selectedImage, setSelectedImage] = useState('');
   const [AccessoryTypeId , setAccessoryTypeId ] = useState('');
 
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    const imageBase64 = await convertImageToBase64(file);
+    setSelectedImage(imageBase64); 
+  };
 
   const dispatch = useDispatch();
 
@@ -88,6 +117,8 @@ function ProductsForm({handleSubmit, inputValues = {
     descriptionInput.onChange(inputValues.Description);
     retailPriceInput.onChange(inputValues.RetailPrice);
     wholesalePriceInput.onChange(inputValues.WholesalePrice);
+    vendorCodeInput.onChange(inputValues.VendorCode);
+    setSelectedImage(inputValues.Image)
     setAccessoryTypeId(inputValues.AccessoryType)
   }, []);
 
@@ -97,23 +128,29 @@ function ProductsForm({handleSubmit, inputValues = {
     setAccessoryTypeId(event.target.value);
   };
 
-  console.log(inputValues, 'inputValues')
+
   
 
   const handleClick = () => {
+    const retailPrice = parseFloat(retailPriceInput.value);
+    const wholesalePrice = parseFloat(wholesalePriceInput.value);
+
     if (
         !nameInput.value ||
         !manufacturerInput.value ||
         !countryInput.value ||
         !weightInput.value ||
         !descriptionInput.value ||
-        !retailPriceInput.value ||
-        !wholesalePriceInput.value ||
-        !AccessoryTypeId
+        isNaN(retailPrice) ||
+        isNaN(wholesalePrice) ||
+        !AccessoryTypeId ||
+        !vendorCodeInput.value ||
+        selectedImage.length === 0
     ) {
         alert('Пожалуйста, заполните все поля и выберите значение в селекте');
         return;
     }
+    
     const productData = {
         id: inputValues.id,
         Name: nameInput.value,
@@ -124,7 +161,10 @@ function ProductsForm({handleSubmit, inputValues = {
         RetailPrice: retailPriceInput.value,
         WholesalePrice: wholesalePriceInput.value,
         AccessoryTypeId: AccessoryTypeId,
+        VendorCode: vendorCodeInput.value,
+        Image: selectedImage
     };
+    console.log(productData);
 
     // dispatch(addCategory({Type: val.value}))
     handleSubmit(productData)
@@ -135,7 +175,9 @@ function ProductsForm({handleSubmit, inputValues = {
     descriptionInput.onChange('');
     retailPriceInput.onChange('');
     wholesalePriceInput.onChange('');
-    setAccessoryTypeId('')
+    vendorCodeInput.onChange('');
+    setSelectedImage('');
+    setAccessoryTypeId('');
   }
 
   return (
@@ -143,39 +185,50 @@ function ProductsForm({handleSubmit, inputValues = {
         <Title>{title}</Title>
         <Form>
         <Input
-          placeholder='Название'
           value={nameInput.value}
           onChange={e => nameInput.onChange(e.target.value)}
+          id="outlined-basic"
+          label="Название"
         />
         <Input
-          placeholder='Производитель'
           value={manufacturerInput.value}
           onChange={e => manufacturerInput.onChange(e.target.value)}
+          label="Производитель"
         />
         <Input
-          placeholder='Страна производителя'
           value={countryInput.value}
           onChange={e => countryInput.onChange(e.target.value)}
+          label="Страна производителя"
         />
         <Input
-          placeholder='Вес'
           value={weightInput.value}
           onChange={e => weightInput.onChange(e.target.value)}
+          label="Вес"
         />
         <Input
-          placeholder='Описание'
           value={descriptionInput.value}
           onChange={e => descriptionInput.onChange(e.target.value)}
+          label="Описание"
         />
         <Input
-          placeholder='Розничная цена'
           value={retailPriceInput.value}
           onChange={e => retailPriceInput.onChange(e.target.value)}
+          label="Розничная цена"
         />
         <Input
-          placeholder='Оптовая цена'
           value={wholesalePriceInput.value}
           onChange={e => wholesalePriceInput.onChange(e.target.value)}
+          label="Оптовая цена"
+        />
+        <Input
+          value={vendorCodeInput.value}
+          onChange={e => vendorCodeInput.onChange(e.target.value)}
+          label="Артикул"
+        />
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
         />
 
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>

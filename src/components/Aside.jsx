@@ -3,7 +3,7 @@ import React, {
     useState
 } from 'react';
 import styled from 'styled-components';
-
+import TextField from '@mui/material/TextField';
 
 import useInput from '../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,31 +73,37 @@ const AsideButton = styled.button`
 
 `
 
-// const categories = [
-//     {name: 'Не очень двери', id: 1},
-//     {name: 'Двери', id: 2},
-//     {name: 'Крутые двери', id: 3},
-//     {name: 'Деревянные двери', id: 4},
-//     {name: 'Каменные двери', id: 5},
-//     {name: 'Железные двери', id: 6},
-//     {name: 'Армор двери', id: 7}
-//   ]
 
-function Aside() {
-  const {search, handleSearch} = useInput();
-  const [selectedCategory, setSelectedCategory] = useState(1);
+const Input = styled(TextField)`
+  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px; 
+    border-color: #56195d;
 
-  // const { categories, isLoading } = useSelector(state => state.categories);
+  }
 
-  const dispatch = useDispatch();
+  & .MuiInputLabel-root.Mui-focused {
+    color: #56195d; 
+  }
+
+  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px;
+  }
+
+    background-color: #f7f7f7;
+    padding: 12px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
+
+
+function Aside({search, setSearch, filters, setFilters}) {
+
+
 
   const handleClick = () => {
     console.log('clicked');
   }
 
-  // useEffect(() => {
-  //   dispatch(fetchCategories());
-  // }, []);
 
   return (
     <AsideList>
@@ -105,10 +111,22 @@ function Aside() {
             <Search 
                 placeholder='Поиск'
                 value={search}
-                onChange={e => handleSearch(e.target.value)}
+                onChange={e => setSearch(e.target.value)}
             />
         </AsideItem>
         <AsideItem>
+            <Input
+                value={filters.minPrice}
+                onChange={e => setFilters(prev => ({...prev, minPrice: e.target.value}))}
+                id="outlined-basic"
+                label="Цена от"
+            />
+            <Input
+                value={filters.maxPrice}
+                onChange={e => setFilters(prev => ({...prev, maxPrice: e.target.value}))}
+                id="outlined-basic"
+                label="До"
+            />
             {/* {categories.map(category => 
                 <Category
                     key={category.id}
