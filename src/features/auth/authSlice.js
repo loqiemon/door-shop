@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit"
 
 
 const initialState = {
-    user: {role: 'admin'},
-    isAuth: true,
-    // user: {},
-    // isAuth: false,
+    // user: {role: 'admin'},
+    // isAuth: true,
+    user: {},
+    isAuth: false,
     isLoadingAuth: false,
     errorLogin: ''
 }

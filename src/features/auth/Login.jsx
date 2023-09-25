@@ -56,7 +56,7 @@ function Login({setShowRegister}) {
   const { value: password, onChange: handlePassword } = useInput();
 
   const handleSubmit = () => {
-    if (login.length > 3 && password.length > 7) {
+    if (login.length > 0 && password.length > 0) {
       dispatch(loginFunc(login, password));
     }
     handleLogin('');

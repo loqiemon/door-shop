@@ -6,7 +6,6 @@ import { authSlice } from "../features/auth/authSlice";
 import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
-import $api from "../services/axiosConfig";
 
 
 
@@ -25,7 +24,7 @@ export const fetchCategories = () => async(dispatch) => {
 
 export const addCategory = (category) => async(dispatch) => {
     try {
-        const response = await $api.post(API_URL+"AccessoryTypes", category);
+        const response = await axios.post(API_URL+"AccessoryTypes", category);
         dispatch(categoriesSlice.actions.addCategorySuccess(response.data))
     } catch (e) {
         if (e) {
@@ -36,7 +35,7 @@ export const addCategory = (category) => async(dispatch) => {
 
 export const deleteCategory = (id) => async(dispatch) => {
     try {
-        await $api.delete(API_URL+`AccessoryTypes/${id}`);
+        await axios.delete(API_URL+`AccessoryTypes/${id}`);
         dispatch(categoriesSlice.actions.deleteCategorySuccess(id))
     } catch (e) {
         if (e) {
@@ -47,7 +46,7 @@ export const deleteCategory = (id) => async(dispatch) => {
 
 export const editCategory = (category) => async(dispatch) => {
     try {
-        await $api.put(API_URL+`AccessoryTypes/${category.id}`, {...category});
+        await axios.put(API_URL+`AccessoryTypes/${category.id}`, {...category});
         dispatch(categoriesSlice.actions.editCategorySuccess(category))
     } catch (e) {
         if (e) {
@@ -63,8 +62,10 @@ export const editCategory = (category) => async(dispatch) => {
 export const loginFunc = (login, password) => async(dispatch) => {
     try {
         dispatch(authSlice.actions.login());
-        // const response = await axios.post(API_URL+"login", {login, password});
-        const response = await AuthService.login(login, password);
+        console.log(login, password)
+        const response = await axios.post(API_URL+"Auth/login", {email: login, password});
+        console.log(response)
+        // const response = await AuthService.login(login, password);
         localStorage.setItem('token', response.data.accessToken);
         dispatch(authSlice.actions.loginSuccess(response.data.user));
         dispatch(modalSlice.actions.close())
@@ -78,7 +79,8 @@ export const loginFunc = (login, password) => async(dispatch) => {
 export const registerFunc = (login, password) => async(dispatch) => {
     try {
         dispatch(authSlice.actions.login());
-        const response = await AuthService.register(login, password);
+        // const response = await AuthService.register(login, password);
+        const response = await axios.post(API_URL+"Auth/register", {login, password});
         localStorage.setItem('token', response.data.accessToken);
         dispatch(authSlice.actions.loginSuccess(response.data.user));
     } catch (e) {
@@ -103,7 +105,7 @@ export const logoutFunc = () => async(dispatch) => {
 export const checkAuth = () => async(dispatch) => {
     try {
         console.log(1)
-        const response = await axios.get(API_URL+"checkAuth");
+        const response = await axios.get(API_URL+"/Auth/checkAuth");
         dispatch(authSlice.actions.checkAuth({isAuth: true, user: response.data}))
     } catch (e) {
         if (e) {
@@ -134,8 +136,8 @@ export const fetchProducts = (id) => async(dispatch) => {
 
 export const addProduct = (product) => async(dispatch) => {
     try {
-        // const response = await axios.post(API_URL+"Accessories", {...product});
-        const response = await $api.post(API_URL+"Accessories", {...product});
+        const response = await axios.post(API_URL+"Accessories", {...product});
+        
         dispatch(productsSlice.actions.addProductSuccess(response.data))
     } catch (e) {
         if (e) {
@@ -146,7 +148,7 @@ export const addProduct = (product) => async(dispatch) => {
 
 export const deleteProduct = (id) => async(dispatch) => {
     try {
-        await $api.delete(API_URL+`Accessories/${id}`);
+        await axios.delete(API_URL+`Accessories/${id}`);
         dispatch(productsSlice.actions.deleteProductSuccess(id))
     } catch (e) {
         if (e) {
@@ -157,7 +159,7 @@ export const deleteProduct = (id) => async(dispatch) => {
 
 export const editProduct = (product) => async(dispatch) => {
     try {
-        const response = await $api.put(API_URL+`Accessories/${product.id}`, {...product});
+        const response = await axios.put(API_URL+`Accessories/${product.id}`, {...product});
         dispatch(productsSlice.actions.editProductSuccess(response.data))
     } catch (e) {
         if (e) {
