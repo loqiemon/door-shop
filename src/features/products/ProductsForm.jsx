@@ -248,7 +248,7 @@ function ProductsForm({handleSubmit, inputValues = {
                     value={category.id}
                     key={category.id}
                 >
-                    {category.Type}
+                    {category.type}
                 </MenuItem>
             )}
             </Select>

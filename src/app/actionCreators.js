@@ -6,6 +6,7 @@ import { authSlice } from "../features/auth/authSlice";
 import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
+import $api from "../services/axiosConfig";
 
 
 
