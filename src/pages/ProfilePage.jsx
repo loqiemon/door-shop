@@ -97,16 +97,16 @@ function ProfilePage() {
   const [editModal, setEditModal] = useState(false);
   const [product1, setProduct1] = useState({
     id: '',
-    Name: '',
-    Manufacturer: '',
-    Country: '',
-    Weight: '',
-    Description: '',
-    RetailPrice: '',
-    WholesalePrice: '',
-    AccessoryTypeId: '',
-    Image: '',
-    VendorCode: ''
+    name: '',
+    manufacturer: '',
+    country: '',
+    weight: '',
+    description: '',
+    retailPrice: '',
+    wholesalePrice: '',
+    accessoryTypeId: '',
+    image: '',
+    vendorCode: ''
   });
 
   const dispatch = useDispatch();
@@ -122,7 +122,7 @@ function ProfilePage() {
 
   const handleEdit = (product) => {
     setEditModal(true)
-    setProduct1({...product, AccessoryType: product.AccessoryTypeId})
+    setProduct1({...product, accessoryType: product.accessoryTypeId})
   }
 
   const handleDelete = (id) => {
@@ -163,16 +163,16 @@ function ProfilePage() {
                       handleSubmit={(prod) => handleEditConfirm(prod)}
                       inputValues = {{
                         id: product1.id,
-                        Name: product1.Name,
-                        Manufacturer: product1.Manufacturer,
-                        Country: product1.Country,
-                        Weight: product1.Weight,
-                        Description: product1.Description,
-                        RetailPrice: product1.RetailPrice,
-                        WholesalePrice: product1.WholesalePrice,
-                        AccessoryType: product1.AccessoryTypeId,
-                        VendorCode: product1.VendorCode,
-                        Image: product1.Image
+                        name: product1.name,
+                        manufacturer: product1.manufacturer,
+                        country: product1.country,
+                        weight: product1.weight,
+                        description: product1.description,
+                        retailPrice: product1.retailPrice,
+                        wholesalePrice: product1.wholesalePrice,
+                        accessoryType: product1.accessoryTypeId,
+                        vendorCode: product1.vendorCode,
+                        image: product1.image
                       }}
                     />
                   } 

@@ -118,7 +118,7 @@ export const fetchProducts = (id) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
         if (id) {
-            const response = await axios.get(API_URL+`Accessories?type=${id}`);
+            const response = await axios.get(API_URL+`Accessories?typeId=${id}`);
             dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
         } else {
             const response = await axios.get(API_URL+"Accessories");

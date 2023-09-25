@@ -77,16 +77,16 @@ const ImageInput = styled.input`
 
 function ProductsForm({handleSubmit, inputValues = {
   id: '',
-  Name: '',
-  Manufacturer: '',
-  Country: '',
-  Weight: '',
-  Description: '',
-  RetailPrice: '',
-  WholesalePrice: '',
-  Image: '',
-  VendorCode: '',
-  AccessoryType: ''
+  name: '',
+  manufacturer: '',
+  country: '',
+  weight: '',
+  description: '',
+  retailPrice: '',
+  wholesalePrice: '',
+  image: '',
+  vendorCode: '',
+  accessoryType: ''
 }, btnText = 'Добавить', title = 'Добавление товара' }) {
   const nameInput = useInput();
   const vendorCodeInput = useInput();
@@ -97,7 +97,7 @@ function ProductsForm({handleSubmit, inputValues = {
   const retailPriceInput = useInput();
   const wholesalePriceInput = useInput();
   const [selectedImage, setSelectedImage] = useState('');
-  const [AccessoryTypeId , setAccessoryTypeId ] = useState('');
+  const [accessoryTypeId , setAccessoryTypeId ] = useState('');
 
 
   const handleImageChange = async (event) => {
@@ -110,16 +110,16 @@ function ProductsForm({handleSubmit, inputValues = {
 
   useEffect(() => {
     dispatch(fetchCategories())
-    nameInput.onChange(inputValues.Name);
-    manufacturerInput.onChange(inputValues.Manufacturer);
-    countryInput.onChange(inputValues.Country);
-    weightInput.onChange(inputValues.Weight);
-    descriptionInput.onChange(inputValues.Description);
-    retailPriceInput.onChange(inputValues.RetailPrice);
-    wholesalePriceInput.onChange(inputValues.WholesalePrice);
-    vendorCodeInput.onChange(inputValues.VendorCode);
-    setSelectedImage(inputValues.Image)
-    setAccessoryTypeId(inputValues.AccessoryType)
+    nameInput.onChange(inputValues.name);
+    manufacturerInput.onChange(inputValues.manufacturer);
+    countryInput.onChange(inputValues.country);
+    weightInput.onChange(inputValues.weight);
+    descriptionInput.onChange(inputValues.description);
+    retailPriceInput.onChange(inputValues.retailPrice);
+    wholesalePriceInput.onChange(inputValues.wholesalePrice);
+    vendorCodeInput.onChange(inputValues.vendorCode);
+    setSelectedImage(inputValues.image)
+    setAccessoryTypeId(inputValues.accessoryType)
   }, []);
 
   const categories = useSelector(state => state.categories.categories);
@@ -143,7 +143,7 @@ function ProductsForm({handleSubmit, inputValues = {
         !descriptionInput.value ||
         isNaN(retailPrice) ||
         isNaN(wholesalePrice) ||
-        !AccessoryTypeId ||
+        !accessoryTypeId ||
         !vendorCodeInput.value ||
         selectedImage.length === 0
     ) {
@@ -153,16 +153,16 @@ function ProductsForm({handleSubmit, inputValues = {
     
     const productData = {
         id: inputValues.id,
-        Name: nameInput.value,
-        Manufacturer: manufacturerInput.value,
-        Country: countryInput.value,
-        Weight: weightInput.value,
-        Description: descriptionInput.value,
-        RetailPrice: retailPriceInput.value,
-        WholesalePrice: wholesalePriceInput.value,
-        AccessoryTypeId: AccessoryTypeId,
-        VendorCode: vendorCodeInput.value,
-        Image: selectedImage
+        name: nameInput.value,
+        manufacturer: manufacturerInput.value,
+        country: countryInput.value,
+        weight: weightInput.value,
+        description: descriptionInput.value,
+        retailPrice: retailPriceInput.value,
+        wholesalePrice: wholesalePriceInput.value,
+        accessoryTypeId: accessoryTypeId,
+        vendorCode: vendorCodeInput.value,
+        image: selectedImage
     };
     console.log(productData);
 
@@ -236,7 +236,7 @@ function ProductsForm({handleSubmit, inputValues = {
             <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={AccessoryTypeId}
+            value={accessoryTypeId}
             onChange={handleChange}
             label="Type"
             >

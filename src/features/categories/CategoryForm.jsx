@@ -50,7 +50,7 @@ function CategoryForm() {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    dispatch(addCategory({Type: val.value}))
+    dispatch(addCategory({type: val.value}))
     val.onChange('')
   }
 

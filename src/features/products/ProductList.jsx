@@ -149,15 +149,15 @@ function ProductList({handleEdit, handleDelete}) {
                   key={rowIndex}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                    <TableCell>{row.Name}</TableCell>
-                    <TableCell>{row.Manufacturer}</TableCell>
-                    <TableCell>{row.Country}</TableCell>
-                    <TableCell>{row.Weight}</TableCell>
-                    <TableCell>{row.Description}</TableCell>
-                    <TableCell>{row.VendorCode} </TableCell>
-                    <TableCell>{row.RetailPrice} руб</TableCell>
-                    <TableCell>{row.WholesalePrice} руб</TableCell>
-                    <TableCell><img src={`${row.Image}`} alt="" /></TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.nanufacturer}</TableCell>
+                    <TableCell>{row.country}</TableCell>
+                    <TableCell>{row.weight}</TableCell>
+                    <TableCell>{row.description}</TableCell>
+                    <TableCell>{row.vendorCode} </TableCell>
+                    <TableCell>{row.retailPrice} руб</TableCell>
+                    <TableCell>{row.wholesalePrice} руб</TableCell>
+                    <TableCell><img src={`${row.image}`} alt="" /></TableCell>
                     {/* <TableCell>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCell> */}
                     <TableCell>
                         <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>

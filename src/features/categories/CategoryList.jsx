@@ -154,9 +154,9 @@ function CategoryList() {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   {/* <TableCell>{row.photo}</TableCell> */}
-                  <TableCell>{row.Type}</TableCell>
+                  <TableCell>{row.type}</TableCell>
                   <TableCell>
-                        <EditButton onClick={() => handleEdit(row.id, row.Type)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
+                        <EditButton onClick={() => handleEdit(row.id, row.type)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
                         <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
                   </TableCell>
                 </TableRow>
@@ -179,7 +179,7 @@ function CategoryList() {
             children={
               // edit === true ? 
                 <>
-                    <Input value={editInput.Type} onChange={e => setEditInput(prev => ({...prev, Type: e.target.value}))}/>
+                    <Input value={editInput.type} onChange={e => setEditInput(prev => ({...prev, type: e.target.value}))}/>
                     <Button onClick={() => dispatch(editCategory(editInput))}>Сохранить</Button>
                 </>
 

@@ -109,9 +109,9 @@ function Categories() {
                 <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle>: 
                 <>
                     {searchedArray.map(category => 
-                        <CategoriesItem to={`/catalog/${category.id}`} key={category.Type}>
+                        <CategoriesItem to={`/catalog/${category.id}`} key={category.type}>
                             <CategoriesImage src={door} />
-                            <CategoriesText>{category.Type}</CategoriesText>
+                            <CategoriesText>{category.type}</CategoriesText>
                         </CategoriesItem>
                     )}
                 </>

@@ -167,10 +167,10 @@ function MainPage() {
           {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
           {!isLoading && filteredArray.map(item => 
             <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
-              <VendorCode onClick={() => {navigator.clipboard.writeText(item.VendorCode)}}>ID {item.VendorCode}</VendorCode>
-              <SellImage src={item.Image}/>
-              <span>{item.Name}</span>
-              <Price>{item.WholesalePrice} руб.</Price>
+              <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
+              <SellImage src={item.image}/>
+              <span>{item.name}</span>
+              <Price>{item.wholesalePrice} руб.</Price>
               {isInCart(item.id) === true ? ( 
                 <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
               ): 
@@ -182,10 +182,10 @@ function MainPage() {
       {selectedItem && (
         <Modal onClose={closeModal}>
           <div>
-            <h2>{selectedItem.Name}</h2>
-            <p>ID {selectedItem.VendorCode}</p>
-            <img src={selectedItem.Image} alt={selectedItem.Name} />
-            <p>{selectedItem.WholesalePrice} руб.</p>
+            <h2>{selectedItem.name}</h2>
+            <p>ID {selectedItem.vendorCode}</p>
+            <img src={selectedItem.image} alt={selectedItem.name} />
+            <p>{selectedItem.wholesalePrice} руб.</p>
             <button onClick={closeModal}>Закрыть</button>
           </div>
         </Modal>
