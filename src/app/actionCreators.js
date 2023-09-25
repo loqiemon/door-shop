@@ -136,7 +136,8 @@ export const fetchProducts = (id) => async(dispatch) => {
 
 export const addProduct = (product) => async(dispatch) => {
     try {
-        const response = await $api.post(API_URL+"Accessories", {...product});
+        const { id, ...product1 } = product; 
+        const response = await $api.post(API_URL+"Accessories", {...product1});
         
         dispatch(productsSlice.actions.addProductSuccess(response.data))
     } catch (e) {

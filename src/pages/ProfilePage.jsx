@@ -145,7 +145,7 @@ function ProfilePage() {
       <ProfileTitle>Настройки</ProfileTitle>
       <ProfileMain>
         <ProfileAside>
-        {currentContent === 'products' ? 
+        {currentContent === 'profile' ? 
           <ActiveMenuItem onClick={() => setCurrentContent('profile')}>Профиль</ActiveMenuItem>:
           <ProfileAsideItem onClick={() => setCurrentContent('profile')}>Профиль</ProfileAsideItem>
         }
