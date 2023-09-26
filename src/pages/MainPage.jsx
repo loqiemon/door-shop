@@ -10,6 +10,7 @@ import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice'
 import useSearch from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
 import Modal from '../features/modal/Modal';
+import ProductItem from '../features/products/ProductItem';
 
 const SellList = styled.div`
   position: relative;
@@ -86,7 +87,7 @@ const LoaderDiv =styled.div`
   left: 50%;
 `
 
-const VendorCode = styled.span`
+const VendorCode = styled.p`
   position: absolute;
   top: 0;
   left: 5px;
@@ -125,7 +126,7 @@ function MainPage() {
   const openModal = (e, item) => {
     if (
       !item ||
-      (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "SPAN")
+      (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
     ) {
       setSelectedItem(item);
     }
@@ -193,13 +194,7 @@ function MainPage() {
       </SellList>
       {selectedItem && (
         <Modal onClose={closeModal}>
-          <div>
-            <h2>{selectedItem.name}</h2>
-            <p>ID {selectedItem.vendorCode}</p>
-            <img src={selectedItem.image} alt={selectedItem.name} />
-            <p>{selectedItem.wholesalePrice} руб.</p>
-            <button onClick={closeModal}>Закрыть</button>
-          </div>
+          <ProductItem product={selectedItem} />
         </Modal>
       )}
     </Main>

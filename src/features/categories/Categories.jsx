@@ -22,10 +22,10 @@ const CategoriesContainer = styled.div`
 
 const CategoriesItem = styled(Link)`
     background-color: #fff;
-    padding: 30px 0;
+    padding: 30px 5px;
     display: flex;
     align-items: center;
-    justify-content: fle;
+    /* justify-content: fle; */
     transition: all .3s ease-in;
     font-size: 20px;
     width: 20%;
@@ -36,9 +36,10 @@ const CategoriesItem = styled(Link)`
 
     &:hover {
         cursor: pointer;
-        background-color: #0064fa;
+        /* background-color: #0064fa; */
+        background-color: #56195d;
         color: #fff;
-        transform: scale(1.07);
+        /* transform: scale(1.07); */
     }
 `
 

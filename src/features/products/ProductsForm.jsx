@@ -165,7 +165,7 @@ function ProductsForm({handleSubmit, inputValues = {
       vendorCode: vendorCodeInput.value,
       image: selectedImage
   };
-  console.log(productData.image, productData.accessoryTypeId);
+    console.log(productData);
     console.log(descriptionInput)
     if (
         !nameInput.value ||

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalSlice } from '../features/modal/modalSlice'
 
+
 const Nav = styled.nav`
   /* padding: 10px; */
   position: relative;
@@ -16,6 +17,9 @@ const Nav = styled.nav`
   background-color: #fff;
   font-weight: 500;
   font-size: 22px;
+  background: url('../../public/logo.svg');
+
+
   @media (max-width: 767px) {
     justify-content: center;
   }
@@ -26,6 +30,7 @@ const Nav = styled.nav`
 
 const NavLogo = styled.img`
     width: 300px;
+    border: none;
 `
 
 const NavContainer = styled.div`
