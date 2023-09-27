@@ -111,7 +111,7 @@ function Categories() {
                 <>
                     {searchedArray.map(category => 
                         <CategoriesItem to={`/catalog/${category.id}`} key={category.type}>
-                            {/* <CategoriesImage src={door} /> */}
+                            {category.image && <CategoriesImage src={category.image} />}
                             <CategoriesText>{category.type}</CategoriesText>
                         </CategoriesItem>
                     )}

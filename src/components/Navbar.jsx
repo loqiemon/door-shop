@@ -15,9 +15,11 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
+  /* height: 170px; */
   font-weight: 500;
   font-size: 22px;
-  background: url('../../public/logo.svg');
+  /* background: url('../../public/logo.svg') center center/cover no-repeat; */
+
 
 
   @media (max-width: 767px) {

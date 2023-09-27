@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../app/actionCreators'
+import { convertImageToBase64 } from '../../utils/convertImage'
 
 const Container = styled.div`
     width: 100%;
@@ -48,10 +49,20 @@ const Button = styled.button`
 function CategoryForm() {
   const val = useInput()
   const dispatch = useDispatch();
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    const imageBase64 = await convertImageToBase64(file);
+    setSelectedImage(imageBase64); 
+  };
 
   const handleSubmit = () => {
-    dispatch(addCategory({type: val.value}))
-    val.onChange('')
+    if(selectedImage.length !== 0 && val.value) {
+      dispatch(addCategory({type: val.value, image: selectedImage}))
+      val.onChange('');
+      setSelectedImage('');
+    }
   }
 
   return (
@@ -62,6 +73,12 @@ function CategoryForm() {
                 placeholder='Название категории...'
                 value={val.value}
                 onChange={e => val.onChange(e.target.value)}
+            />
+            <Input
+              placeholder='Фото'
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
             />
             <Button onClick={handleSubmit}>Добавить</Button>
         </Form>

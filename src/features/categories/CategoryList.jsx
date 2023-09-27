@@ -16,6 +16,7 @@ import useInput from '../../hooks/useInput';
 import usePagination from '../../hooks/usePagination';
 import Modal from '../modal/Modal';
 import { deleteCategory, editCategory, fetchCategories } from '../../app/actionCreators';
+import { convertImageToBase64 } from '../../utils/convertImage';
 
 
 
@@ -76,6 +77,7 @@ const Input = styled.input`
     background-color: #f7f7f7;
     padding: 12px;
     border-radius: 15px;
+    margin-left: 15px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
@@ -123,13 +125,19 @@ function CategoryList() {
   const handleEdit = (id, type) => {
     setEdit(true);
     setIsOpen(true);
-    setEditInput({id, type})
+    setEditInput({id, type, image})
   }
 
   const handleDelete = (id) => {
     setEdit(false);
     dispatch(deleteCategory(id))
   }
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    const imageBase64 = await convertImageToBase64(file);
+    setEditInput(prev => ({...prev, image: imageBase64})); 
+  };
 
   return (
     <TableContainer1>
@@ -142,7 +150,7 @@ function CategoryList() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-                {/* <TableCellHeader align="left">Фото</TableCellHeader> */}
+                <TableCellHeader align="left">Фото</TableCellHeader>
                 <TableCellHeader align="left">Названия</TableCellHeader>
                 <TableCellHeader align="left">Действия</TableCellHeader>
             </TableRow>
@@ -153,10 +161,10 @@ function CategoryList() {
                   key={rowIndex}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  {/* <TableCell>{row.photo}</TableCell> */}
+                  <TableCell>{row.image}</TableCell>
                   <TableCell>{row.type}</TableCell>
                   <TableCell>
-                        <EditButton onClick={() => handleEdit(row.id, row.type)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
+                        <EditButton onClick={() => handleEdit(row.id, row.type, row.image)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
                         <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
                   </TableCell>
                 </TableRow>
@@ -180,6 +188,11 @@ function CategoryList() {
               // edit === true ? 
                 <>
                     <Input value={editInput.type} onChange={e => setEditInput(prev => ({...prev, type: e.target.value}))}/>
+                    <Input 
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
                     <Button onClick={() => dispatch(editCategory(editInput))}>Сохранить</Button>
                 </>
 
