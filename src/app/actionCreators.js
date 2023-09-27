@@ -65,7 +65,7 @@ export const loginFunc = (login, password) => async(dispatch) => {
         dispatch(authSlice.actions.login());
         const response = await axios.post(API_URL+"Auth/login", {email: login, password});
         // const response = await AuthService.login(login, password);
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('user', JSON.stringify({email: response.data.email, role: response.data.role}));
         dispatch(authSlice.actions.loginSuccess(response.data));
         dispatch(modalSlice.actions.close())
@@ -81,7 +81,7 @@ export const registerFunc = (login, password) => async(dispatch) => {
         dispatch(authSlice.actions.login());
         // const response = await AuthService.register(login, password);
         const response = await axios.post(API_URL+"Auth/register", {login, password});
-        localStorage.setItem('token', response.data.accessToken);
+        localStorage.setItem('accessToken', response.data.accessToken);
         dispatch(authSlice.actions.loginSuccess(response.data.user));
     } catch (e) {
         if (e) {
@@ -93,7 +93,7 @@ export const registerFunc = (login, password) => async(dispatch) => {
 export const logoutFunc = () => async(dispatch) => {
     try {
         const response = await AuthService.logout();
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         dispatch(authSlice.actions.logout())
     } catch (e) {
         if (e) {

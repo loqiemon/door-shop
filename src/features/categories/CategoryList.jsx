@@ -98,6 +98,11 @@ const Button = styled.button`
     }
 `
 
+const TableImage = styled.img`
+  max-width: 100px;
+  max-height: 100px;
+`
+
 
 function CategoryList() {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
@@ -122,7 +127,7 @@ function CategoryList() {
   } = usePagination({ array: searchedArray });
 
 
-  const handleEdit = (id, type) => {
+  const handleEdit = (id, type, image) => {
     setEdit(true);
     setIsOpen(true);
     setEditInput({id, type, image})
@@ -161,7 +166,7 @@ function CategoryList() {
                   key={rowIndex}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell>{row.image}</TableCell>
+                  <TableCell><TableImage src={row.image}/></TableCell>
                   <TableCell>{row.type}</TableCell>
                   <TableCell>
                         <EditButton onClick={() => handleEdit(row.id, row.type, row.image)}><i className="fa-regular fa-pen-to-square"></i></EditButton>

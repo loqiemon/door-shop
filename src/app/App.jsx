@@ -25,7 +25,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) { 
+    if (localStorage.getItem('accessToken')) { 
         dispatch(checkAuth())
     }
     // getCurrency()
