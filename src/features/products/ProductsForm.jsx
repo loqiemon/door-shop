@@ -100,6 +100,7 @@ function ProductsForm({handleSubmit, inputValues = {
   description: '',
   retailPrice: '',
   wholesalePrice: '',
+  isAvaible: '',
   image: '',
   vendorCode: '',
   accessoryType: ''
@@ -112,6 +113,7 @@ function ProductsForm({handleSubmit, inputValues = {
   const descriptionInput = useInput();
   const retailPriceInput = useInput();
   const wholesalePriceInput = useInput();
+  const isAvaibleInput = useInput();
   const [selectedImage, setSelectedImage] = useState('');
   const [accessoryTypeId , setAccessoryTypeId ] = useState('');
 
@@ -132,6 +134,7 @@ function ProductsForm({handleSubmit, inputValues = {
     weightInput.onChange(inputValues.weight);
     descriptionInput.onChange(inputValues.description);
     retailPriceInput.onChange(inputValues.retailPrice);
+    isAvaibleInput.onChange(inputValues.isAvaible);
     wholesalePriceInput.onChange(inputValues.wholesalePrice);
     vendorCodeInput.onChange(inputValues.vendorCode);
     setSelectedImage(inputValues.image)
@@ -163,6 +166,7 @@ function ProductsForm({handleSubmit, inputValues = {
       wholesalePrice: wholesalePriceInput.value,
       accessoryTypeId: accessoryTypeId,
       vendorCode: vendorCodeInput.value,
+      isAvaible: isAvaibleInput.value,
       image: selectedImage
   };
     console.log(productData);
@@ -171,6 +175,7 @@ function ProductsForm({handleSubmit, inputValues = {
         !nameInput.value ||
         !manufacturerInput.value ||
         !countryInput.value ||
+        // !isAvaibleInput.value ||
         // !weightInput.value ||
         // !descriptionInput.value ||
         isNaN(retailPrice) ||
@@ -192,6 +197,7 @@ function ProductsForm({handleSubmit, inputValues = {
     countryInput.onChange('');
     weightInput.onChange('');
     descriptionInput.onChange('');
+    isAvaibleInput.onChange('');
     retailPriceInput.onChange('');
     wholesalePriceInput.onChange('');
     vendorCodeInput.onChange('');
@@ -253,6 +259,11 @@ function ProductsForm({handleSubmit, inputValues = {
           label="Артикул"
         />
         <Input
+          value={isAvaibleInput.value}
+          onChange={e => isAvaibleInput.onChange(e.target.value)}
+          label="Доступность"
+        />
+        <Input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
@@ -261,11 +272,11 @@ function ProductsForm({handleSubmit, inputValues = {
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">Тип</InputLabel>
             <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={accessoryTypeId}
-            onChange={handleChange}
-            label="Type"
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={accessoryTypeId}
+              onChange={handleChange}
+              label="Type"
             >
             <MenuItem value="">
                 <em>None</em>

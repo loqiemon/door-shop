@@ -111,6 +111,7 @@ function ProfilePage() {
     retailPrice: '',
     wholesalePrice: '',
     accessoryTypeId: '',
+    isAvaible: '',
     image: '',
     vendorCode: ''
   });
@@ -193,6 +194,7 @@ function ProfilePage() {
                         wholesalePrice: product1.wholesalePrice,
                         accessoryType: product1.accessoryTypeId,
                         vendorCode: product1.vendorCode,
+                        isAvaible: product1.isAvaible,
                         image: product1.image
                       }}
                     />

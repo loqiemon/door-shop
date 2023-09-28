@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { loginFunc } from '../../app/actionCreators'
+import { useNavigate } from 'react-router-dom'
 
 const AuthContainer = styled.div`
     width: 100%;
@@ -55,12 +56,15 @@ function Login({setShowRegister}) {
   const { value: login, onChange: handleLogin } = useInput();
   const { value: password, onChange: handlePassword } = useInput();
 
+  const navigate = useNavigate();
+
   const handleSubmit = () => {
     if (login.length > 0 && password.length > 0) {
       dispatch(loginFunc(login, password));
     }
     handleLogin('');
     handlePassword('');
+    navigate('/profile')
   }
  
   return (

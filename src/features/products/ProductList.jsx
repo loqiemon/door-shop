@@ -9,7 +9,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import useSearch from '../../hooks/useSearch';
 import useInput from '../../hooks/useInput';
@@ -58,6 +61,18 @@ const DeleteButton = styled.button`
   }
 `;
 
+const TableCellMy = styled(TableCell)`
+  height: 50px; 
+  overflow: auto;
+  text-overflow: ellipsis; 
+
+  
+`
+const TableRowMy = styled(TableRow)`
+  height: 50px;
+  overflow: auto;
+  text-overflow: ellipsis; 
+`
 
 const TableCellHeader = styled(TableCell)`
   cursor: pointer;
@@ -95,23 +110,29 @@ const Button = styled.button`
       color: white;
     }
 `
+
 const TableImage = styled.img`
   max-width: 100px;
   max-height: 100px;
 `
 
+const Container = styled.div`
+  display: flex;
+`
+
 function ProductList({handleEdit, handleDelete}) {
-  const { products, isLoading, getProductsError } = useSelector(state => state.products)
-  const { categories } = useSelector(state => state.categories)
-  const { value: search, onChange: setSearch} = useInput()
-  const { searchedArray } = useSearch(products, search, 'name')
+  const { products, isLoading, getProductsError } = useSelector(state => state.products);
+  const { categories } = useSelector(state => state.categories);
+  const { value: search, onChange: setSearch} = useInput();
+  const [searchProp, setSearchProp] = useState('name');
+  const { searchedArray } = useSearch(products, search, searchProp);
+
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts())
     dispatch(fetchCategories())
-    console.log(categories)
   }, [])
 
   const { 
@@ -124,49 +145,69 @@ function ProductList({handleEdit, handleDelete}) {
 
   return (
     <TableContainer1>
-      <Input 
-        placeholder='Поиск...'
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <Container>
+        <Input 
+          placeholder='Поиск...'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Поле сортировки</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={searchProp}
+                onChange={e => setSearchProp(e.target.value)}
+                label="Type"
+              >
+              <MenuItem value='name'>Имя</MenuItem>
+              <MenuItem value='vendorCode'>Артикул</MenuItem>
+              <MenuItem value='manufacturer'>Производитель</MenuItem>
+              <MenuItem value='country'>Страна</MenuItem>
+              <MenuItem value='isAvaible'>Доступность</MenuItem>
+              </Select>
+          </FormControl>
+      </Container>
       <TableContainer2 component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
+            <TableRowMy>
                 <TableCellHeader align="left">Название</TableCellHeader>
                 <TableCellHeader align="left">Производитель</TableCellHeader>
                 <TableCellHeader align="left">Страна</TableCellHeader>
                 <TableCellHeader align="left">Вес</TableCellHeader>
                 <TableCellHeader align="left">Описание</TableCellHeader>
+                <TableCellHeader align="left">Доступность</TableCellHeader>
                 <TableCellHeader align="left">Артикул</TableCellHeader>
                 <TableCellHeader align="left">Розничная цена</TableCellHeader>
                 <TableCellHeader align="left">Оптовая цена</TableCellHeader>
                 <TableCellHeader align="left">Картинка</TableCellHeader>
                 {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
                 <TableCellHeader align="left">Действия</TableCellHeader>
-            </TableRow>
+            </TableRowMy>
           </TableHead>
           <TableBody>
               {paginatedData.map((row, rowIndex) => (
-                <TableRow
+                <TableRowMy
                   key={rowIndex}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.manufacturer}</TableCell>
-                    <TableCell>{row.country}</TableCell>
-                    <TableCell>{row.weight}</TableCell>
-                    <TableCell>{row.description}</TableCell>
-                    <TableCell>{row.vendorCode} </TableCell>
-                    <TableCell>{row.retailPrice} руб</TableCell>
-                    <TableCell>{row.wholesalePrice} руб</TableCell>
-                    <TableCell><TableImage src={`${row.image}`} alt="" /></TableCell>
-                    {/* <TableCell>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCell> */}
-                    <TableCell>
+                    <TableCellMy>{row.name}</TableCellMy>
+                    <TableCellMy>{row.manufacturer}</TableCellMy>
+                    <TableCellMy>{row.country}</TableCellMy>
+                    <TableCellMy>{row.weight}</TableCellMy>
+                    <TableCellMy>{row.description}</TableCellMy>
+                    <TableCellMy>{row.isAvaible}</TableCellMy>
+                    <TableCellMy>{row.vendorCode} </TableCellMy>
+                    <TableCellMy>{row.retailPrice} руб</TableCellMy>
+                    <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
+                    <TableCellMy><TableImage src={`${row.image}`} alt="" /></TableCellMy>
+                    {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
+                    <TableCellMy>
                         <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
                         <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
-                    </TableCell>
-                </TableRow>
+                    </TableCellMy>
+                </TableRowMy>
               ))}
           </TableBody>
         </Table>
