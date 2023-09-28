@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-
+import Carousel from 'react-material-ui-carousel'
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader'
@@ -69,15 +69,18 @@ const Button = styled.button`
     border-radius: 15px;
     transition: all .35s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+    font-weight: 600;
     &:hover {
-      background-color: #56195d;
-      color: white;
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+
+      color: #000;
     }
 `
 
 const ButtonActive = styled(Button)`
-  background-color: #56195d;
+  /* background-color: #56195d; */
+  background-color: #FFD700;
   color: white;
 `
 
@@ -178,7 +181,12 @@ function MainPage() {
           {!isLoading && filteredArray.map(item => 
             <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
               <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
-              <SellImage src={item.image}/>
+              <Carousel>
+                {
+                    item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )
+                }
+              </Carousel>
+              
               <span>{item.name}</span>
               <Price>{item.retailPrice} руб.</Price>
               {isInCart(item.id) === true ? ( 

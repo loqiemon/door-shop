@@ -64,10 +64,11 @@ const AsideButton = styled.button`
     font-weight: 500;
     font-size: 20px;
     transition: all .3s ease-in;
+    font-weight: 600;
     &:hover {
-        background-color: #5065f6;
-        font-weight: 700;
-        color: #fff;
+        /* background-color: #5065f6; */
+        background-color: #FFD700;
+        color: #000;
     }
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
@@ -77,12 +78,13 @@ const AsideButton = styled.button`
 const Input = styled(TextField)`
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-radius: 15px; 
-    border-color: #56195d;
-
+    /* border-color: #56195d; */
+    border-color: #FFD700;
   }
 
   & .MuiInputLabel-root.Mui-focused {
-    color: #56195d; 
+    /* color: #56195d;  */
+    color: #FFD700;
   }
 
   & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {

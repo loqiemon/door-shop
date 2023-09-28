@@ -37,8 +37,9 @@ const CategoriesItem = styled(Link)`
     &:hover {
         cursor: pointer;
         /* background-color: #0064fa; */
-        background-color: #56195d;
-        color: #fff;
+        /* background-color: #56195d; */
+        background-color: #FFD700;
+        color: #000;
         /* transform: scale(1.07); */
     }
 `

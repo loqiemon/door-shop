@@ -52,8 +52,9 @@ const ProfileAsideItem = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
 
   &:hover {
-    background-color: #56195d;
-    color: #fff;
+    /* background-color: #56195d; */
+    background-color: #FFD700;
+    color: #000;
   }
 `
 
@@ -87,14 +88,16 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
     &:hover {
-      background-color: #56195d;
-      color: white;
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+      color: #000;
     }
 `
 
 const ActiveMenuItem = styled(ProfileAsideItem)`
-  background-color: #56195d;
-  color: #fff;
+  /* background-color: #56195d; */
+  background-color: #FFD700;
+  color: #000;
 `;
 
 
@@ -114,7 +117,7 @@ function ProfilePage() {
     wholesalePrice: '',
     accessoryTypeId: '',
     isAvaible: '',
-    image: '',
+    image: [],
     vendorCode: ''
   });
 
@@ -196,7 +199,7 @@ function ProfilePage() {
                         accessoryType: product1.accessoryTypeId,
                         vendorCode: product1.vendorCode,
                         isAvaible: product1.isAvaible,
-                        image: product1.image
+                        image: product1.image.split(' ')
                       }}
                     />
                   } 

@@ -29,10 +29,12 @@ const AuthButton = styled.button`
     border-radius: 15px;
     transition: all .35s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+    font-weight: 600;
+    font-size: 20px;
     &:hover {
-      background-color: #56195d;
-      color: white;
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+      color: #000;
     }
     
 `
@@ -81,7 +83,15 @@ function Login({setShowRegister}) {
         onChange={e => handlePassword(e.target.value)}
       />
       <AuthButton onClick={handleSubmit} type='submit'>Войти</AuthButton>
-      <AuthText>Нет аккаунта? <AuthBtn onClick={() => setShowRegister(true)}>Зарегистрируйтесь!</AuthBtn></AuthText>
+      <AuthText>
+        <span>Нет аккаунта? </span> 
+        <AuthBtn 
+          // onClick={() => setShowRegister(true)}
+          >
+          Оставьте заявку!
+        </AuthBtn>
+      </AuthText>
+      Номер...
     </AuthContainer>
   )
 }

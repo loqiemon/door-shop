@@ -101,7 +101,7 @@ function ProductsForm({handleSubmit, inputValues = {
   retailPrice: '',
   wholesalePrice: '',
   isAvaible: '',
-  image: '',
+  image: [],
   vendorCode: '',
   accessoryType: ''
 }, btnText = 'Добавить', title = 'Добавление товара' }) {
@@ -114,15 +114,24 @@ function ProductsForm({handleSubmit, inputValues = {
   const retailPriceInput = useInput();
   const wholesalePriceInput = useInput();
   const isAvaibleInput = useInput();
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState([]);
   const [accessoryTypeId , setAccessoryTypeId ] = useState('');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+
+
+  // const handleImageChange = async (event) => {
+  //   const file = event.target.files[0];
+  //   const imageBase64 = await convertImageToBase64(file);
+  //   setSelectedImage(imageBase64); 
+  // };
 
   const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    const imageBase64 = await convertImageToBase64(file);
-    setSelectedImage(imageBase64); 
+    const files = event.target.files;
+    const imageBase64Array = await Promise.all(Array.from(files).map(convertImageToBase64));
+    setSelectedImage([...selectedImage, ...imageBase64Array]);
   };
+  
 
   const dispatch = useDispatch();
 
@@ -148,6 +157,12 @@ function ProductsForm({handleSubmit, inputValues = {
   };
 
 
+  const handleRemoveImage = (index) => {
+    const newImages = [...selectedImage];
+    newImages.splice(index, 1);
+    setSelectedImage(newImages);
+    setCurrentImageIndex(0);
+  };
   
 
   const handleClick = () => {
@@ -182,7 +197,7 @@ function ProductsForm({handleSubmit, inputValues = {
         isNaN(wholesalePrice) ||
         !accessoryTypeId ||
         !vendorCodeInput.value ||
-        !selectedImage
+        !selectedImage.length > 0
     ) {
         alert('Пожалуйста, заполните все поля и выберите значение в селекте');
         return;
@@ -201,7 +216,7 @@ function ProductsForm({handleSubmit, inputValues = {
     retailPriceInput.onChange('');
     wholesalePriceInput.onChange('');
     vendorCodeInput.onChange('');
-    setSelectedImage('');
+    setSelectedImage([]);
     setAccessoryTypeId('');
   }
 
@@ -230,15 +245,9 @@ function ProductsForm({handleSubmit, inputValues = {
           onChange={e => weightInput.onChange(e.target.value)}
           label="Вес"
         />
-        {/* <Input
-          value={descriptionInput.value}
-          onChange={e => descriptionInput.onChange(e.target.value)}
-          label="Описание"
-        /> */}
         <StyledTextarea
           aria-label="Описание"
-          minRows={3} // Минимальное количество строк
-          // placeholder="Введите текст"
+          minRows={3}
           value={descriptionInput.value}
           onChange={e => descriptionInput.onChange(e.target.value)}
           label="Описание"
@@ -291,6 +300,14 @@ function ProductsForm({handleSubmit, inputValues = {
             )}
             </Select>
         </FormControl>
+        <div>
+          {selectedImage.map((image, index) => (
+            <div key={index}>
+              <img src={image} alt={`Фото ${index + 1}`} width="100" />
+              <button onClick={() => handleRemoveImage(index)}>Удалить</button>
+            </div>
+          ))}
+        </div>
         <Button onClick={handleClick}>{btnText}</Button>
         </Form>
     </Container>

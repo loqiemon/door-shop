@@ -3,7 +3,8 @@
 	padding: 0px;
 	margin: 0px;
 	border: none;
-	font-family: Montserrat;
+	// font-family: Montserrat;
+	font-family: BookmanOldStyle;
 }
 
 *,
@@ -134,3 +135,16 @@ body , html  {
 	scrollbar-color: #555 rgba(0,0,0,0);  
 } 
 
+@font-face {
+	font-family: 'BookmanOldStyleBold';
+	src: local('bookmanOldStyle'),
+		url('../public/fonts/bookmanOldStyle/bookmanoldstyle_bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'BookmanOldStyle';
+	src: local('bookmanOldStyle'),
+		url('../public/fonts/bookmanOldStyle/bookmanoldstyle.ttf') format('truetype');
+	font-weight: normal;
+}

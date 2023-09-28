@@ -137,7 +137,7 @@ export const fetchProducts = (id) => async(dispatch) => {
 export const addProduct = (product) => async(dispatch) => {
     try {
         const { id, ...product1 } = product; 
-        const response = await $api.post(API_URL+"Accessories", {...product1});
+        const response = await $api.post(API_URL+"Accessories", {...product1, image: product1.image.join(' ')});
         
         dispatch(productsSlice.actions.addProductSuccess(response.data))
     } catch (e) {
@@ -160,8 +160,8 @@ export const deleteProduct = (id) => async(dispatch) => {
 
 export const editProduct = (product) => async(dispatch) => {
     try {
-        const response = await $api.put(API_URL+`Accessories/${product.id}`, {...product});
-        dispatch(productsSlice.actions.editProductSuccess(product))
+        const response = await $api.put(API_URL+`Accessories/${product.id}`, {...product, image: product.image.join(' ')});
+        dispatch(productsSlice.actions.editProductSuccess({...product, image: product.image.join(' ')}))
     } catch (e) {
         if (e) {
             console.error(e)

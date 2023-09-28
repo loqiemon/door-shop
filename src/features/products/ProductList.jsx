@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Carousel from 'react-material-ui-carousel'
 
 import useSearch from '../../hooks/useSearch';
 import useInput from '../../hooks/useInput';
@@ -204,7 +205,13 @@ function ProductList({handleEdit, handleDelete, children}) {
                     <TableCellMy>{row.vendorCode} </TableCellMy>
                     <TableCellMy>{row.retailPrice} руб</TableCellMy>
                     <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
-                    <TableCellMy><TableImage src={`${row.image}`} alt="" /></TableCellMy>
+                    <TableCellMy>
+                      <Carousel>
+                        {row.image.split(' ').map(imagePath => 
+                          <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
+                        )}
+                      </Carousel>
+                    </TableCellMy>
                     {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
                     <TableCellMy>
                         <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
