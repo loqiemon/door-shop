@@ -25,18 +25,19 @@ const ProfileTitle = styled.h1`
     text-align: left;
 `
 
-const ProfileAside = styled.aside`
-  width: 300px; 
+const ProfileAside = styled.div`
+  /* width: 200px;  */
   padding: 20px;
-  max-height: 190px;
+  /* max-height: 190px; */
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   background-color: #fff;
   gap: 10px;
   border-radius: 15px;
 `
 
 const ProfileAsideItem = styled(Link)`
+  max-height: 50px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -64,7 +65,7 @@ const ProfileMain = styled.div`
 
 const ProfileContent = styled.div`
   width: 100%;
-  padding-left: 20px;
+  padding: 0 5px;
   /* overflow-y: scroll; */
   /* max-height: 70%; */
   overflow-y: hidden;
@@ -75,6 +76,7 @@ const Content = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
+  padding-top: 10px;
 `
 
 const Button = styled.button`
@@ -144,7 +146,7 @@ function ProfilePage() {
   return (
     <ProfileContainer>
       <ProfileTitle>Настройки</ProfileTitle>
-      <ProfileMain>
+      {/* <ProfileMain> */}
         <ProfileAside>
         {currentContent === 'profile' ? 
           <ActiveMenuItem onClick={() => setCurrentContent('profile')}>Профиль</ActiveMenuItem>:
@@ -171,7 +173,6 @@ function ProfilePage() {
           )}
           {currentContent === 'products' && (
             <Content>
-              <Button onClick={() => setAddModal(true)}>Добавить товар</Button>
               {addModal &&
                 <Modal onClose={handleClose} children={<ProductsForm handleSubmit={handleAdd}/>} />
               }
@@ -202,6 +203,7 @@ function ProfilePage() {
                 />
               }
               <ProductList
+                children={<Button onClick={() => setAddModal(true)}>Добавить товар</Button>}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
               />
@@ -209,12 +211,14 @@ function ProfilePage() {
           )}
           {currentContent === 'categories' && (
             <Content>
-                <CategoryForm />
-                <CategoryList />
+                {addModal && <Modal onClose={handleClose} children={<CategoryForm/>} />}
+                <CategoryList>
+                  <Button onClick={() => setAddModal(true)}>Добавить категорию</Button>
+                </CategoryList>
             </Content>
           )}
         </ProfileContent>
-      </ProfileMain>
+      {/* </ProfileMain> */}
     </ProfileContainer>
   )
 }

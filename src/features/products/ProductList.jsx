@@ -120,7 +120,7 @@ const Container = styled.div`
   display: flex;
 `
 
-function ProductList({handleEdit, handleDelete}) {
+function ProductList({handleEdit, handleDelete, children}) {
   const { products, isLoading, getProductsError } = useSelector(state => state.products);
   const { categories } = useSelector(state => state.categories);
   const { value: search, onChange: setSearch} = useInput();
@@ -146,11 +146,14 @@ function ProductList({handleEdit, handleDelete}) {
   return (
     <TableContainer1>
       <Container>
-        <Input 
-          placeholder='Поиск...'
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
+        <div style={{display: 'flex', gap: '15px'}}>
+          {children}
+          <Input 
+            placeholder='Поиск...'
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Поле сортировки</InputLabel>
               <Select
@@ -175,7 +178,7 @@ function ProductList({handleEdit, handleDelete}) {
                 <TableCellHeader align="left">Название</TableCellHeader>
                 <TableCellHeader align="left">Производитель</TableCellHeader>
                 <TableCellHeader align="left">Страна</TableCellHeader>
-                <TableCellHeader align="left">Вес</TableCellHeader>
+                {/* <TableCellHeader align="left">Вес</TableCellHeader> */}
                 <TableCellHeader align="left">Описание</TableCellHeader>
                 <TableCellHeader align="left">Доступность</TableCellHeader>
                 <TableCellHeader align="left">Артикул</TableCellHeader>
@@ -195,7 +198,7 @@ function ProductList({handleEdit, handleDelete}) {
                     <TableCellMy>{row.name}</TableCellMy>
                     <TableCellMy>{row.manufacturer}</TableCellMy>
                     <TableCellMy>{row.country}</TableCellMy>
-                    <TableCellMy>{row.weight}</TableCellMy>
+                    {/* <TableCellMy>{row.weight}</TableCellMy> */}
                     <TableCellMy>{row.description}</TableCellMy>
                     <TableCellMy>{row.isAvaible}</TableCellMy>
                     <TableCellMy>{row.vendorCode} </TableCellMy>

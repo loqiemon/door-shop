@@ -139,7 +139,7 @@ function MainPage() {
   const { searchedArray } = useSearch(products, search, 'name')
 
   const filteredArray = searchedArray.filter(item => {
-    const price = parseFloat(item.wholesalePrice); 
+    const price = parseFloat(item.retailPrice); 
     const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
     const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
 
@@ -180,7 +180,7 @@ function MainPage() {
               <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
               <SellImage src={item.image}/>
               <span>{item.name}</span>
-              <Price>{item.wholesalePrice} руб.</Price>
+              <Price>{item.retailPrice} руб.</Price>
               {isInCart(item.id) === true ? ( 
                 <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
               ): 

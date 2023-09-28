@@ -77,7 +77,7 @@ const Input = styled.input`
     background-color: #f7f7f7;
     padding: 12px;
     border-radius: 15px;
-    margin-left: 15px;
+    /* margin-left: 15px; */
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
@@ -104,7 +104,7 @@ const TableImage = styled.img`
 `
 
 
-function CategoryList() {
+function CategoryList({children}) {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
   const [isOpen, setIsOpen] = useState(false);
   const [editInput, setEditInput] = useState({});
@@ -146,11 +146,14 @@ function CategoryList() {
 
   return (
     <TableContainer1>
-      <Input 
-        placeholder='Поиск...'
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <div style={{display: 'flex', gap: '15px'}}>
+        {children}
+        <Input 
+          placeholder='Поиск...'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
       <TableContainer2 component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
