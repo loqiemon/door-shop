@@ -171,8 +171,8 @@ function ProductsForm({handleSubmit, inputValues = {
         !nameInput.value ||
         !manufacturerInput.value ||
         !countryInput.value ||
-        !weightInput.value ||
-        !descriptionInput.value ||
+        // !weightInput.value ||
+        // !descriptionInput.value ||
         isNaN(retailPrice) ||
         isNaN(wholesalePrice) ||
         !accessoryTypeId ||
