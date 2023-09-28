@@ -30,8 +30,10 @@ const SellItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  max-width: 33%;
-  min-width: 20%;
+  /* max-width: 33%; */
+  /* min-width: 20%; */
+  width: 200px;
+
   gap: 5px;
   padding: 20px;
   position: relative;
@@ -76,12 +78,13 @@ const Button = styled.button`
 
       color: #000;
     }
+
 `
 
 const ButtonActive = styled(Button)`
   /* background-color: #56195d; */
   background-color: #FFD700;
-  color: white;
+  color: #000;
 `
 
 const LoaderDiv =styled.div`
@@ -114,6 +117,11 @@ const Title = styled.h2`
   position: absolute;
   left: 43%;
   top: 43%;
+`
+
+const Name = styled.span`
+  height: 40px;
+  overflow: hidden;
 `
 
 
@@ -187,7 +195,7 @@ function MainPage() {
                 }
               </Carousel>
               
-              <span>{item.name}</span>
+              <Name>{item.name}</Name>
               <Price>{item.retailPrice} руб.</Price>
               {isInCart(item.id) === true ? ( 
                 <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
