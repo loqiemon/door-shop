@@ -78,30 +78,27 @@ const AsideButton = styled.button`
 const Input = styled(TextField)`
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-radius: 15px; 
-    /* border-color: #56195d; */
-    border-color: #FFD700;
+    border-color: #56195d;
+    /* border-color: #FFD700; */
   }
 
   & .MuiInputLabel-root.Mui-focused {
-    /* color: #56195d;  */
-    color: #FFD700;
+    color: #56195d; 
+    /* color: #FFD700; */
   }
 
   & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
     border-radius: 15px;
   }
 
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #f7f7f7;
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
 
 function Aside({search, setSearch, filters, setFilters}) {
-
-
-
   const handleClick = () => {
     console.log('clicked');
   }

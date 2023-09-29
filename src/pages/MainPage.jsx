@@ -30,10 +30,8 @@ const SellItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  /* max-width: 33%; */
-  /* min-width: 20%; */
   width: 200px;
-
+  height: 300px;
   gap: 5px;
   padding: 20px;
   position: relative;
@@ -42,7 +40,7 @@ const SellItem = styled.div`
   background-color: #fff;
   border-radius: 15px;
   border: 1px solid #f7f7f7;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 5px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px;
   /* &:hover {
     background-color: #f0f0f0;
   } */
@@ -53,9 +51,9 @@ const SellImage = styled.img`
   height: 130px;
   align-self: center;
   object-fit: contain;
-  &:hover {
+  /* &:hover {
     transform: scale(1.1); 
-  }
+  } */
 `
 
 const Main = styled.main`
@@ -98,7 +96,10 @@ const VendorCode = styled.p`
   top: 0;
   left: 5px;
   font-weight: 400;
-
+  max-width: 180px;
+  max-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover {
     color: #56195d;
     font-weight: 600;
@@ -124,6 +125,10 @@ const Name = styled.span`
   overflow: hidden;
 `
 
+const CarouselMy = styled(Carousel)`
+  width: 130px;
+  height: 130px;
+`
 
 function MainPage() {
   const { categoryId } = useParams();
@@ -189,11 +194,14 @@ function MainPage() {
           {!isLoading && filteredArray.map(item => 
             <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
               <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
-              <Carousel>
-                {
-                    item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )
-                }
-              </Carousel>
+              {item.image.split(' ').length === 1 ? 
+                <SellImage src={item.image} key={item.id}/>:
+                <CarouselMy>
+                  {
+                      item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )
+                  }
+                </CarouselMy>
+              }
               
               <Name>{item.name}</Name>
               <Price>{item.retailPrice} руб.</Price>

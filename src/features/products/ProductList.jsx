@@ -122,7 +122,7 @@ const Container = styled.div`
 `
 
 function ProductList({handleEdit, handleDelete, children}) {
-  const { products, isLoading, getProductsError } = useSelector(state => state.products);
+  const { products, isLoading, getProductsError, addProductsError } = useSelector(state => state.products);
   const { categories } = useSelector(state => state.categories);
   const { value: search, onChange: setSearch} = useInput();
   const [searchProp, setSearchProp] = useState('name');

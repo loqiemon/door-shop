@@ -54,8 +54,13 @@ const ModalSpan = styled.button`
 `;
 
 const Modal = ({ children, onClose }) => {
+  const handleModalClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
   return (
-    <ModalOverlay>
+    <ModalOverlay onClick={handleModalClick}>
       <ModalContainer>
         {children}
         <ModalSpan onClick={onClose}>&#10006;</ModalSpan>

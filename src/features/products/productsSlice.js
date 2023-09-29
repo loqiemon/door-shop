@@ -8,6 +8,7 @@ const initialState = {
     isLoading: false,
     getProductsError: '',
     addProductsError: '',
+    alert: '',
     deleteProductsError: '',
     editProductsError: ''
 }
@@ -30,20 +31,31 @@ export const productsSlice = createSlice({
             state.isLoading = false;
             state.getProductsError = action.payload;
         },
+        addProduct(state) {
+            state.isLoading = true;
+        },
         addProductSuccess(state, action) {
+            state.isLoading = false;
             state.addProductsError = '';
+            state.alert = 'Успешно добавлен';
             state.products = [...state.products, action.payload];
         },
+        deleteAlert(state) {
+            state.alert = ''
+        },
         addProductError(state, action) {
+            state.alert = 'Ошибка'
             state.isLoading = false;
             state.addProductsError = action.payload;
         },
         deleteProductSuccess(state, action) {
             state.deleteProductsError = '';
+            state.alert = 'Успешно';
             state.products = state.products.filter(product => product.id !== action.payload);
         },
         deleteProductError(state, action) {
             state.deleteProductsError = action.payload;
+            state.alert = 'Ошибка'
         },
         editProductSuccess(state, action) {
             state.editProductsError = '';

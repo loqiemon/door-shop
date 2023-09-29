@@ -137,12 +137,20 @@ export const fetchProducts = (id) => async(dispatch) => {
 export const addProduct = (product) => async(dispatch) => {
     try {
         const { id, ...product1 } = product; 
+        dispatch(productsSlice.actions.addProduct());
         const response = await $api.post(API_URL+"Accessories", {...product1, image: product1.image.join(' ')});
         
         dispatch(productsSlice.actions.addProductSuccess(response.data))
+
+        setTimeout(() => {
+            dispatch(productsSlice.actions.deleteAlert())
+        }, 5000)
     } catch (e) {
         if (e) {
             dispatch(productsSlice.actions.addProductError(e.message))
+            setTimeout(() => {
+                dispatch(productsSlice.actions.deleteAlert())
+            }, 5000)
         }
     }
 }
@@ -151,9 +159,15 @@ export const deleteProduct = (id) => async(dispatch) => {
     try {
         await $api.delete(API_URL+`Accessories/${id}`);
         dispatch(productsSlice.actions.deleteProductSuccess(id))
+        setTimeout(() => {
+            dispatch(productsSlice.actions.deleteAlert())
+        }, 5000)
     } catch (e) {
         if (e) {
             dispatch(productsSlice.actions.deleteProductError(e.message))
+            setTimeout(() => {
+                dispatch(productsSlice.actions.deleteAlert())
+            }, 5000)
         }
     }
 }

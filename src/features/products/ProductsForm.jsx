@@ -8,9 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
+
 import useInput from '../../hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
 import { convertImageToBase64 } from '../../utils/convertImage';
+import AlertJsx from '../../components/Alert'
 
 
 const Container = styled.div`
@@ -117,14 +119,26 @@ function ProductsForm({handleSubmit, inputValues = {
   const [selectedImage, setSelectedImage] = useState([]);
   const [accessoryTypeId , setAccessoryTypeId ] = useState('');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
 
+  const alertState = useSelector(state => state.products.alert)
 
+  const showAlert = () => {
+    setIsAlertVisible(true);
 
-  // const handleImageChange = async (event) => {
-  //   const file = event.target.files[0];
-  //   const imageBase64 = await convertImageToBase64(file);
-  //   setSelectedImage(imageBase64); 
-  // };
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (alertState === 'Ошибка') {
+      showAlert()
+    } else if (alertState === 'Успешно добавлен') {
+      showAlert()
+    }
+  }, [alertState]);
+
 
   const handleImageChange = async (event) => {
     const files = event.target.files;
@@ -153,6 +167,7 @@ function ProductsForm({handleSubmit, inputValues = {
   const categories = useSelector(state => state.categories.categories);
 
   const handleChange = (event) => {
+    event.stopPropagation();
     setAccessoryTypeId(event.target.value);
   };
 
@@ -310,6 +325,11 @@ function ProductsForm({handleSubmit, inputValues = {
         </div>
         <Button onClick={handleClick}>{btnText}</Button>
         </Form>
+        {isAlertVisible && <AlertJsx 
+          message={alertState}
+          onClose={() => setIsAlertVisible(false)}
+          type={alertState === 'Успешно добавлен' ? 'success' : 'error'} />
+        }
     </Container>
   )
 }
