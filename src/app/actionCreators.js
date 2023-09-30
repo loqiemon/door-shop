@@ -66,6 +66,7 @@ export const loginFunc = (login, password) => async(dispatch) => {
         const response = await axios.post(API_URL+"Auth/login", {email: login, password});
         // const response = await AuthService.login(login, password);
         localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         localStorage.setItem('user', JSON.stringify({email: response.data.email, role: response.data.role}));
         dispatch(authSlice.actions.loginSuccess(response.data));
         dispatch(modalSlice.actions.close())
@@ -82,6 +83,7 @@ export const registerFunc = (login, password) => async(dispatch) => {
         // const response = await AuthService.register(login, password);
         const response = await axios.post(API_URL+"Auth/register", {login, password});
         localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         dispatch(authSlice.actions.loginSuccess(response.data.user));
     } catch (e) {
         if (e) {
@@ -105,7 +107,12 @@ export const logoutFunc = () => async(dispatch) => {
 export const checkAuth = () => async(dispatch) => {
     try {
         console.log(1)
-        const response = await axios.get(API_URL+"/Auth/checkAuth");
+        const response = await axios.post(`${API_URL}Auth/refreshtoken`, {
+            refreshToken: localStorage.getItem('refreshToken'),
+            accessToken: localStorage.getItem('accessToken')
+        })
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         dispatch(authSlice.actions.checkAuth({isAuth: true, user: response.data}))
     } catch (e) {
         if (e) {
@@ -117,11 +124,11 @@ export const checkAuth = () => async(dispatch) => {
 
 
 //Товары
-export const fetchProducts = (id) => async(dispatch) => {
+export const fetchProducts = (id, PageNumber, PageSize) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
         if (id) {
-            const response = await axios.get(API_URL+`Accessories?typeId=${id}`);
+            const response = await axios.get(API_URL+`Accessories?typeId=${id}&PageNumber=${PageNumber}&PageSize=${PageSize}`);
             dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
         } else {
             const response = await axios.get(API_URL+"Accessories");

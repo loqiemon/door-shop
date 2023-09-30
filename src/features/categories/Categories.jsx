@@ -106,19 +106,21 @@ function Categories() {
             />
         </CategoriesHeader>
         {isLoading && <Loader/>}
-        <CategoriesContainer>
-            {searchedArray.length === 0 ? 
-                <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle>: 
-                <>
-                    {searchedArray.map(category => 
-                        <CategoriesItem to={`/catalog/${category.id}`} key={category.type}>
-                            {category.image && <CategoriesImage src={category.image} />}
-                            <CategoriesText>{category.type}</CategoriesText>
-                        </CategoriesItem>
-                    )}
-                </>
-            }
-        </CategoriesContainer>
+        {!isLoading && 
+            <CategoriesContainer>
+                {searchedArray.length === 0 ? 
+                    <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle>: 
+                    <>
+                        {searchedArray.map(category => 
+                            <CategoriesItem to={`/catalog/${category.id}/1`} key={category.type}>
+                                {category.image && <CategoriesImage src={category.image} />}
+                                <CategoriesText>{category.type}</CategoriesText>
+                            </CategoriesItem>
+                        )}
+                    </>
+                }
+            </CategoriesContainer>
+        }
     </>
   )
 }

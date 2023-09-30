@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
+import { useNavigate } from 'react-router-dom';
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader'
@@ -11,19 +12,45 @@ import useSearch from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
 import Modal from '../features/modal/Modal';
 import ProductItem from '../features/products/ProductItem';
+import Pagination from '../components/Pagination';
 
 const SellList = styled.div`
   position: relative;
   width: 100%;
   display: flex;
+  height: 700px;
   /* gap: 20px; */
   flex-wrap: wrap;
   padding-top: 10px;
   margin-top: 10px;
+  overflow-y: scroll;
   /* justify-content: space-around; */
+  gap: 10px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  &::-webkit-scrollbar {
+		width: 5px;           
+	}
+	  
+  &::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0);      
+  }
+	  
+	&::-webkit-scrollbar-thumb {
+		background-color: #555;  
+		border-radius: 20px;      
+	}
+	
+	scrollbar-width: thin;
+	scrollbar-color: #555 rgba(0,0,0,0);  
+`
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `
 
 const SellItem = styled.div`
@@ -131,13 +158,15 @@ const CarouselMy = styled(Carousel)`
 `
 
 function MainPage() {
-  const { categoryId } = useParams();
+  const { categoryId, page } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems)
   const { categories } = useSelector(state => state.categories.categories)
   const { products, isLoading, getProductsError } = useSelector(state => state.products)
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({minPrice: '', maxPrice: ''});
   const [selectedItem, setSelectedItem] = useState(null);
+  
+  const navigate = useNavigate();
 
   const openModal = (e, item) => {
     if (
@@ -169,6 +198,7 @@ function MainPage() {
     return true; 
   });
 
+
   const isInCart = (itemId) => {
     return cartItems.some((item) => item.id === itemId);
   };
@@ -176,11 +206,19 @@ function MainPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchProducts(categoryId))
+    dispatch(fetchProducts(categoryId, page, 10))
     dispatch(readCart())
   }, [categoryId]);
-  
-  
+
+  const requestProducts = (pageNumber) => {
+    dispatch(fetchProducts(categoryId, pageNumber, 10))
+  }
+
+  const goToPage = (pageNumber) => {
+    requestProducts(pageNumber)
+    navigate(`/catalog/${categoryId}/${pageNumber}`);
+  };
+   
   return (
     <Main>
       <Aside 
@@ -189,33 +227,35 @@ function MainPage() {
         filters={filters}
         setFilters={setFilters}
       />
-      <SellList>
-          {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
-          {!isLoading && filteredArray.map(item => 
-            <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
-              <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
-              {item.image.split(' ').length === 1 ? 
-                <SellImage src={item.image} key={item.id}/>:
-                <CarouselMy>
-                  {
-                      item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )
+      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading && 
+        <Container>
+          <SellList>
+              {filteredArray.map(item => 
+                <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
+                  <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
+                  {item.image.split(' ').length === 1 ? 
+                    <SellImage src={item.image} key={item.id}/>:
+                    <CarouselMy>
+                      {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
+                    </CarouselMy>
                   }
-                </CarouselMy>
+                  <Name>{item.name}</Name>
+                  <Price>{item.retailPrice} руб.</Price>
+                  {isInCart(item.id) === true ? ( 
+                    <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
+                  ): 
+                    <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
+                  }
+                </SellItem>
+              )}
+              {!isLoading && filteredArray.length === 0 &&
+                <Title>Таких товаров нет</Title>
               }
-              
-              <Name>{item.name}</Name>
-              <Price>{item.retailPrice} руб.</Price>
-              {isInCart(item.id) === true ? ( 
-                <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
-              ): 
-                <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
-              }
-            </SellItem>
-          )}
-          {!isLoading && filteredArray.length === 0 &&
-            <Title>Таких товаров нет</Title>
-          }
-      </SellList>
+          </SellList>
+          <Pagination totalItems={products} page={page} goToPage={goToPage}/>
+        </Container>
+      }
       {selectedItem && (
         <Modal onClose={closeModal}>
           <ProductItem product={selectedItem} />

@@ -44,7 +44,7 @@ function App() {
         <Navbar currency={currency}/>
         <Routes>
           <Route path='/' element={<Categories/>}/>
-          <Route path='/catalog/:categoryId' element={<MainPage/>}/>
+          <Route path='/catalog/:categoryId/:page' element={<MainPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
           <Route path='/profile' element={<ProfilePage/>}/>
         </Routes>
