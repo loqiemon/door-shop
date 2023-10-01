@@ -8,97 +8,8 @@ import ProductsForm from '../features/products/ProductsForm'
 import { addProduct, deleteProduct, editProduct } from '../app/actionCreators'
 import Modal from '../features/modal/Modal'
 import ProductList from '../features/products/ProductList'
-
-
-const ProfileContainer = styled.div`
-    max-width: 1280px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    padding-top: 20px;
-`
-
-const ProfileTitle = styled.h1`
-    font-size: 35px;
-    font-weight: 700;
-    text-align: left;
-`
-
-const ProfileAside = styled.div`
-  /* width: 200px;  */
-  padding: 20px;
-  /* max-height: 190px; */
-  display: flex;
-  /* flex-direction: column; */
-  background-color: #fff;
-  gap: 10px;
-  border-radius: 15px;
-`
-
-const ProfileAsideItem = styled(Link)`
-  max-height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 20px;
-  font-weight: 600;
-  color: #000;
-  padding: 10px;
-  border-radius: 15px;
-  transition: all .35s ease-in;
-  background-color: #f7f7f7;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-
-  &:hover {
-    /* background-color: #56195d; */
-    background-color: #FFD700;
-    color: #000;
-  }
-`
-
-const ProfileMain = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 20px 0;
-`
-
-const ProfileContent = styled.div`
-  width: 100%;
-  padding: 0 5px;
-  /* overflow-y: scroll; */
-  /* max-height: 70%; */
-  overflow-y: hidden;
-`
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;
-  padding-top: 10px;
-`
-
-const Button = styled.button`
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    &:hover {
-      /* background-color: #56195d; */
-      background-color: #FFD700;
-      color: #000;
-    }
-`
-
-const ActiveMenuItem = styled(ProfileAsideItem)`
-  /* background-color: #56195d; */
-  background-color: #FFD700;
-  color: #000;
-`;
+import ProductList2 from '../features/products/ProductList2'
+import ProductList3 from '../features/products/ProductList3'
 
 
 function ProfilePage() {
@@ -206,7 +117,7 @@ function ProfilePage() {
                   } 
                 />
               }
-              <ProductList
+              <ProductList3
                 children={<Button onClick={() => setAddModal(true)}>Добавить товар</Button>}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
@@ -228,3 +139,93 @@ function ProfilePage() {
 }
 
 export default ProfilePage
+
+const ProfileContainer = styled.div`
+    max-width: 1280px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding-top: 20px;
+`
+
+const ProfileTitle = styled.h1`
+    font-size: 35px;
+    font-weight: 700;
+    text-align: left;
+`
+
+const ProfileAside = styled.div`
+  /* width: 200px;  */
+  padding: 20px;
+  /* max-height: 190px; */
+  display: flex;
+  /* flex-direction: column; */
+  background-color: #fff;
+  gap: 10px;
+  border-radius: 15px;
+`
+
+const ProfileAsideItem = styled(Link)`
+  max-height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  padding: 10px;
+  border-radius: 15px;
+  transition: all .35s ease-in;
+  background-color: #f7f7f7;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+
+  &:hover {
+    /* background-color: #56195d; */
+    background-color: #FFD700;
+    color: #000;
+  }
+`
+
+const ProfileMain = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 20px 0;
+`
+
+const ProfileContent = styled.div`
+  width: 100%;
+  padding: 0 5px;
+  /* overflow-y: scroll; */
+  /* max-height: 70%; */
+  overflow-y: hidden;
+`
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  padding-top: 10px;
+`
+
+const Button = styled.button`
+    padding: 12px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    transition: all .35s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    &:hover {
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+      color: #000;
+    }
+`
+
+const ActiveMenuItem = styled(ProfileAsideItem)`
+  /* background-color: #56195d; */
+  background-color: #FFD700;
+  color: #000;
+`;

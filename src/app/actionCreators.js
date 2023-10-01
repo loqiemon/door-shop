@@ -106,7 +106,6 @@ export const logoutFunc = () => async(dispatch) => {
 
 export const checkAuth = () => async(dispatch) => {
     try {
-        console.log(1)
         const response = await axios.post(`${API_URL}Auth/refreshtoken`, {
             refreshToken: localStorage.getItem('refreshToken'),
             accessToken: localStorage.getItem('accessToken')

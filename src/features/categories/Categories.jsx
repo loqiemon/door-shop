@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import door from '../../../public/images/doors/door.double.hinged.metal.png';
 import useSearch from '../../hooks/useSearch'
 import Loader from '../../components/Loader';
 import { fetchCategories } from '../../app/actionCreators';
@@ -25,10 +24,10 @@ const CategoriesItem = styled(Link)`
     padding: 30px 5px;
     display: flex;
     align-items: center;
-    /* justify-content: fle; */
     transition: all .3s ease-in;
     font-size: 20px;
     width: 20%;
+    min-width: 200px;
     max-height: 150px;
     border: solid 1px #9c9898;
     gap: 10px;
@@ -92,7 +91,9 @@ function Categories() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    if (categories.length === 0) {
+        dispatch(fetchCategories())
+    }
   }, [])
 
   return (

@@ -14,6 +14,118 @@ import Modal from '../features/modal/Modal';
 import ProductItem from '../features/products/ProductItem';
 import Pagination from '../components/Pagination';
 
+
+function MainPage() {
+  const { categoryId, page } = useParams();
+  const cartItems = useSelector((state) => state.cart.cartItems)
+  const { categories } = useSelector(state => state.categories.categories)
+  const { products, isLoading, getProductsError } = useSelector(state => state.products)
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({minPrice: '', maxPrice: ''});
+  const [selectedItem, setSelectedItem] = useState(null);
+  
+  const navigate = useNavigate();
+
+  const openModal = (e, item) => {
+    if (
+      !item ||
+      (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
+    ) {
+      setSelectedItem(item);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null);
+  };
+
+  const { searchedArray } = useSearch(products, search, 'name')
+
+  const filteredArray = searchedArray.filter(item => {
+    const price = parseFloat(item.retailPrice); 
+    const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
+    const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
+
+    if (minPriceFilter !== null && price < minPriceFilter) {
+      return false; 
+    }
+    if (maxPriceFilter !== null && price > maxPriceFilter) {
+      return false; 
+    }
+
+    return true; 
+  });
+
+
+  const isInCart = (itemId) => {
+    return cartItems.some((item) => item.id === itemId);
+  };
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProducts(categoryId, page, 10))
+    dispatch(readCart())
+  }, [categoryId]);
+
+  const requestProducts = (pageNumber) => {
+    dispatch(fetchProducts(categoryId, pageNumber, 10))
+  }
+
+  const goToPage = (pageNumber) => {
+    requestProducts(pageNumber)
+    navigate(`/catalog/${categoryId}/${pageNumber}`);
+  };
+   
+  return (
+    <Main>
+      <Aside 
+        search={search}
+        setSearch={setSearch}
+        filters={filters}
+        setFilters={setFilters}
+      />
+      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading && 
+        <Container>
+          <SellList>
+              {filteredArray.map(item => 
+                <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
+                  <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
+                  {item.image.split(' ').length === 1 ? 
+                    <SellImage src={item.image} key={item.id}/>:
+                    <CarouselMy>
+                      {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
+                    </CarouselMy>
+                  }
+                  <Name>{item.name}</Name>
+                  <Price>{item.retailPrice} руб.</Price>
+                  {isInCart(item.id) === true ? ( 
+                    <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
+                  ): 
+                    <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
+                  }
+                </SellItem>
+              )}
+              {!isLoading && filteredArray.length === 0 &&
+                <Title>Таких товаров нет</Title>
+              }
+          </SellList>
+          <Pagination totalItems={products} page={page} goToPage={goToPage}/>
+        </Container>
+      }
+      {selectedItem && (
+        <Modal onClose={closeModal}>
+          <ProductItem product={selectedItem} />
+        </Modal>
+      )}
+    </Main>
+  )
+}
+
+export default MainPage
+
+
 const SellList = styled.div`
   position: relative;
   width: 100%;
@@ -156,113 +268,3 @@ const CarouselMy = styled(Carousel)`
   width: 130px;
   height: 130px;
 `
-
-function MainPage() {
-  const { categoryId, page } = useParams();
-  const cartItems = useSelector((state) => state.cart.cartItems)
-  const { categories } = useSelector(state => state.categories.categories)
-  const { products, isLoading, getProductsError } = useSelector(state => state.products)
-  const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({minPrice: '', maxPrice: ''});
-  const [selectedItem, setSelectedItem] = useState(null);
-  
-  const navigate = useNavigate();
-
-  const openModal = (e, item) => {
-    if (
-      !item ||
-      (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
-    ) {
-      setSelectedItem(item);
-    }
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-  };
-
-  const { searchedArray } = useSearch(products, search, 'name')
-
-  const filteredArray = searchedArray.filter(item => {
-    const price = parseFloat(item.retailPrice); 
-    const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
-    const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
-
-    if (minPriceFilter !== null && price < minPriceFilter) {
-      return false; 
-    }
-    if (maxPriceFilter !== null && price > maxPriceFilter) {
-      return false; 
-    }
-
-    return true; 
-  });
-
-
-  const isInCart = (itemId) => {
-    return cartItems.some((item) => item.id === itemId);
-  };
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchProducts(categoryId, page, 10))
-    dispatch(readCart())
-  }, [categoryId]);
-
-  const requestProducts = (pageNumber) => {
-    dispatch(fetchProducts(categoryId, pageNumber, 10))
-  }
-
-  const goToPage = (pageNumber) => {
-    requestProducts(pageNumber)
-    navigate(`/catalog/${categoryId}/${pageNumber}`);
-  };
-   
-  return (
-    <Main>
-      <Aside 
-        search={search}
-        setSearch={setSearch}
-        filters={filters}
-        setFilters={setFilters}
-      />
-      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
-      {!isLoading && 
-        <Container>
-          <SellList>
-              {filteredArray.map(item => 
-                <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
-                  <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
-                  {item.image.split(' ').length === 1 ? 
-                    <SellImage src={item.image} key={item.id}/>:
-                    <CarouselMy>
-                      {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
-                    </CarouselMy>
-                  }
-                  <Name>{item.name}</Name>
-                  <Price>{item.retailPrice} руб.</Price>
-                  {isInCart(item.id) === true ? ( 
-                    <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
-                  ): 
-                    <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
-                  }
-                </SellItem>
-              )}
-              {!isLoading && filteredArray.length === 0 &&
-                <Title>Таких товаров нет</Title>
-              }
-          </SellList>
-          <Pagination totalItems={products} page={page} goToPage={goToPage}/>
-        </Container>
-      }
-      {selectedItem && (
-        <Modal onClose={closeModal}>
-          <ProductItem product={selectedItem} />
-        </Modal>
-      )}
-    </Main>
-  )
-}
-
-export default MainPage

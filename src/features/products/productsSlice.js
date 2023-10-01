@@ -22,9 +22,9 @@ export const productsSlice = createSlice({
             state.products = [];
         },
         productsFetchingSuccess(state, action) {
-            state.isLoading = false;
             state.getProductsError = '';
             state.products = action.payload;
+            state.isLoading = false;
         },
         productsFetchingError(state, action) {
             state.products = [];
@@ -35,18 +35,18 @@ export const productsSlice = createSlice({
             state.isLoading = true;
         },
         addProductSuccess(state, action) {
-            state.isLoading = false;
             state.addProductsError = '';
             state.alert = 'Успешно добавлен';
             state.products = [...state.products, action.payload];
+            state.isLoading = false;
         },
         deleteAlert(state) {
             state.alert = ''
         },
         addProductError(state, action) {
             state.alert = 'Ошибка'
-            state.isLoading = false;
             state.addProductsError = action.payload;
+            state.isLoading = false;
         },
         deleteProductSuccess(state, action) {
             state.deleteProductsError = '';
