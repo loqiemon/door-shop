@@ -16,7 +16,11 @@ const CategoriesContainer = styled.div`
     max-width: 1280px;
     margin: 0 auto;
     padding-top: 20px;
-
+    @media (max-width: 1200px) {
+        padding: 15px;
+        justify-content: space-between;
+    }
+    
 `
 
 const CategoriesItem = styled(Link)`
@@ -27,7 +31,7 @@ const CategoriesItem = styled(Link)`
     transition: all .3s ease-in;
     font-size: 20px;
     width: 20%;
-    min-width: 200px;
+    min-width: 230px;
     max-height: 150px;
     border: solid 1px #9c9898;
     gap: 10px;
@@ -40,6 +44,16 @@ const CategoriesItem = styled(Link)`
         background-color: #FFD700;
         color: #000;
         /* transform: scale(1.07); */
+    }
+
+    @media (max-width: 1200px) {
+        width: 33%;
+    }
+    @media (max-width: 767px) {
+        width: 50%;
+    }
+    @media (max-width: 576px) {
+        width: 100%;
     }
 `
 

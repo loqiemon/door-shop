@@ -5,11 +5,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalSlice } from '../features/modal/modalSlice'
 
-
-import { Dropdown } from '@mui/base/Dropdown';
-import { Menu } from '@mui/base/Menu';
-import { MenuButton } from '@mui/base/MenuButton';
-import { MenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import useOnHoverOutside from '../hooks/useOnHoverOutside'
 import Categories from '../features/categories/Categories'
 
@@ -56,31 +51,78 @@ function Navbar() {
                     <span></span>
                 </Hamburger>
             </NavContainer>
-            <NavBottom>
+            <NavBottom className={isNavActive ? 'active' : ''}>
                 <NavBottomContainer>
-                    <NavBottomItem onMouseOver={() => setMenuDropDownOpen(true)}>
-                        Каталог товаров
-                        {isMenuDropDownOpen && 
-                            <MyMenu ref={dropdownRef}>
-                                <CategoriesContainer>
-                                    <Categories/>
-                                </CategoriesContainer>   
-                            </MyMenu>
-                        }
-                    </NavBottomItem>
-                    <NavBottomItem>Оплата</NavBottomItem>
-                    <NavBottomItem>Доставка по Москве</NavBottomItem>
-                    <NavBottomItem>Помощь в выборе</NavBottomItem>
-                    <NavBottomItem>Установка</NavBottomItem>
-                    <NavBottomItem>Контакты</NavBottomItem>
-                    <NavBottomItem>Возврат товара</NavBottomItem>
+                    {!isNavActive && 
+                        <NavBottomItem onMouseOver={() => setMenuDropDownOpen(true)}>
+                            Каталог товаров
+                            {isMenuDropDownOpen && 
+                                <MyMenu ref={dropdownRef}>
+                                    <CategoriesContainer>
+                                        <Categories/>
+                                    </CategoriesContainer>   
+                                </MyMenu>
+                            }
+                        </NavBottomItem>
+                    }
+
+                    <NavBottomItem to='/payment'>Оплата</NavBottomItem>
+                    <NavBottomItem to='/delivery'>Доставка по Москве</NavBottomItem>
+                    <NavBottomItem to='/support'>Помощь в выборе</NavBottomItem>
+                    <NavBottomItem to='/install'>Установка</NavBottomItem>
+                    <NavBottomItem to='/contacts'>Контакты</NavBottomItem>
+                    <NavBottomItem to='/refund'>Возврат товара</NavBottomItem>
                 </NavBottomContainer>
             </NavBottom>
+            <MobileNav className={isNavActive ? 'active' : ''}>
+                <NavLink to='/'>Каталог</NavLink>
+                <NavLink to='/cart'>Корзина</NavLink>
+                {isAuth === true ? 
+                    <NavLink to='/profile'>Профиль</NavLink>:
+                    <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
+                }
+                <NavLink  to='/payment'>Оплата</NavLink>
+                <NavLink  to='/delivery'>Доставка по Москве</NavLink>
+                <NavLink  to='/support'>Помощь в выборе</NavLink>
+                <NavLink  to='/install'>Установка</NavLink>
+                <NavLink  to='/contacts'>Контакты</NavLink>
+                <NavLink  to='/refund'>Возврат товара</NavLink>
+            </MobileNav>
         </Nav>
     )
 }
 
 export default Navbar
+
+const MobileNav = styled.div`
+    display: none;
+    @media (max-width: 767px) {
+        width: 100%;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        padding: 30px 15px;
+        background-color: rgba(0,0,0, 0.8);
+
+        z-index: 1000;
+        transition: 0.6s all;
+        &-active {
+            left: 0 !important;
+            width: 100%;
+        }
+
+        &.active {
+            left: 0%;
+        }
+    }
+`
 
 const MyMenu = styled.div`
     /* position: absolute; */
@@ -111,6 +153,7 @@ const Nav = styled.nav`
 
   @media (max-width: 767px) {
     justify-content: center;
+    align-items: center;
   }
   @media (max-width: 576px) {
     justify-content: flex-end;
@@ -142,6 +185,10 @@ const NavContainer = styled.div`
 const NavBottom = styled.div`
     width: 100%;
     background-color: #000;
+    @media (max-width: 767px) {
+        display: none;
+    }
+
 `
 
 const NavBottomContainer = styled.div`
@@ -151,10 +198,19 @@ const NavBottomContainer = styled.div`
     align-items: center;
     margin: 0 auto;
     position: relative;
+    @media (max-width: 991px) {
+        font-size: 18px;
+    }
 
+    @media (max-width: 767px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
 `
 
-const NavBottomItem = styled.div`
+const NavBottomItem = styled(Link)`
     display: flex;
     color: #fff;
     cursor: pointer;
@@ -163,8 +219,18 @@ const NavBottomItem = styled.div`
 
     &:hover {
         background-color: #1f1e1e;
-        /* color: rgb(80, 101, 245); */
         color: #FFD700;
+    }
+
+    @media (max-width: 767px) {
+        font-size: 30px;
+        color: #fff;
+        text-align: center;
+    }
+
+    
+    @media (max-width: 576px) {
+        font-size: 24px;
     }
 `
 
@@ -172,29 +238,8 @@ const NavLinks = styled.div`
     display: flex;
     gap: 15px;
 
-    @media (max-width: 576px) {
-        width: 100%;
-        position: fixed;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100vh;
-        padding: 20px 15px;
-        background-color: rgba(0,0,0, 0.8);
-        z-index: 1000;
-        transition: 0.6s all;
-        &-active {
-            left: 0 !important;
-            width: 100%;
-        }
-
-        &.active {
-           left: 0%;
-        }
+    @media (max-width: 767px) {
+        display: none;
     }
 `
 
@@ -204,18 +249,27 @@ export const NavLink = styled(Link)`
     &:hover,
     &:focus{
         color: #5065f6;
-        /* color: #ffd900b7; */
     }
     &:active{
         color: #0064fa;
-        /* color: #ffd900b7; */
     };
 
-    @media (max-width: 576px) {
-        font-size: 25px;
+    @media (max-width: 767px) {
+        font-size: 30px;
         color: #fff;
         width: 100%;
         text-align: center;
+
+        &:focus{
+            color: #ffd900b7;
+        }
+        &:active{
+            color: #ffd900b7;
+        };
+    }
+
+    @media (max-width: 576px) {
+        font-size: 24px;
     }
 `
 
@@ -226,16 +280,16 @@ const HideOnMobile = styled.div`
 `;
 
 const Hamburger = styled.div`
-  @media (min-width: 576px) {
-    display: none;
+  @media (max-width: 767px) {
+    display: block;
   }
 
-  display: block;
+  display: none;
   width: 30px;
   height: 20px;
   position: relative;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1001;
 
 
   span {
