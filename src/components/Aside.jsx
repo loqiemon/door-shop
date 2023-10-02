@@ -4,16 +4,30 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 import useInput from '../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories } from '../app/actionCreators';
+import { fetchCategories, fetchFilters } from '../app/actionCreators';
 
 
 
 
 
 function Aside({search, setSearch, filters, setFilters, requestProducts}) {
+  const {countrys, manufacturers, isLoading } = useSelector(state => state.filters)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (countrys.length === 0) {
+      dispatch(fetchFilters())
+    }
+  }, []);
+
 
   return (
     <AsideList>
@@ -37,6 +51,50 @@ function Aside({search, setSearch, filters, setFilters, requestProducts}) {
                 id="outlined-basic"
                 label="До"
             />
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={filters.country}
+                onChange={e => setFilters((prev) => ({...prev, country: e.target.value}))}
+                label="Type"
+              >
+              <MenuItem value="">
+                  <em>None</em>
+              </MenuItem>
+              {countrys.map(country => 
+                  <MenuItem 
+                      value={country}
+                      key={country}
+                  >
+                      {country}
+                  </MenuItem>
+              )}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Производитель</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={filters.manufacturer}
+                onChange={e => setFilters((prev) => ({...prev, manufacturer: e.target.value}))}
+                label="Type"
+              >
+              <MenuItem value="">
+                  <em>None</em>
+              </MenuItem>
+              {manufacturers.map(manufacturer => 
+                  <MenuItem 
+                      value={manufacturer}
+                      key={manufacturer}
+                  >
+                      {manufacturer}
+                  </MenuItem>
+              )}
+              </Select>
+            </FormControl>
             {/* {categories.map(category => 
                 <Category
                     key={category.id}

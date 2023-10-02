@@ -60,129 +60,109 @@ function Cart() {
       </SubContainer>
       <SubContainer>
         <Title>Товары в корзине</Title>
-        <Box sx={{ width: '100%' }}>
-      <Sheet
-        variant="outlined"
-        sx={{
-          '--TableCell-height': '40px',
-          '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
-          '--Table-firstColumnWidth': '80px',
-          '--Table-lastColumnWidth': '144px',
-          '--TableRow-stripeBackground': 'rgba(0 0 0 / 0.04)',
-          '--TableRow-hoverBackground': 'rgba(0 0 0 / 0.08)',
-          overflow: 'auto',
-          background: (theme) =>
-            `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
-            linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
-            radial-gradient(
-              farthest-side at 0 50%,
-              rgba(0, 0, 0, 0.12),
-              rgba(0, 0, 0, 0)
-            ),
-            radial-gradient(
-                farthest-side at 100% 50%,
-                rgba(0, 0, 0, 0.12),
-                rgba(0, 0, 0, 0)
-              )
-              0 100%`,
-          backgroundSize:
-            '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'local, local, scroll, scroll',
-          backgroundPosition:
-            'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
-          backgroundColor: 'background.surface',
-        }}
-      >
-        <Table
-          borderAxis="bothBetween"
-          stripe="odd"
-          hoverRow
-          sx={{
-            '& tr > *:first-child': {
-              position: 'sticky',
-              left: 0,
-              boxShadow: '1px 0 var(--TableCell-borderColor)',
-              bgcolor: 'background.surface',
-            },
-            '& tr > *:last-child': {
-              position: 'sticky',
-              right: 0,
-              bgcolor: 'var(--TableCell-headBackground)',
-            },
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={{ width: 150 }}>Фото</th>
-              <th style={{ width: 200 }}>Наименование товара</th>
-              <th style={{ width: 130 }}>Кол-во</th>
-              <th style={{ width: 100 }}>Итого</th>
-              <th style={{ width: 30 }}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  {item.image.split(' ').length === 1 ? 
-                    <CartImage src={item.image} key={item.id}/>:
-                    <CarouselMy>
-                      {item.image.split(' ').map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
-                    </CarouselMy>
-                  }
-                </td>
-                <td>{item.name}</td>
-                <td>
-                  <Counter>
-                    <CounterBtn onClick={() => handleDecrement(item)}><i className="fa-solid fa-minus"></i></CounterBtn>
-                    <CounterInput 
-                      type="number"
-                      onChange={(e) => handleChange(e, item)}
-                      value={item.count}
-                    />
-                    <CounterBtn onClick={() => handleIncrement(item)}><i className="fa-solid fa-plus"></i></CounterBtn>
-                  </Counter>
-                </td>
-                <td>{item.retailPrice * item.count} руб.</td>
-                <td>
-                  <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td></td>
-              <td></td>
-              <td>Итого: </td>
-              <td>{cartItems.reduce((acc, item) => acc+item.retailPrice*item.count, 0)} руб.</td>
-            </tr>
-          </tbody>
-        </Table>
-      </Sheet>
-    </Box>
-        {/* <CartList>
-          {cartItems.map(item => 
-            <CartItem key={item.id}>
-              {item.image.split(' ').length === 1 ? 
-                <CartImage src={item.image} key={item.id}/>:
-                <CarouselMy>
-                  {item.image.split(' ').map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
-                </CarouselMy>
-              }
-              <Name>{item.name}</Name>
-              <Counter>
-                <CounterBtn onClick={() => handleDecrement(item)}><i className="fa-solid fa-minus"></i></CounterBtn>
-                <CounterInput 
-                  type="number"
-                  onChange={(e) => handleChange(e, item)}
-                  value={item.count}
-                />
-                <CounterBtn onClick={() => handleIncrement(item)}><i className="fa-solid fa-plus"></i></CounterBtn>
-              </Counter>
-              <Price>{item.retailPrice * item.count} руб.</Price>
-            </CartItem>
-          )}
-        </CartList> */}
+        {cartItems.length === 0 && <Title>Вы не добавили товары в корзину</Title>}
+        {cartItems.length !== 0 &&
+                  <Box sx={{ width: '100%' }}>
+                  <Sheet
+                    variant="outlined"
+                    sx={{
+                      '--TableCell-height': '40px',
+                      '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
+                      '--Table-firstColumnWidth': '80px',
+                      '--Table-lastColumnWidth': '144px',
+                      '--TableRow-stripeBackground': 'rgba(0 0 0 / 0.04)',
+                      '--TableRow-hoverBackground': 'rgba(0 0 0 / 0.08)',
+                      overflow: 'auto',
+                      background: (theme) =>
+                        `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
+                        linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
+                        radial-gradient(
+                          farthest-side at 0 50%,
+                          rgba(0, 0, 0, 0.12),
+                          rgba(0, 0, 0, 0)
+                        ),
+                        radial-gradient(
+                            farthest-side at 100% 50%,
+                            rgba(0, 0, 0, 0.12),
+                            rgba(0, 0, 0, 0)
+                          )
+                          0 100%`,
+                      backgroundSize:
+                        '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundAttachment: 'local, local, scroll, scroll',
+                      backgroundPosition:
+                        'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
+                      backgroundColor: 'background.surface',
+                    }}
+                  >
+                    <Table
+                      borderAxis="bothBetween"
+                      stripe="odd"
+                      hoverRow
+                      sx={{
+                        '& tr > *:first-child': {
+                          position: 'sticky',
+                          left: 0,
+                          boxShadow: '1px 0 var(--TableCell-borderColor)',
+                          bgcolor: 'background.surface',
+                        },
+                        '& tr > *:last-child': {
+                          position: 'sticky',
+                          right: 0,
+                          bgcolor: 'var(--TableCell-headBackground)',
+                        },
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ width: 150 }}>Фото</th>
+                          <th style={{ width: 200 }}>Наименование товара</th>
+                          <th style={{ width: 130 }}>Кол-во</th>
+                          <th style={{ width: 100 }}>Итого</th>
+                          <th style={{ width: 30 }}></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {cartItems.map((item) => (
+                          <tr key={item.id}>
+                            <td>
+                              {item.image.split(' ').length === 1 ? 
+                                <CartImage src={item.image} key={item.id}/>:
+                                <CarouselMy>
+                                  {item.image.split(' ').map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
+                                </CarouselMy>
+                              }
+                            </td>
+                            <td>{item.name}</td>
+                            <td>
+                              <Counter>
+                                <CounterBtn onClick={() => handleDecrement(item)}><i className="fa-solid fa-minus"></i></CounterBtn>
+                                <CounterInput 
+                                  type="number"
+                                  onChange={(e) => handleChange(e, item)}
+                                  value={item.count}
+                                />
+                                <CounterBtn onClick={() => handleIncrement(item)}><i className="fa-solid fa-plus"></i></CounterBtn>
+                              </Counter>
+                            </td>
+                            <td>{item.retailPrice * item.count} руб.</td>
+                            <td>
+                              <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>Итого: </td>
+                          <td>{cartItems.reduce((acc, item) => acc+item.retailPrice*item.count, 0)} руб.</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </Sheet>
+                </Box>
+        } 
       </SubContainer>
     </Container>
   )
@@ -203,54 +183,18 @@ const SubContainer = styled.div`
   padding: 10px 0;
 `
 
-const Header = styled.div`
-  width: 100%;
-  border-radius: 15px 0 0 15px;
-  display: flex;
-  padding: 5px;
-`
-
-
-
 const Title = styled.h2`
   font-weight: 500;
   font-size: 35px;
 `
 
 
-const CartList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`
-
-const CartItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 100%;
-  gap: 5px;
-  padding: 5px;
-  cursor: pointer;
-  transition: all .35s ease-in;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-` 
 
 const Name = styled.span`
   width: 190px;
   text-overflow: ellipsis;
 `
 
-const HeaderName = styled(Name)`
-  font-weight: 500;
-  font-size: 24px;
-`
 
 const CartImage = styled.img`
   height: 130px;
@@ -292,7 +236,4 @@ const CounterBtn = styled.button`
   }
 `
 
-const Price = styled.span`
-  max-width: 100px;
-  text-overflow: ellipsis;
-`
+

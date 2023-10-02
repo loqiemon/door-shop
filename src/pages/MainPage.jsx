@@ -22,7 +22,7 @@ function MainPage() {
   const { categories } = useSelector(state => state.categories.categories)
   const { products, isLoading, getProductsError, count } = useSelector(state => state.products)
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({minPrice: '', maxPrice: ''});
+  const [filters, setFilters] = useState({minPrice: '', maxPrice: '', country: '', manufacturer: ''});
   const [selectedItem, setSelectedItem] = useState(null);
   
   const navigate = useNavigate();
@@ -77,7 +77,9 @@ function MainPage() {
       filters.minPrice,
       filters.maxPrice,
       search,
-      search
+      search,
+      filters.country,
+      filters.manufacturer
     ))
   }
 

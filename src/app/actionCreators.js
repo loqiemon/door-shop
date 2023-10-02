@@ -6,6 +6,7 @@ import { authSlice } from "../features/auth/authSlice";
 import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
+import { filtersSlice } from "../features/filters/filtersSlice";
 import $api from "../services/axiosConfig";
 
 
@@ -130,10 +131,13 @@ export const fetchProducts = (
     minRetailPrice,
     maxRetailPrice,
     searchByName,
-    searchByVendorCode
+    searchByVendorCode,
+    country,
+    manufacturer
 ) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
+        console.log(manufacturer, country)
         const requestParams = new URLSearchParams({
             PageNumber: PageNumber || '',
             PageSize: PageSize || '',
@@ -141,6 +145,8 @@ export const fetchProducts = (
             maxRetailPrice: maxRetailPrice ? parseFloat(maxRetailPrice) : '',
             searchByName: searchByName || '',
             searchByVendorCode: searchByVendorCode || '',
+            country: country || '',
+            manufacturer: manufacturer || ''
         }).toString();
         
         const apiUrl = id ? `${API_URL}Accessories?typeId=${id}&${requestParams}` : `${API_URL}Accessories?${requestParams}`;
@@ -205,3 +211,18 @@ export const editProduct = (product) => async(dispatch) => {
 }
 
 //Товары
+
+//Фильтры
+
+export const fetchFilters = () =>  async (dispatch) => {
+    try {
+        dispatch(filtersSlice.actions.fetchFilters())
+        const response = await axios.get(`${API_URL}Accessories/unique-countries-and-manufacturers`)
+        dispatch(filtersSlice.actions.fetchFiltersSuccess(response.data))
+    } catch (e) {
+        dispatch(filtersSlice.actions.fetchFiltersError(e.message))
+    }
+}
+
+
+//Фильтры
