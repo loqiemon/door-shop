@@ -5,6 +5,7 @@ const initialState = {
     products: [
         
     ],
+    count: 0,
     isLoading: false,
     getProductsError: '',
     addProductsError: '',
@@ -20,14 +21,17 @@ export const productsSlice = createSlice({
         productsFetching(state) {
             state.isLoading = true;
             state.products = [];
+            state.count = 0;
         },
         productsFetchingSuccess(state, action) {
             state.getProductsError = '';
-            state.products = action.payload;
+            state.products = action.payload.accessories;
+            state.count = action.payload.totalCount;
             state.isLoading = false;
         },
         productsFetchingError(state, action) {
             state.products = [];
+            state.count = 0;
             state.isLoading = false;
             state.getProductsError = action.payload;
         },
@@ -38,6 +42,7 @@ export const productsSlice = createSlice({
             state.addProductsError = '';
             state.alert = 'Успешно добавлен';
             state.products = [...state.products, action.payload];
+            state.count += 1;
             state.isLoading = false;
         },
         deleteAlert(state) {
@@ -51,6 +56,7 @@ export const productsSlice = createSlice({
         deleteProductSuccess(state, action) {
             state.deleteProductsError = '';
             state.alert = 'Успешно';
+            state.count -= 1;
             state.products = state.products.filter(product => product.id !== action.payload);
         },
         deleteProductError(state, action) {

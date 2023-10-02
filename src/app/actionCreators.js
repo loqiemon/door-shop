@@ -130,7 +130,7 @@ export const fetchProducts = (id, PageNumber, PageSize) => async(dispatch) => {
             const response = await axios.get(API_URL+`Accessories?typeId=${id}&PageNumber=${PageNumber}&PageSize=${PageSize}`);
             dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
         } else {
-            const response = await axios.get(API_URL+"Accessories");
+            const response = await axios.get(API_URL+`Accessories?PageNumber=${PageNumber}&PageSize=${PageSize}`);
             dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
         }
     } catch (e) {

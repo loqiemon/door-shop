@@ -18,10 +18,131 @@ import Carousel from 'react-material-ui-carousel'
 import useSearch from '../../hooks/useSearch';
 import useInput from '../../hooks/useInput';
 import usePagination from '../../hooks/usePagination';
-import Modal from '../modal/Modal';
-import { deleteProduct, editProduct, fetchProducts, fetchCategories } from '../../app/actionCreators';
+import { fetchProducts, fetchCategories } from '../../app/actionCreators';
+import Loader from '../../components/Loader';
+import Pagination from '../../components/Pagination';
 
 
+function ProductList({handleEdit, handleDelete, children}) {
+  const { products, isLoading, getProductsError, addProductsError } = useSelector(state => state.products);
+  const { categories } = useSelector(state => state.categories);
+  const { value: search, onChange: setSearch} = useInput();
+  const [searchProp, setSearchProp] = useState('name');
+  const { searchedArray } = useSearch(products, search, searchProp);
+  const [page, setPage] = useState(1);
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts(null, 1, 10))
+    dispatch(fetchCategories())
+  }, [])
+
+
+
+  const requestProducts = (pageNumber) => {
+    dispatch(fetchProducts(null, pageNumber, 10))
+  }
+
+  const goToPage = (pageNumber) => {
+    setPage(pageNumber)
+    requestProducts(pageNumber);
+  };
+
+  return (
+    <TableContainer1>
+      <Container>
+        <div style={{display: 'flex', gap: '15px'}}>
+          {children}
+          <Input 
+            placeholder='Поиск...'
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Поле сортировки</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={searchProp}
+                onChange={e => setSearchProp(e.target.value)}
+                label="Type"
+              >
+              <MenuItem value='name'>Имя</MenuItem>
+              <MenuItem value='vendorCode'>Артикул</MenuItem>
+              <MenuItem value='manufacturer'>Производитель</MenuItem>
+              <MenuItem value='country'>Страна</MenuItem>
+              <MenuItem value='isAvaible'>Доступность</MenuItem>
+              </Select>
+          </FormControl>
+      </Container>
+      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading &&
+        <>
+           <TableContainer2 component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRowMy>
+                  <TableCellHeader align="left">Название</TableCellHeader>
+                  <TableCellHeader align="left">Производитель</TableCellHeader>
+                  <TableCellHeader align="left">Страна</TableCellHeader>
+                  {/* <TableCellHeader align="left">Вес</TableCellHeader> */}
+                  <TableCellHeader align="left">Описание</TableCellHeader>
+                  <TableCellHeader align="left">Доступность</TableCellHeader>
+                  <TableCellHeader align="left">Артикул</TableCellHeader>
+                  <TableCellHeader align="left">Розничная цена</TableCellHeader>
+                  <TableCellHeader align="left">Оптовая цена</TableCellHeader>
+                  <TableCellHeader align="left">Картинка</TableCellHeader>
+                  {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
+                  <TableCellHeader align="left">Действия</TableCellHeader>
+              </TableRowMy>
+            </TableHead>
+            <TableBody>
+                {searchedArray.map((row, rowIndex) => (
+                  <TableRowMy
+                    key={rowIndex}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                      <TableCellMy>{row.name}</TableCellMy>
+                      <TableCellMy>{row.manufacturer}</TableCellMy>
+                      <TableCellMy>{row.country}</TableCellMy>
+                      {/* <TableCellMy>{row.weight}</TableCellMy> */}
+                      <TableCellMy>{row.description}</TableCellMy>
+                      <TableCellMy>{row.isAvaible}</TableCellMy>
+                      <TableCellMy>{row.vendorCode} </TableCellMy>
+                      <TableCellMy>{row.retailPrice} руб</TableCellMy>
+                      <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
+                      <TableCellMy>
+                        <Carousel>
+                          {row.image.split(' ').map(imagePath => 
+                            <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
+                          )}
+                        </Carousel>
+                      </TableCellMy>
+                      {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
+                      <TableCellMy>
+                          <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
+                          <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
+                      </TableCellMy>
+                  </TableRowMy>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer2>
+          <Pagination
+            totalItems={products}
+            page={page}
+            goToPage={goToPage}
+          />     
+        </>
+      }
+    </TableContainer1>
+  );
+}
+
+export default ProductList;
 
 
 const TableContainer1 = styled.div`
@@ -35,6 +156,13 @@ const TableContainer1 = styled.div`
   margin-top: 20px;
   padding-bottom: 10px; 
 `;
+
+const LoaderDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 
 const EditButton = styled.button`
@@ -120,135 +248,3 @@ const TableImage = styled.img`
 const Container = styled.div`
   display: flex;
 `
-
-function ProductList({handleEdit, handleDelete, children}) {
-  const { products, isLoading, getProductsError, addProductsError } = useSelector(state => state.products);
-  const { categories } = useSelector(state => state.categories);
-  const { value: search, onChange: setSearch} = useInput();
-  const [searchProp, setSearchProp] = useState('name');
-  const { searchedArray } = useSearch(products, search, searchProp);
-
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProducts())
-    dispatch(fetchCategories())
-  }, [])
-
-  const { 
-    paginatedData,
-    rowsPerPage,
-    page,
-    handleChangePage,
-    handleChangeRowsPerPage
-  } = usePagination({ array: searchedArray });
-
-  return (
-    <TableContainer1>
-      <Container>
-        <div style={{display: 'flex', gap: '15px'}}>
-          {children}
-          <Input 
-            placeholder='Поиск...'
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        </div>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Поле сортировки</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={searchProp}
-                onChange={e => setSearchProp(e.target.value)}
-                label="Type"
-              >
-              <MenuItem value='name'>Имя</MenuItem>
-              <MenuItem value='vendorCode'>Артикул</MenuItem>
-              <MenuItem value='manufacturer'>Производитель</MenuItem>
-              <MenuItem value='country'>Страна</MenuItem>
-              <MenuItem value='isAvaible'>Доступность</MenuItem>
-              </Select>
-          </FormControl>
-      </Container>
-      <TableContainer2 component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRowMy>
-                <TableCellHeader align="left">Название</TableCellHeader>
-                <TableCellHeader align="left">Производитель</TableCellHeader>
-                <TableCellHeader align="left">Страна</TableCellHeader>
-                {/* <TableCellHeader align="left">Вес</TableCellHeader> */}
-                <TableCellHeader align="left">Описание</TableCellHeader>
-                <TableCellHeader align="left">Доступность</TableCellHeader>
-                <TableCellHeader align="left">Артикул</TableCellHeader>
-                <TableCellHeader align="left">Розничная цена</TableCellHeader>
-                <TableCellHeader align="left">Оптовая цена</TableCellHeader>
-                <TableCellHeader align="left">Картинка</TableCellHeader>
-                {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
-                <TableCellHeader align="left">Действия</TableCellHeader>
-            </TableRowMy>
-          </TableHead>
-          <TableBody>
-              {paginatedData.map((row, rowIndex) => (
-                <TableRowMy
-                  key={rowIndex}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                    <TableCellMy>{row.name}</TableCellMy>
-                    <TableCellMy>{row.manufacturer}</TableCellMy>
-                    <TableCellMy>{row.country}</TableCellMy>
-                    {/* <TableCellMy>{row.weight}</TableCellMy> */}
-                    <TableCellMy>{row.description}</TableCellMy>
-                    <TableCellMy>{row.isAvaible}</TableCellMy>
-                    <TableCellMy>{row.vendorCode} </TableCellMy>
-                    <TableCellMy>{row.retailPrice} руб</TableCellMy>
-                    <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
-                    <TableCellMy>
-                      <Carousel>
-                        {row.image.split(' ').map(imagePath => 
-                          <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
-                        )}
-                      </Carousel>
-                    </TableCellMy>
-                    {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
-                    <TableCellMy>
-                        <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
-                        <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
-                    </TableCellMy>
-                </TableRowMy>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer2>
-      <TablePagination
-        rowsPerPageOptions={[5, 10]}
-        component="div"
-        count={searchedArray.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        style={{overflowY: 'hidden'}}
-      />
-      {/* {isOpen &&     
-        <Modal
-            children={edit === true ? 
-                <>
-                    <Input value={editInput.Type} onChange={e => setEditInput(prev => ({...prev, Type: e.target.value}))}/>
-                    <Button onClick={() => dispatch(editCategory(editInput))}>Сохранить</Button>
-                </>
-
-                : 
-                <Button onClick={() => dispatch(deleteCategory(editInput.id))} >Удалить?</Button>}
-            onClose={() => setIsOpen(false)}
-        >
-
-        </Modal> */}
-      
-    </TableContainer1>
-  );
-}
-
-export default ProductList;
