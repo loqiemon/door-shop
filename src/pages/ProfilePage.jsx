@@ -89,7 +89,7 @@ function ProfilePage() {
           {currentContent === 'products' && (
             <Content>
               {addModal &&
-                <Modal onClose={handleClose} children={<ProductsForm handleSubmit={handleAdd}/>} />
+                <Modal onClose={handleClose}><ProductsForm handleSubmit={handleAdd}/></Modal>
               }
               {editModal &&
                 <Modal onClose={handleClose} >

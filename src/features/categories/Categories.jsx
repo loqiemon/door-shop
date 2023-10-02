@@ -68,6 +68,7 @@ const CategoriesHeader = styled.div`
 const CategoriesTitle = styled.h2`
     font-size: 25px;
     font-weight: 700;
+    color: #000;
 `
 
 const CategoriesInput = styled.input`

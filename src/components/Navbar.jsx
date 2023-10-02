@@ -13,7 +13,7 @@ import { MenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import useOnHoverOutside from '../hooks/useOnHoverOutside'
 import Categories from '../features/categories/Categories'
 
-function Navbar({currency}) {
+function Navbar() {
     const [isNavActive, setIsNavActive] = useState(false);
     const isAuth = useSelector(state => state.auth.isAuth)
     const dropdownRef = useRef(null); 
@@ -49,7 +49,6 @@ function Navbar({currency}) {
                         <NavLink to='/profile'>Профиль</NavLink>:
                         <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                     }
-                    <NavLink>{currency}</NavLink>
                 </NavLinks>
                 <Hamburger className={isNavActive ? 'hamburger-active' : ''} onClick={toggleNav}>
                     <span></span>
@@ -59,8 +58,8 @@ function Navbar({currency}) {
             </NavContainer>
             <NavBottom>
                 <NavBottomContainer>
-                    <NavBottomItem>
-                        <button onMouseOver={() => setMenuDropDownOpen(true)}>Каталог товаров</button>
+                    <NavBottomItem onMouseOver={() => setMenuDropDownOpen(true)}>
+                        Каталог товаров
                         {isMenuDropDownOpen && 
                             <MyMenu ref={dropdownRef}>
                                 <CategoriesContainer>
@@ -85,9 +84,12 @@ export default Navbar
 
 const MyMenu = styled.div`
     /* position: absolute; */
-    position: relative;
+    position: absolute;
     z-index: 1000;
     margin: 0 auto;
+    top: 48px;
+    padding: 10px;
+    background-color: #fff;
 `
 
 const Nav = styled.nav`
@@ -117,9 +119,7 @@ const Nav = styled.nav`
 
 const CategoriesContainer = styled.div`
     margin: 0 auto;
-    background-color: #fff;
-    position: relative;
-    z-index: 10555;
+
 `
 
 const NavLogo = styled.img`
@@ -150,6 +150,8 @@ const NavBottomContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    position: relative;
+
 `
 
 const NavBottomItem = styled.div`
@@ -161,7 +163,8 @@ const NavBottomItem = styled.div`
 
     &:hover {
         background-color: #1f1e1e;
-        color: rgb(80, 101, 245);
+        /* color: rgb(80, 101, 245); */
+        color: #FFD700;
     }
 `
 
@@ -201,9 +204,11 @@ export const NavLink = styled(Link)`
     &:hover,
     &:focus{
         color: #5065f6;
+        /* color: #ffd900b7; */
     }
     &:active{
         color: #0064fa;
+        /* color: #ffd900b7; */
     };
 
     @media (max-width: 576px) {
