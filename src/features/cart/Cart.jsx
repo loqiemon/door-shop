@@ -33,6 +33,15 @@ const CartImage = styled.img`
 function Cart() {
     const cartItems = useSelector((state) => state.cart.cartItems)
     const dispatch = useDispatch()
+
+    const handleIncrement = (item) => {
+    
+    };
+  
+    const handleDecrement = (item) => {
+     
+    };
+
     
   return (
     <CartList>
@@ -41,6 +50,12 @@ function Cart() {
             <CartImage src={item.image}/>
             <span>{item.name}</span>
             <span>{item.price}руб.</span>
+
+            <Counter>
+              <Button onClick={() => handleDecrement(item)}>-</Button>
+              <span>0</span> 
+              <Button onClick={() => handleIncrement(item)}>+</Button>
+            </Counter>
           </CartItem>
         )}
     </CartList>
