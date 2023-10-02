@@ -24,7 +24,7 @@ import Pagination from '../../components/Pagination';
 
 
 function ProductList({handleEdit, handleDelete, children}) {
-  const { products, isLoading, getProductsError, addProductsError } = useSelector(state => state.products);
+  const { products, isLoading, getProductsError, addProductsError, count } = useSelector(state => state.products);
   const { categories } = useSelector(state => state.categories);
   const { value: search, onChange: setSearch} = useInput();
   const [searchProp, setSearchProp] = useState('name');
@@ -135,6 +135,7 @@ function ProductList({handleEdit, handleDelete, children}) {
             totalItems={products}
             page={page}
             goToPage={goToPage}
+            totalCount={count}
           />     
         </>
       }

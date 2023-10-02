@@ -10,6 +10,53 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../app/actionCreators';
 
 
+
+
+
+function Aside({search, setSearch, filters, setFilters, requestProducts}) {
+
+  return (
+    <AsideList>
+        <AsideItem>
+            <Search 
+                placeholder='Поиск'
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+            />
+        </AsideItem>
+        <AsideItem>
+            <Input
+                value={filters.minPrice}
+                onChange={e => setFilters(prev => ({...prev, minPrice: e.target.value}))}
+                id="outlined-basic"
+                label="Цена от"
+            />
+            <Input
+                value={filters.maxPrice}
+                onChange={e => setFilters(prev => ({...prev, maxPrice: e.target.value}))}
+                id="outlined-basic"
+                label="До"
+            />
+            {/* {categories.map(category => 
+                <Category
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={category.id == selectedCategory ? 'active' : ''}
+                >
+                    {category.Type}  
+                </Category>
+            )} */}
+        </AsideItem>
+        <AsideButton onClick={requestProducts}>
+            Применить
+        </AsideButton>
+    </AsideList>
+  )
+}
+
+export default Aside
+
+
 const AsideList = styled.aside`
   width: 20%;
   min-width: 200px;
@@ -96,53 +143,3 @@ const Input = styled(TextField)`
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
-
-
-function Aside({search, setSearch, filters, setFilters}) {
-  const handleClick = () => {
-    console.log('clicked');
-  }
-
-
-  return (
-    <AsideList>
-        <AsideItem>
-            <Search 
-                placeholder='Поиск'
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-            />
-        </AsideItem>
-        <AsideItem>
-            <Input
-                value={filters.minPrice}
-                onChange={e => setFilters(prev => ({...prev, minPrice: e.target.value}))}
-                id="outlined-basic"
-                label="Цена от"
-            />
-            <Input
-                value={filters.maxPrice}
-                onChange={e => setFilters(prev => ({...prev, maxPrice: e.target.value}))}
-                id="outlined-basic"
-                label="До"
-            />
-            {/* {categories.map(category => 
-                <Category
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={category.id == selectedCategory ? 'active' : ''}
-                >
-                    {category.Type}  
-                </Category>
-            )} */}
-        </AsideItem>
-        <AsideButton
-            onClick={handleClick}
-        >
-            Применить
-        </AsideButton>
-    </AsideList>
-  )
-}
-
-export default Aside

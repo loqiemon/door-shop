@@ -123,16 +123,30 @@ export const checkAuth = () => async(dispatch) => {
 
 
 //Товары
-export const fetchProducts = (id, PageNumber, PageSize) => async(dispatch) => {
+export const fetchProducts = (
+    id,
+    PageNumber,
+    PageSize,
+    minRetailPrice,
+    maxRetailPrice,
+    searchByName,
+    searchByVendorCode
+) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
-        if (id) {
-            const response = await axios.get(API_URL+`Accessories?typeId=${id}&PageNumber=${PageNumber}&PageSize=${PageSize}`);
-            dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
-        } else {
-            const response = await axios.get(API_URL+`Accessories?PageNumber=${PageNumber}&PageSize=${PageSize}`);
-            dispatch(productsSlice.actions.productsFetchingSuccess(response.data))
-        }
+        const requestParams = new URLSearchParams({
+            PageNumber: PageNumber || '',
+            PageSize: PageSize || '',
+            minRetailPrice: minRetailPrice ? parseFloat(minRetailPrice) : '',
+            maxRetailPrice: maxRetailPrice ? parseFloat(maxRetailPrice) : '',
+            searchByName: searchByName || '',
+            searchByVendorCode: searchByVendorCode || '',
+        }).toString();
+        
+        const apiUrl = id ? `${API_URL}Accessories?typeId=${id}&${requestParams}` : `${API_URL}Accessories?${requestParams}`;
+        const response = await axios.get(apiUrl);
+        dispatch(productsSlice.actions.productsFetchingSuccess(response.data));
+
     } catch (e) {
         if (e) {
             dispatch(productsSlice.actions.productsFetchingError(e.message))

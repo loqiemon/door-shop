@@ -4,7 +4,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import styled from 'styled-components';
 
 
-function Pagination({ totalItems, page, goToPage }) {
+function Pagination({ totalItems, page, goToPage, totalCount }) {
 
   const nextPage = () => {
     if (totalItems.length !== 0) {
@@ -24,6 +24,9 @@ function Pagination({ totalItems, page, goToPage }) {
       <DivMy onClick={prevPage} disabled={page === 1}> 
         <KeyboardArrowLeftIcon/>
       </DivMy>
+      <PageNumber>
+        Page {page} of {Math.ceil(totalCount / 10)}
+      </PageNumber>
       <DivMy onClick={nextPage} disabled={totalItems.length === 0 || totalItems.length < 10}>
         <KeyboardArrowRightIcon/>
       </DivMy>
@@ -52,3 +55,9 @@ const DivMy = styled.button`
     background-color: #FFD700;
   }
 `
+
+const PageNumber = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+`;

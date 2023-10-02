@@ -20,7 +20,7 @@ function MainPage() {
   const { categoryId, page } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems)
   const { categories } = useSelector(state => state.categories.categories)
-  const { products, isLoading, getProductsError } = useSelector(state => state.products)
+  const { products, isLoading, getProductsError, count } = useSelector(state => state.products)
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({minPrice: '', maxPrice: ''});
   const [selectedItem, setSelectedItem] = useState(null);
@@ -40,22 +40,22 @@ function MainPage() {
     setSelectedItem(null);
   };
 
-  const { searchedArray } = useSearch(products, search, 'name')
+  // const { searchedArray } = useSearch(products, search, 'name')
 
-  const filteredArray = searchedArray.filter(item => {
-    const price = parseFloat(item.retailPrice); 
-    const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
-    const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
+  // const filteredArray = searchedArray.filter(item => {
+  //   const price = parseFloat(item.retailPrice); 
+  //   const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
+  //   const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
 
-    if (minPriceFilter !== null && price < minPriceFilter) {
-      return false; 
-    }
-    if (maxPriceFilter !== null && price > maxPriceFilter) {
-      return false; 
-    }
+  //   if (minPriceFilter !== null && price < minPriceFilter) {
+  //     return false; 
+  //   }
+  //   if (maxPriceFilter !== null && price > maxPriceFilter) {
+  //     return false; 
+  //   }
 
-    return true; 
-  });
+  //   return true; 
+  // });
 
 
   const isInCart = (itemId) => {
@@ -70,7 +70,15 @@ function MainPage() {
   }, [categoryId]);
 
   const requestProducts = (pageNumber) => {
-    dispatch(fetchProducts(categoryId, pageNumber, 10))
+    dispatch(fetchProducts(
+      categoryId,
+      pageNumber,
+      10,
+      filters.minPrice,
+      filters.maxPrice,
+      search,
+      search
+    ))
   }
 
   const goToPage = (pageNumber) => {
@@ -85,12 +93,13 @@ function MainPage() {
         setSearch={setSearch}
         filters={filters}
         setFilters={setFilters}
+        requestProducts={() => requestProducts(page)}
       />
       {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
       {!isLoading && 
         <Container>
           <SellList>
-              {filteredArray.map(item => 
+              {products.map(item => 
                 <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
                   <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
                   {item.image.split(' ').length === 1 ? 
@@ -108,11 +117,16 @@ function MainPage() {
                   }
                 </SellItem>
               )}
-              {!isLoading && filteredArray.length === 0 &&
+              {!isLoading && products.length === 0 &&
                 <Title>Таких товаров нет</Title>
               }
           </SellList>
-          <Pagination totalItems={products} page={page} goToPage={goToPage}/>
+          <Pagination
+            totalItems={products}
+            page={page}
+            goToPage={goToPage}
+            totalCount={count}
+          />
         </Container>
       }
       {selectedItem && (
