@@ -7,6 +7,7 @@ import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
 import { filtersSlice } from "../features/filters/filtersSlice";
+import { addOrder, addOrderError, addOrderSuccess } from '../features/order/orderSlice'
 import $api from "../services/axiosConfig";
 
 
@@ -126,7 +127,6 @@ export const checkAuth = () => async(dispatch) => {
 //Товары
 export const fetchProducts = (params) => async(dispatch) => {
     try {
-        console.log(params)
         dispatch(productsSlice.actions.productsFetching())
         const requestParams = new URLSearchParams({
             PageNumber: params.pageNumber || '',
@@ -215,3 +215,18 @@ export const fetchFilters = () =>  async (dispatch) => {
 }
 
 //Фильтры
+
+
+//Заказы
+
+export const addOrderRequest = (order) => async (dispatch) => {
+    try {
+        dispatch(addOrder());
+        const response = await axios.post(`${API_URL}orders`, order)
+        dispatch(addOrderSuccess(response.data))
+    } catch (e) {
+        dispatch(addOrderError(e.message))
+    }
+}
+
+//Заказы

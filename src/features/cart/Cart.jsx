@@ -8,6 +8,7 @@ import Button from '@mui/joy/Button';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
+import OrderForm from '../order/OrderForm';
 
 
 function Cart() {
@@ -44,6 +45,7 @@ function Cart() {
     <Container>
       <SubContainer>
         <Title>Оформление заказа</Title>
+        <OrderForm/>
       </SubContainer>
       <SubContainer>
         <Title>Товары в корзине</Title>
@@ -71,7 +73,7 @@ function Cart() {
                       </thead>
                       <tbody>
                         {cartItems.map((item) => (
-                          <tr key={item.id}>
+                          <TableRow key={item.id}>
                             <td>
                               {item.image.split(' ').length === 1 ? 
                                 <CartImage src={item.image} key={item.id}/>:
@@ -100,7 +102,7 @@ function Cart() {
                             <td>
                               <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
                             </td>
-                          </tr>
+                          </TableRow>
                         ))}
                         <tr>
                           <td></td>
@@ -119,6 +121,15 @@ function Cart() {
 }
 
 export default Cart
+
+
+const TableRow = styled.tr`
+  @media (max-width: 991px) {
+    /* width: 100%;
+    display: flex;
+    flex-direction: column; */
+  }
+`
 
 const sheetStyle = {
   '--TableCell-height': '40px',
@@ -168,6 +179,10 @@ const tableStyle = {
 const Container = styled.div`
   width: 100%;
   display: flex;
+
+  @media (max-width: 1199px) {
+    flex-direction: column;
+  }
 `
 
 const SubContainer = styled.div`
@@ -176,6 +191,17 @@ const SubContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 10px 0;
+
+
+  @media (max-width: 1199px) {
+    width: 100%;
+    &:first-child {
+      order: 2;
+    }
+    &:last-child {
+      order: 1;
+    }
+  }
 `
 
 const Title = styled.h2`

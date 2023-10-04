@@ -5,6 +5,7 @@ import modalReducer from "../features/modal/modalSlice";
 import authReducer from "../features/auth/authSlice";
 import productReducer from "../features/products/productsSlice";
 import filtersReducer from '../features/filters/filtersSlice';
+import ordersReducer from '../features/order/orderSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         categories: categoriesReducer,
         modal: modalReducer,
         products: productReducer,
-        filters: filtersReducer
+        filters: filtersReducer,
+        orders: ordersReducer
     }
 })
