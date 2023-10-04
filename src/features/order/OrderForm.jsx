@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import Checkbox from '@mui/material/Checkbox';
 
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux';
@@ -19,7 +20,7 @@ function OrderForm() {
   const { value: phone, onChange: setPhone } = useInput('');
   const { value: comment, onChange: setComment } = useInput('');
   const [ paymentType, setPaymentType] = useState('cash');
-
+  const [ checked, setChecked ] = useState(false);
 
   var validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -32,7 +33,8 @@ function OrderForm() {
         address.length > 0 &&
         email.length > 0 &&
         email.match(validEmailRegex) &&
-        phone.length > 0
+        phone.length > 0,
+        checked
     ) {
         const order = {
             name: `${name} ${secondName}`,
@@ -97,6 +99,13 @@ function OrderForm() {
             <MenuItem value="card">Картой</MenuItem>
             </Select>
         </FormControl>
+        <div>
+          Даю согласие на обработку персональнх данных
+          <Checkbox 
+            checked={checked}
+            onChange={e => setChecked(event.target.checked)}
+          />
+        </div>
         <Button onClick={handleSubmit}>Оформить заказ</Button>
     </Container>
   )

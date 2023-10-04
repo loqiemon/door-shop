@@ -150,6 +150,19 @@ export const fetchProducts = (params) => async(dispatch) => {
     }
 }
 
+export const fetchProduct = async(productId) => {
+    try {
+        const apiUrl = `${API_URL}Accessories/${productId}`;
+        const response = await axios.get(apiUrl);
+        return response.data
+    } catch (e) {
+        if (e) {
+            return(e.message)
+        }
+    }
+}
+
+
 export const addProduct = (product) => async(dispatch) => {
     try {
         const { id, ...product1 } = product; 

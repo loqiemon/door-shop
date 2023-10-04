@@ -21,6 +21,7 @@ import { checkAuth } from './actionCreators'
 
 import Register from '../features/auth/Register'
 import ProfilePage from '../pages/ProfilePage'
+import ProductPage from '../features/products/ProductPage'
 
 
 
@@ -59,6 +60,7 @@ function App() {
           <Route path="/install"  element={<InstallPage/>}/>
           <Route path="/contacts"  element={<ContactsPage/>}/>
           <Route path="/refund"  element={<RefundPage/>}/>
+          <Route path="/product/:categoryId/:productId/:page"  element={<ProductPage/>}/>
         </Routes>
        </BrowserRouter> 
     </>

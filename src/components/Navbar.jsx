@@ -131,6 +131,7 @@ const MyMenu = styled.div`
     top: 48px;
     padding: 10px;
     background-color: #fff;
+    box-shadow: 0 15px 15px 15px rgba(0,0,0,.56);
 `
 
 const Nav = styled.nav`
@@ -249,10 +250,12 @@ export const NavLink = styled(Link)`
     transition: all .3s ease-in;
     &:hover,
     &:focus{
-        color: #5065f6;
+        /* color: #5065f6; */
+        color: #ffd900b7;
     }
     &:active{
-        color: #0064fa;
+        /* color: #0064fa; */
+        color: #ffd900b7;
     };
     font-size: 25px;
     font-weight: 600;

@@ -30,7 +30,7 @@ function MainPage() {
   const navigate = useNavigate();
 
   const openModal = (e, item) => {
-    console.log(1)
+    navigate(`/product/${categoryId}/${item}/${page}`)
   };
 
   const closeModal = () => {
@@ -87,7 +87,7 @@ function MainPage() {
               {products.map(item => 
                 <SellItem
                   key={item.id}
-                  onClick={(e) => openModal(e, item)}
+                  onClick={(e) => openModal(e, item.id)}
                 >
                   <VendorCode
                     onClick={() => copyToClipboard(item.vendorCode)}
