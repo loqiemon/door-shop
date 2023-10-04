@@ -2,7 +2,8 @@ import React from 'react';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import styled from 'styled-components';
-
+import { Pagination as MUIPagination } from '@mui/material';
+import Stack from '@mui/material/Stack';
 
 function Pagination({ 
   totalItems,
@@ -10,33 +11,25 @@ function Pagination({
   goToPage,
   totalCount 
 }) {
-  const nextPage = () => {
-    if (totalItems.length !== 0) {
-      goToPage(Number(page) + 1)
-    }
+  const handleChange = (event, value) => {
+    goToPage(value)
   };
 
-  const prevPage = () => {
-    if (page > 1) {
-      goToPage(Number(page) - 1)
-    }
-  };
-
+  const totalPages = Math.ceil(totalCount / 10)
 
   return (
     <DivFlex>
-      <DivMy onClick={prevPage} disabled={page === 1}> 
-        <KeyboardArrowLeftIcon/>
-      </DivMy>
-      <PageNumber>
-        Страница {page} из {Math.ceil(totalCount / 10)}
-      </PageNumber>
-      <DivMy
-        onClick={nextPage}
-        disabled={totalItems.length === 0 || totalItems.length < 10}
-      >
-        <KeyboardArrowRightIcon/>
-      </DivMy>
+      <Stack spacing={2}>
+        <MUIPagination 
+          count={totalPages}
+          variant="outlined"
+          shape="rounded"
+          showFirstButton
+          showLastButton
+          page={page}
+          onChange={handleChange}
+        />
+      </Stack>
     </DivFlex>
   );
 }
