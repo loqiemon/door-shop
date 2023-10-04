@@ -31,7 +31,7 @@ function ProductsForm({
   const retailPriceInput = useInput(inputValues.retailPrice);
   const wholesalePriceInput = useInput(inputValues.wholesalePrice);
   const isAvaibleInput = useInput(inputValues.isAvaible);
-  const [selectedImage, setSelectedImage] = useState(inputValues.image);
+  const [selectedImage, setSelectedImage] = useState(inputValues.image || []);
   const [accessoryTypeId , setAccessoryTypeId ] = useState(inputValues.accessoryType);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -47,11 +47,7 @@ function ProductsForm({
   };
 
   useEffect(() => {
-    if (alertState === 'Ошибка') {
-      showAlert()
-    } else if (alertState === 'Успешно добавлен') {
-      showAlert()
-    }
+    showAlert()
   }, [alertState]);
 
 
@@ -190,7 +186,7 @@ function ProductsForm({
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              value={accessoryTypeId}
+              value={accessoryTypeId || ''}
               onChange={handleChange}
               label="Type"
             >
@@ -208,7 +204,7 @@ function ProductsForm({
             </Select>
         </FormControl>
         <div>
-          {selectedImage.map((image, index) => (
+          {selectedImage && selectedImage.map((image, index) => (
             <div key={index}>
               <img src={image} alt={`Фото ${index + 1}`} width="100" />
               <button onClick={() => handleRemoveImage(index)}>Удалить</button>

@@ -30,12 +30,13 @@ function MainPage() {
   const navigate = useNavigate();
 
   const openModal = (e, item) => {
-    if (
-      !item ||
-      (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
-    ) {
-      setSelectedItem(item);
-    }
+    console.log(1)
+    // if (
+    //   !item ||
+    //   (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
+    // ) {
+    //   setSelectedItem(item);
+    // }
   };
 
   const closeModal = () => {

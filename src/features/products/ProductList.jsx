@@ -45,7 +45,10 @@ function ProductList({handleEdit, handleDelete, children}) {
 
 
   const requestProducts = (pageNumber) => {
-    dispatch(fetchProducts(null, pageNumber, 10))
+    dispatch(fetchProducts({
+      pageNumber,
+      PageSize: 10
+    }))
   }
 
   const goToPage = (pageNumber) => {
