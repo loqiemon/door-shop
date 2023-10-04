@@ -15,109 +15,24 @@ import { convertImageToBase64 } from '../../utils/convertImage';
 import AlertJsx from '../../components/Alert'
 
 
-const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    text-align: left;
-    padding-bottom: 20px;
-`
-
-const Form = styled.div`
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-`
-
-const Title = styled.h2`
-    font-size: 25px;
-    font-weight: 500;
-    color: #000;
-`
-
-const Input = styled(TextField)`
-  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px; 
-    border-color: #56195d;
-
-  }
-
-  & .MuiInputLabel-root.Mui-focused {
-    color: #56195d; 
-  }
-
-  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px;
-  }
-
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`
-
-const Button = styled.button`
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    &:hover {
-      background-color: #56195d;
-      color: white;
-    }
-`
-
-const ImageInput = styled.input`
-    display: none; 
-`;
-
-const StyledTextarea = styled(TextareaAutosize)`
-  background-color: #f7f7f7;
-  padding: 12px;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  max-width: 100%;
-
-  &:focus {
-    background-color: #ffffff; 
-    border: 1px solid #56195d; 
-    outline: none;
-  }
-  
-`
-
-
-function ProductsForm({handleSubmit, inputValues = {
-  id: '',
-  name: '',
-  manufacturer: '',
-  country: '',
-  weight: '',
-  description: '',
-  retailPrice: '',
-  wholesalePrice: '',
-  isAvaible: '',
-  image: [],
-  vendorCode: '',
-  accessoryType: ''
-}, btnText = 'Добавить', title = 'Добавление товара' }) {
-  const nameInput = useInput();
-  const vendorCodeInput = useInput();
-  const manufacturerInput = useInput();
-  const countryInput = useInput();
-  const weightInput = useInput();
-  const descriptionInput = useInput();
-  const retailPriceInput = useInput();
-  const wholesalePriceInput = useInput();
-  const isAvaibleInput = useInput();
-  const [selectedImage, setSelectedImage] = useState([]);
-  const [accessoryTypeId , setAccessoryTypeId ] = useState('');
+function ProductsForm({
+  handleSubmit,
+  inputValues,
+  btnText = 'Добавить',
+  title = 'Добавление товара' 
+}) {
+  console.log(inputValues)
+  const nameInput = useInput(inputValues.name);
+  const vendorCodeInput = useInput(inputValues.vendorCode);
+  const manufacturerInput = useInput(inputValues.manufacturer);
+  const countryInput = useInput(inputValues.country);
+  const weightInput = useInput(inputValues.weight);
+  const descriptionInput = useInput(inputValues.description);
+  const retailPriceInput = useInput(inputValues.retailPrice);
+  const wholesalePriceInput = useInput(inputValues.wholesalePrice);
+  const isAvaibleInput = useInput(inputValues.isAvaible);
+  const [selectedImage, setSelectedImage] = useState(inputValues.image);
+  const [accessoryTypeId , setAccessoryTypeId ] = useState(inputValues.accessoryType);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
@@ -140,28 +55,10 @@ function ProductsForm({handleSubmit, inputValues = {
   }, [alertState]);
 
 
-  const handleImageChange = async (event) => {
-    const files = event.target.files;
-    const imageBase64Array = await Promise.all(Array.from(files).map(convertImageToBase64));
-    setSelectedImage([...selectedImage, ...imageBase64Array]);
-  };
-  
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCategories())
-    nameInput.onChange(inputValues.name);
-    manufacturerInput.onChange(inputValues.manufacturer);
-    countryInput.onChange(inputValues.country);
-    weightInput.onChange(inputValues.weight);
-    descriptionInput.onChange(inputValues.description);
-    retailPriceInput.onChange(inputValues.retailPrice);
-    isAvaibleInput.onChange(inputValues.isAvaible);
-    wholesalePriceInput.onChange(inputValues.wholesalePrice);
-    vendorCodeInput.onChange(inputValues.vendorCode);
-    setSelectedImage(inputValues.image)
-    setAccessoryTypeId(inputValues.accessoryType)
   }, []);
 
   const categories = useSelector(state => state.categories.categories);
@@ -171,7 +68,12 @@ function ProductsForm({handleSubmit, inputValues = {
     setAccessoryTypeId(event.target.value);
   };
 
-
+  const handleImageChange = async (event) => {
+    const files = event.target.files;
+    const imageBase64Array = await Promise.all(Array.from(files).map(convertImageToBase64));
+    setSelectedImage([...selectedImage, ...imageBase64Array]);
+  };
+  
   const handleRemoveImage = (index) => {
     const newImages = [...selectedImage];
     newImages.splice(index, 1);
@@ -183,31 +85,24 @@ function ProductsForm({handleSubmit, inputValues = {
   const handleClick = () => {
     const retailPrice = parseFloat(retailPriceInput.value);
     const wholesalePrice = parseFloat(wholesalePriceInput.value);
-
-
     const productData = {
       id: inputValues.id,
-      name: nameInput.value,
-      manufacturer: manufacturerInput.value,
-      country: countryInput.value,
+      name: nameInput.value.trim(),
+      manufacturer: manufacturerInput.value.trim(),
+      country: countryInput.value.trim(),
       weight: weightInput.value,
-      description: descriptionInput.value,
+      description: descriptionInput.value.trim(),
       retailPrice: retailPriceInput.value,
       wholesalePrice: wholesalePriceInput.value,
       accessoryTypeId: accessoryTypeId,
-      vendorCode: vendorCodeInput.value,
-      isAvaible: isAvaibleInput.value,
+      vendorCode: vendorCodeInput.value.trim(),
+      isAvaible: isAvaibleInput.value.trim(),
       image: selectedImage
-  };
-    console.log(productData);
-    console.log(descriptionInput)
+    };
     if (
         !nameInput.value ||
         !manufacturerInput.value ||
         !countryInput.value ||
-        // !isAvaibleInput.value ||
-        // !weightInput.value ||
-        // !descriptionInput.value ||
         isNaN(retailPrice) ||
         isNaN(wholesalePrice) ||
         !accessoryTypeId ||
@@ -218,9 +113,6 @@ function ProductsForm({handleSubmit, inputValues = {
         return;
     }
     
-
-
-    // dispatch(addCategory({Type: val.value}))
     handleSubmit(productData)
     nameInput.onChange('');
     manufacturerInput.onChange('');
@@ -335,3 +227,82 @@ function ProductsForm({handleSubmit, inputValues = {
 }
 
 export default ProductsForm
+
+
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    padding-bottom: 20px;
+`
+
+const Form = styled.div`
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+`
+
+const Title = styled.h2`
+    font-size: 25px;
+    font-weight: 500;
+    color: #000;
+`
+
+const Input = styled(TextField)`
+  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px; 
+    border-color: #56195d;
+
+  }
+
+  & .MuiInputLabel-root.Mui-focused {
+    color: #56195d; 
+  }
+
+  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-radius: 15px;
+  }
+
+    background-color: #f7f7f7;
+    padding: 12px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
+
+const Button = styled.button`
+    padding: 12px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    transition: all .35s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    &:hover {
+      background-color: #56195d;
+      color: white;
+    }
+`
+
+const ImageInput = styled.input`
+    display: none; 
+`;
+
+const StyledTextarea = styled(TextareaAutosize)`
+  background-color: #f7f7f7;
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  max-width: 100%;
+
+  &:focus {
+    background-color: #ffffff; 
+    border: 1px solid #56195d; 
+    outline: none;
+  }
+  
+`
+

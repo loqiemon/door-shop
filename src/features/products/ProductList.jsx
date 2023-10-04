@@ -35,7 +35,10 @@ function ProductList({handleEdit, handleDelete, children}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts(null, 1, 10))
+    dispatch(fetchProducts({
+      pageNumber: 1,
+      PageSize: 10
+    }))
     dispatch(fetchCategories())
   }, [])
 

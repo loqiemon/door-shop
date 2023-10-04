@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function useInput() {
-    const [value, setValue] = useState('');
+export default function useInput(initState) {
+    const [value, setValue] = useState(initState || '');
     
     const onChange = (text) => {
         setValue(text);

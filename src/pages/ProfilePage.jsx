@@ -17,7 +17,7 @@ function ProfilePage() {
   const user = useSelector(state => state.auth.user);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [product1, setProduct1] = useState({
+  const [productEdit, setProductEdit] = useState({
     id: '',
     name: '',
     manufacturer: '',
@@ -46,7 +46,7 @@ function ProfilePage() {
 
   const handleEdit = (product) => {
     setEditModal(true)
-    setProduct1({...product, accessoryType: product.accessoryTypeId})
+    setProductEdit({...product, accessoryType: product.accessoryTypeId})
   }
 
   const handleDelete = (id) => {
@@ -97,20 +97,7 @@ function ProfilePage() {
                       title='Редактирование товара'
                       btnText='Сохранить'
                       handleSubmit={(prod) => handleEditConfirm(prod)}
-                      inputValues = {{
-                        id: product1.id,
-                        name: product1.name,
-                        manufacturer: product1.manufacturer,
-                        country: product1.country,
-                        weight: product1.weight,
-                        description: product1.description,
-                        retailPrice: product1.retailPrice,
-                        wholesalePrice: product1.wholesalePrice,
-                        accessoryType: product1.accessoryTypeId,
-                        vendorCode: product1.vendorCode,
-                        isAvaible: product1.isAvaible,
-                        image: product1.image.split(' ')
-                      }}
+                      inputValues = {{...productEdit, image: productEdit.image.split(' ')}}
                     />
                 </Modal>
               }
