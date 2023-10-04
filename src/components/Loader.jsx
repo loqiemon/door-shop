@@ -1,6 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+
+function Loader() {
+  return (
+    <Container>
+        <Spinner/>
+    </Container>
+  )
+}
+
+export default Loader
+
 const Spinner = styled.div` 
   border: 16px solid #d2cbcb; 
   border-top: 16px solid #3498db;
@@ -25,13 +36,3 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-function Loader() {
-  return (
-    <Container>
-        <Spinner/>
-    </Container>
-  )
-}
-
-export default Loader

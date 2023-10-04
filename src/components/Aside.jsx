@@ -1,6 +1,5 @@
 import React, {
     useEffect,
-    useState
 } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
@@ -9,13 +8,8 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
-
-import useInput from '../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, fetchFilters } from '../app/actionCreators';
-
-
-
+import { fetchFilters } from '../app/actionCreators';
 
 
 function Aside({search, setSearch, filters, setFilters, requestProducts}) {
@@ -95,19 +89,8 @@ function Aside({search, setSearch, filters, setFilters, requestProducts}) {
               )}
               </Select>
             </FormControl>
-            {/* {categories.map(category => 
-                <Category
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={category.id == selectedCategory ? 'active' : ''}
-                >
-                    {category.Type}  
-                </Category>
-            )} */}
         </AsideItem>
-        <AsideButton onClick={requestProducts}>
-            Применить
-        </AsideButton>
+        <AsideButton onClick={requestProducts}>Применить</AsideButton>
     </AsideList>
   )
 }

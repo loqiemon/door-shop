@@ -28,7 +28,6 @@ function Navbar() {
     };
 
 
-
     return (
         <Nav>
             <NavContainer>

@@ -10,17 +10,7 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 
 
-const initCart = () => {
-  const cartItemsMap = cartItems.reduce((acc, item) => {
-    acc[item.id] = item;
-    return acc;
-  }, {});
-  return cartItemsMap
-}
-
-
 function Cart() {
-    // const [quantityOfItem, setQuantityOfItem] = useState(() => initCart);
     const cartItems = useSelector((state) => state.cart.cartItems)
     const dispatch = useDispatch()
 
@@ -43,14 +33,11 @@ function Cart() {
 
     const handleChange = (e, item) => {
       if (e.target.value > 1) {
-        // setQuantityOfItem(prev => ({...prev, [item.id]: {...item, count: e.target.value}}))
         dispatch(editInCart({...item, count: e.target.value}))
       } else {
         dispatch(removeFromCart(item.id))
       }
     }
-
-
 
     
   return (
@@ -65,54 +52,13 @@ function Cart() {
                   <Box sx={{ width: '100%' }}>
                   <Sheet
                     variant="outlined"
-                    sx={{
-                      '--TableCell-height': '40px',
-                      '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
-                      '--Table-firstColumnWidth': '80px',
-                      '--Table-lastColumnWidth': '144px',
-                      '--TableRow-stripeBackground': 'rgba(0 0 0 / 0.04)',
-                      '--TableRow-hoverBackground': 'rgba(0 0 0 / 0.08)',
-                      overflow: 'auto',
-                      background: (theme) =>
-                        `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
-                        linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
-                        radial-gradient(
-                          farthest-side at 0 50%,
-                          rgba(0, 0, 0, 0.12),
-                          rgba(0, 0, 0, 0)
-                        ),
-                        radial-gradient(
-                            farthest-side at 100% 50%,
-                            rgba(0, 0, 0, 0.12),
-                            rgba(0, 0, 0, 0)
-                          )
-                          0 100%`,
-                      backgroundSize:
-                        '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundAttachment: 'local, local, scroll, scroll',
-                      backgroundPosition:
-                        'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
-                      backgroundColor: 'background.surface',
-                    }}
+                    sx={sheetStyle}
                   >
                     <Table
                       borderAxis="bothBetween"
                       stripe="odd"
                       hoverRow
-                      sx={{
-                        '& tr > *:first-child': {
-                          position: 'sticky',
-                          left: 0,
-                          boxShadow: '1px 0 var(--TableCell-borderColor)',
-                          bgcolor: 'background.surface',
-                        },
-                        '& tr > *:last-child': {
-                          position: 'sticky',
-                          right: 0,
-                          bgcolor: 'var(--TableCell-headBackground)',
-                        },
-                      }}
+                      sx={tableStyle}
                     >
                       <thead>
                         <tr>
@@ -137,13 +83,17 @@ function Cart() {
                             <td>{item.name}</td>
                             <td>
                               <Counter>
-                                <CounterBtn onClick={() => handleDecrement(item)}><i className="fa-solid fa-minus"></i></CounterBtn>
+                                <CounterBtn onClick={() => handleDecrement(item)}>
+                                  <i className="fa-solid fa-minus"></i>
+                                </CounterBtn>
                                 <CounterInput 
                                   type="number"
                                   onChange={(e) => handleChange(e, item)}
                                   value={item.count}
                                 />
-                                <CounterBtn onClick={() => handleIncrement(item)}><i className="fa-solid fa-plus"></i></CounterBtn>
+                                <CounterBtn onClick={() => handleIncrement(item)}>
+                                  <i className="fa-solid fa-plus"></i>
+                                </CounterBtn>
                               </Counter>
                             </td>
                             <td>{item.retailPrice * item.count} руб.</td>
@@ -169,6 +119,51 @@ function Cart() {
 }
 
 export default Cart
+
+const sheetStyle = {
+  '--TableCell-height': '40px',
+  '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
+  '--Table-firstColumnWidth': '80px',
+  '--Table-lastColumnWidth': '144px',
+  '--TableRow-stripeBackground': 'rgba(0 0 0 / 0.04)',
+  '--TableRow-hoverBackground': 'rgba(0 0 0 / 0.08)',
+  overflow: 'auto',
+  background: (theme) =>
+    `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
+    radial-gradient(
+      farthest-side at 0 50%,
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(
+        farthest-side at 100% 50%,
+        rgba(0, 0, 0, 0.12),
+        rgba(0, 0, 0, 0)
+      )
+      0 100%`,
+  backgroundSize:
+    '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
+  backgroundRepeat: 'no-repeat',
+  backgroundAttachment: 'local, local, scroll, scroll',
+  backgroundPosition:
+    'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
+  backgroundColor: 'background.surface',
+}
+
+const tableStyle = {
+  '& tr > *:first-child': {
+    position: 'sticky',
+    left: 0,
+    boxShadow: '1px 0 var(--TableCell-borderColor)',
+    bgcolor: 'background.surface',
+  },
+  '& tr > *:last-child': {
+    position: 'sticky',
+    right: 0,
+    bgcolor: 'var(--TableCell-headBackground)',
+  },
+}
 
 const Container = styled.div`
   width: 100%;

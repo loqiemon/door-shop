@@ -124,32 +124,22 @@ export const checkAuth = () => async(dispatch) => {
 
 
 //Товары
-export const fetchProducts = (
-    id,
-    PageNumber,
-    PageSize,
-    minRetailPrice,
-    maxRetailPrice,
-    searchByName,
-    searchByVendorCode,
-    country,
-    manufacturer
-) => async(dispatch) => {
+export const fetchProducts = (params) => async(dispatch) => {
     try {
+        console.log(params)
         dispatch(productsSlice.actions.productsFetching())
-        console.log(manufacturer, country)
         const requestParams = new URLSearchParams({
-            PageNumber: PageNumber || '',
-            PageSize: PageSize || '',
-            minRetailPrice: minRetailPrice ? parseFloat(minRetailPrice) : '',
-            maxRetailPrice: maxRetailPrice ? parseFloat(maxRetailPrice) : '',
-            searchByName: searchByName || '',
-            searchByVendorCode: searchByVendorCode || '',
-            country: country || '',
-            manufacturer: manufacturer || ''
+            PageNumber: params.pageNumber || '',
+            PageSize: params.PageSize || '',
+            minRetailPrice: params.minRetailPrice ? parseFloat(params.minRetailPrice) : '',
+            maxRetailPrice: params.maxRetailPrice ? parseFloat(params.maxRetailPrice) : '',
+            searchByName: params.searchByName || '',
+            searchByVendorCode: params.searchByVendorCode || '',
+            country: params.country || '',
+            manufacturer: params.manufacturer || ''
         }).toString();
         
-        const apiUrl = id ? `${API_URL}Accessories?typeId=${id}&${requestParams}` : `${API_URL}Accessories?${requestParams}`;
+        const apiUrl = params.categoryId ? `${API_URL}Accessories?typeId=${params.categoryId}&${requestParams}` : `${API_URL}Accessories?${requestParams}`;
         const response = await axios.get(apiUrl);
         dispatch(productsSlice.actions.productsFetchingSuccess(response.data));
 
@@ -223,6 +213,5 @@ export const fetchFilters = () =>  async (dispatch) => {
         dispatch(filtersSlice.actions.fetchFiltersError(e.message))
     }
 }
-
 
 //Фильтры

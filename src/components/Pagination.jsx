@@ -4,8 +4,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import styled from 'styled-components';
 
 
-function Pagination({ totalItems, page, goToPage, totalCount }) {
-
+function Pagination({ 
+  totalItems,
+  page,
+  goToPage,
+  totalCount 
+}) {
   const nextPage = () => {
     if (totalItems.length !== 0) {
       goToPage(Number(page) + 1)
@@ -25,9 +29,12 @@ function Pagination({ totalItems, page, goToPage, totalCount }) {
         <KeyboardArrowLeftIcon/>
       </DivMy>
       <PageNumber>
-        Page {page} of {Math.ceil(totalCount / 10)}
+        Страница {page} из {Math.ceil(totalCount / 10)}
       </PageNumber>
-      <DivMy onClick={nextPage} disabled={totalItems.length === 0 || totalItems.length < 10}>
+      <DivMy
+        onClick={nextPage}
+        disabled={totalItems.length === 0 || totalItems.length < 10}
+      >
         <KeyboardArrowRightIcon/>
       </DivMy>
     </DivFlex>

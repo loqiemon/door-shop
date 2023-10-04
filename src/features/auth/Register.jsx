@@ -4,51 +4,6 @@ import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { registerFunc } from '../../app/actionCreators'
 
-const AuthContainer = styled.div`
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    justify-content: center;
-`
-
-
-const Authinput = styled.input`
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`
-
-const AuthButton = styled.button`
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    &:hover {
-      background-color: #56195d;
-      color: white;
-    }
-    
-`
-
-const AuthText = styled.span`
-  font-size: 20px;
-  
-`
-
-const AuthBtn = styled.button`
-  color: #56195d;
-  font-weight: 500;
-  transition: all .35s ease-in;
-  &:hover {
-    color: #340e38;
-  }
-`
 
 function Register({setShowRegister}) {
     const { value: login, onChange: handleLogin } = useInput()
@@ -94,3 +49,50 @@ function Register({setShowRegister}) {
 }
 
 export default Register
+
+
+const AuthContainer = styled.div`
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+`
+
+
+const Authinput = styled.input`
+    background-color: #f7f7f7;
+    padding: 12px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
+
+const AuthButton = styled.button`
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    transition: all .35s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    &:hover {
+      background-color: #56195d;
+      color: white;
+    }
+    
+`
+
+const AuthText = styled.span`
+  font-size: 20px;
+  
+`
+
+const AuthBtn = styled.button`
+  color: #56195d;
+  font-weight: 500;
+  transition: all .35s ease-in;
+  &:hover {
+    color: #340e38;
+  }
+`

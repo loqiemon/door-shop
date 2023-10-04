@@ -4,6 +4,53 @@ import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { loginFunc } from '../../app/actionCreators'
 import { useNavigate } from 'react-router-dom'
+import { PHONENUMBER } from '../../services/constants'
+
+
+function Login({setShowRegister}) {
+  const dispatch = useDispatch();
+  const { value: login, onChange: handleLogin } = useInput();
+  const { value: password, onChange: handlePassword } = useInput();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    if (login.length > 0 && password.length > 0) {
+      dispatch(loginFunc(login, password));
+    }
+    handleLogin('');
+    handlePassword('');
+    navigate('/profile')
+  }
+ 
+  return (
+    <AuthContainer>
+      <Authinput 
+        placeholder='Логин'
+        value={login}
+        onChange={e => handleLogin(e.target.value)}
+      />
+      <Authinput 
+        placeholder='Пароль'
+        type='password'
+        value={password}
+        onChange={e => handlePassword(e.target.value)}
+      />
+      <AuthButton onClick={handleSubmit} type='submit'>Войти</AuthButton>
+      <AuthText>
+        <span>Нет аккаунта? </span> 
+        <AuthBtn 
+          // onClick={() => setShowRegister(true)}
+          >
+          Оставьте заявку!
+        </AuthBtn>
+      </AuthText>
+      {PHONENUMBER}
+    </AuthContainer>
+  )
+}
+
+export default Login
 
 const AuthContainer = styled.div`
     width: 100%;
@@ -52,48 +99,3 @@ const AuthBtn = styled.button`
     color: #340e38;
   }
 `
-
-function Login({setShowRegister}) {
-  const dispatch = useDispatch();
-  const { value: login, onChange: handleLogin } = useInput();
-  const { value: password, onChange: handlePassword } = useInput();
-
-  const navigate = useNavigate();
-
-  const handleSubmit = () => {
-    if (login.length > 0 && password.length > 0) {
-      dispatch(loginFunc(login, password));
-    }
-    handleLogin('');
-    handlePassword('');
-    navigate('/profile')
-  }
- 
-  return (
-    <AuthContainer>
-      <Authinput 
-        placeholder='Логин'
-        value={login}
-        onChange={e => handleLogin(e.target.value)}
-      />
-      <Authinput 
-        placeholder='Пароль'
-        type='password'
-        value={password}
-        onChange={e => handlePassword(e.target.value)}
-      />
-      <AuthButton onClick={handleSubmit} type='submit'>Войти</AuthButton>
-      <AuthText>
-        <span>Нет аккаунта? </span> 
-        <AuthBtn 
-          // onClick={() => setShowRegister(true)}
-          >
-          Оставьте заявку!
-        </AuthBtn>
-      </AuthText>
-      Номер...
-    </AuthContainer>
-  )
-}
-
-export default Login

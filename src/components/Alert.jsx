@@ -3,14 +3,12 @@ import Alert from '@mui/material/Alert';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
-const AlertMy = styled(Alert)`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  z-index: 1005;
-`
 
-function AlertJsx({ message, onClose, type = 'error' }) {
+function AlertJsx({ 
+  message,
+  onClose,
+  type = 'error' 
+}) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -26,9 +24,7 @@ function AlertJsx({ message, onClose, type = 'error' }) {
 
   return ReactDOM.createPortal(
     visible ? (
-      <AlertMy 
-        severity={type}
-      >
+      <AlertMy severity={type} >
         {message}
       </AlertMy>
     ) : null,
@@ -37,3 +33,11 @@ function AlertJsx({ message, onClose, type = 'error' }) {
 }
 
 export default AlertJsx;
+
+
+const AlertMy = styled(Alert)`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1005;
+`

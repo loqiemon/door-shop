@@ -53,12 +53,12 @@ function App() {
           <Route path='/catalog/:categoryId/:page' element={<MainPage/>}/>
           <Route path='/cart' element={<CartPage/>}/>
           <Route path='/profile' element={<ProfilePage/>}/>
-          <Route  path="/payment" element={<PaymentPage/>}/>
-          <Route  path="/delivery"  element={<DeliveryPage/>}/>
-          <Route  path="/support"  element={<SupportPage/>}/>
-          <Route  path="/install"  element={<InstallPage/>}/>
-          <Route  path="/contacts"  element={<ContactsPage/>}/>
-          <Route  path="/refund"  element={<RefundPage/>}/>
+          <Route path="/payment" element={<PaymentPage/>}/>
+          <Route path="/delivery"  element={<DeliveryPage/>}/>
+          <Route path="/support"  element={<SupportPage/>}/>
+          <Route path="/install"  element={<InstallPage/>}/>
+          <Route path="/contacts"  element={<ContactsPage/>}/>
+          <Route path="/refund"  element={<RefundPage/>}/>
         </Routes>
        </BrowserRouter> 
     </>

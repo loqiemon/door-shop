@@ -15,6 +15,8 @@ import Modal from '../features/modal/Modal';
 import ProductItem from '../features/products/ProductItem';
 import Pagination from '../components/Pagination';
 
+import copyToClipboard from '../utils/copyToClipboard'
+
 
 function MainPage() {
   const { categoryId, page } = useParams();
@@ -65,22 +67,26 @@ function MainPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchProducts(categoryId, page, 10))
+    dispatch(fetchProducts({
+      categoryId, 
+      pageNumber: page,
+      PageSize: 10
+    }))
     dispatch(readCart())
   }, [categoryId]);
 
   const requestProducts = (pageNumber) => {
-    dispatch(fetchProducts(
+    const filterParams = {
       categoryId,
       pageNumber,
-      10,
-      filters.minPrice,
-      filters.maxPrice,
-      search,
-      search,
-      filters.country,
-      filters.manufacturer
-    ))
+      PageSize: 10,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      searchByName: search,
+      country: filters.country,
+      manufacturer: filters.manufacturer
+    }
+    dispatch(fetchProducts(filterParams))
   }
 
   const goToPage = (pageNumber) => {
@@ -102,8 +108,15 @@ function MainPage() {
         <Container>
           <SellList>
               {products.map(item => 
-                <SellItem key={item.id} onClick={(e) => openModal(e, item)}>
-                  <VendorCode onClick={() => {navigator.clipboard.writeText(item.vendorCode)}}>ID {item.vendorCode}</VendorCode>
+                <SellItem
+                  key={item.id}
+                  onClick={(e) => openModal(e, item)}
+                >
+                  <VendorCode
+                    onClick={() => copyToClipboard(item.vendorCode)}
+                  >
+                      ID {item.vendorCode}
+                  </VendorCode>
                   {item.image.split(' ').length === 1 ? 
                     <SellImage src={item.image} key={item.id}/>:
                     <CarouselMy>
