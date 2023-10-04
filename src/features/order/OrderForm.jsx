@@ -144,10 +144,14 @@ const Button = styled.button`
     border-radius: 15px;
     transition: all .35s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-size: 22px;
+    font-weight: 700;
 
     &:hover {
-      background-color: #56195d;
-      color: white;
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+      color: #000;
+      box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 17px;
     }
 `
 
@@ -166,7 +170,4 @@ const StyledTextarea = styled(TextareaAutosize)`
     border: 1px solid #56195d; 
     outline: none;
   }
-
-
-  
 `

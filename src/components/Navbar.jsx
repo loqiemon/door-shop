@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
-import logo from '../../public/logo.svg';
+import logo from '../../public/images/favicon/android-chrome-192x192.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalSlice } from '../features/modal/modalSlice'
@@ -147,7 +147,7 @@ const Nav = styled.nav`
   font-weight: 500;
   font-size: 22px;
   /* background: url('../../public/logo.svg') center center/cover no-repeat; */
-
+  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
 
 
   @media (max-width: 767px) {
@@ -165,7 +165,7 @@ const CategoriesContainer = styled.div`
 `
 
 const NavLogo = styled.img`
-    width: 300px;
+    /* width: 300px; */
     border: none;
 `
 
@@ -173,11 +173,13 @@ const NavContainer = styled.div`
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
+    height: 220px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     @media (max-width: 767px) {
         padding: 15px;
+        height: 80px;
     }
 `
 
@@ -243,7 +245,7 @@ const NavLinks = styled.div`
 `
 
 export const NavLink = styled(Link)`
-    color:#000;
+    color:#fff;
     transition: all .3s ease-in;
     &:hover,
     &:focus{
@@ -252,6 +254,8 @@ export const NavLink = styled(Link)`
     &:active{
         color: #0064fa;
     };
+    font-size: 25px;
+    font-weight: 600;
 
     @media (max-width: 767px) {
         font-size: 30px;

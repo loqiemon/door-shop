@@ -26,7 +26,7 @@ function Pagination({
           shape="rounded"
           showFirstButton
           showLastButton
-          page={page}
+          page={parseInt(page)}
           onChange={handleChange}
         />
       </Stack>

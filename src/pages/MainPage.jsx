@@ -31,35 +31,11 @@ function MainPage() {
 
   const openModal = (e, item) => {
     console.log(1)
-    // if (
-    //   !item ||
-    //   (item && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
-    // ) {
-    //   setSelectedItem(item);
-    // }
   };
 
   const closeModal = () => {
     setSelectedItem(null);
   };
-
-  // const { searchedArray } = useSearch(products, search, 'name')
-
-  // const filteredArray = searchedArray.filter(item => {
-  //   const price = parseFloat(item.retailPrice); 
-  //   const minPriceFilter = filters.minPrice !== '' ? parseFloat(filters.minPrice) : null;
-  //   const maxPriceFilter = filters.maxPrice !== '' ? parseFloat(filters.maxPrice) : null;
-
-  //   if (minPriceFilter !== null && price < minPriceFilter) {
-  //     return false; 
-  //   }
-  //   if (maxPriceFilter !== null && price > maxPriceFilter) {
-  //     return false; 
-  //   }
-
-  //   return true; 
-  // });
-
 
   const isInCart = (itemId) => {
     return cartItems.some((item) => item.id === itemId);

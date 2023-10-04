@@ -16,7 +16,7 @@ $api.interceptors.response.use((config) => {
 },async (error) => {
     const originalRequest = error.config;
     console.log(error, 'originalRequest')
-    if (originalConfig.url !== "/login" && err.response) {
+    if (originalRequest.url !== `${API_URL}Auth/login` && err.response) {
         if (error.response.status === 401 && error.config && !error.config._isRetry) {
             originalRequest._isRetry = true;
             try {
