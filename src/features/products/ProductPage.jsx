@@ -49,7 +49,7 @@ function ProductPage() {
       <ContainerCommon>
         {isLoading && <MyLoader><Loader/></MyLoader>}
         {!isLoading && <Back onClick={goBack}>
-                            <i class="fa-solid fa-backward"></i> Назад 
+                            <i className="fa-solid fa-backward"></i> Назад 
                        </Back>
         }
         <Container>
@@ -72,7 +72,7 @@ function ProductPage() {
                   <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
                   <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
                   <Characteristic>Цена: <Name>{product.retailPrice} руб</Name></Characteristic>
-                  <Characteristic>Название: <Name>{product.name}</Name></Characteristic>
+                  {/* <Characteristic>Название: <Name>{product.name}</Name></Characteristic> */}
                   <Accordion>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -104,6 +104,10 @@ const Container = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 10px;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
 `
 
 const ContainerCommon = styled.div`

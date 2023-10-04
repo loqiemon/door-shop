@@ -105,6 +105,8 @@ const AsideList = styled.aside`
   display: flex;
   flex-direction: column;
   gap:15px;
+
+
 `
 
 const AsideItem = styled.div`
@@ -121,27 +123,6 @@ const AsideItem = styled.div`
 const Search =styled.input`
   width: 100%;
   padding: 5px;
-  
-`
-
-const Category =styled.span`
-  width: 100%;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all .3s ease-in;
-
-  &:hover {
-    background-color: #f7f7f7;
-    transform: scale(1.1);
-    font-weight: 700;
-    color: #5065f6;
-  }
-
-  &.active {
-    background-color: #f7f7f7;
-    font-weight: 700;
-    color: #5065f6;
-  }
 `
 
 const AsideButton = styled.button`

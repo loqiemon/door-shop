@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
-
+import { v4 as uuidv4 } from 'uuid';
 
 import useInput from '../../hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
@@ -35,6 +35,10 @@ function ProductsForm({
   const [accessoryTypeId , setAccessoryTypeId ] = useState(inputValues.accessoryType);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+  const [characteristics, setCharacteristics] = useState(inputValues.characteristics || []);
+  const featureNameInput = useInput('')
+  const featureValueInput = useInput('')
 
   const alertState = useSelector(state => state.products.alert)
 
@@ -76,6 +80,26 @@ function ProductsForm({
     setSelectedImage(newImages);
     setCurrentImageIndex(0);
   };
+
+  const deleteCharacteristic = (id) => {
+    setCharacteristics(prev => prev.filter(item => item.id !== id))
+  }
+
+  const addCharacteristic = () => {
+    if (
+      featureNameInput.value.length !== 0 &&
+      featureValueInput.value.length !== 0 
+    ) {
+      const feature = {
+        id: uuidv4(),
+        name: featureNameInput.value.trim(),
+        value: featureValueInput.value.trim()
+      }
+      featureNameInput.onChange('');
+      featureValueInput.onChange('');
+      setCharacteristics(prev => [...prev, feature])
+    }
+  }
   
 
   const handleClick = () => {
@@ -93,8 +117,10 @@ function ProductsForm({
       accessoryTypeId: accessoryTypeId,
       vendorCode: vendorCodeInput.value.trim(),
       isAvaible: isAvaibleInput.value.trim(),
-      image: selectedImage
+      image: selectedImage,
+      characteristics: JSON.stringify(characteristics)
     };
+    console.log(productData)
     if (
         !nameInput.value ||
         !manufacturerInput.value ||
@@ -203,6 +229,25 @@ function ProductsForm({
             )}
             </Select>
         </FormControl>
+        <Input
+          value={featureNameInput.value}
+          onChange={e => featureNameInput.onChange(e.target.value)}
+          label="Характеристика"
+        />
+        <Input
+          value={featureValueInput.value}
+          onChange={e => featureValueInput.onChange(e.target.value)}
+          label="Значение"
+        />
+        <Button onClick={addCharacteristic}>Добавить характеристику</Button>
+        {characteristics.map(characteristic => 
+          <div 
+            onClick={() => deleteCharacteristic(characteristic.id)}
+            key={characteristic.id}
+          >
+            {characteristic.name}: {characteristic.value}
+          </div>
+        )}
         <div>
           {selectedImage && selectedImage.map((image, index) => (
             <div key={index}>

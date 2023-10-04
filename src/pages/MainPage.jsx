@@ -4,6 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
 import { useNavigate } from 'react-router-dom';
+import ProductItem from '../features/products/ProductItem';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader'
@@ -11,11 +17,9 @@ import { fetchProducts } from '../app/actionCreators';
 import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
 import useSearch from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
-import Modal from '../features/modal/Modal';
-import ProductItem from '../features/products/ProductItem';
-import Pagination from '../components/Pagination';
-
 import copyToClipboard from '../utils/copyToClipboard'
+import Pagination from '../components/Pagination';
+import Modal from '../features/modal/Modal';
 
 
 function MainPage() {
@@ -29,7 +33,7 @@ function MainPage() {
   
   const navigate = useNavigate();
 
-  const openModal = (e, item) => {
+  const goToProductPage = (e, item) => {
     navigate(`/product/${categoryId}/${item}/${page}`)
   };
 
@@ -79,15 +83,36 @@ function MainPage() {
         filters={filters}
         setFilters={setFilters}
         requestProducts={() => requestProducts(page)}
+        className='hide990px'
       />
       {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
       {!isLoading && 
         <Container>
+          <MyAccordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Фильтры</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <Aside 
+                search={search}
+                setSearch={setSearch}
+                filters={filters}
+                setFilters={setFilters}
+                requestProducts={() => requestProducts(page)}
+              />
+              </Typography>
+            </AccordionDetails>
+          </MyAccordion>
           <SellList>
               {products.map(item => 
                 <SellItem
                   key={item.id}
-                  onClick={(e) => openModal(e, item.id)}
+                  onClick={(e) => goToProductPage(e, item.id)}
                 >
                   <VendorCode
                     onClick={() => copyToClipboard(item.vendorCode)}
@@ -133,17 +158,25 @@ function MainPage() {
 export default MainPage
 
 
+const MyAccordion = styled(Accordion)`
+  margin-top: 10px;
+  display: none;
+  @media (max-width: 991px) {
+    display: block;
+  }
+`
+
+
 const SellList = styled.div`
   position: relative;
   width: 100%;
   display: flex;
   height: 700px;
-  /* gap: 20px; */
   flex-wrap: wrap;
   padding-top: 10px;
   margin-top: 10px;
   overflow-y: scroll;
-  /* justify-content: space-around; */
+  justify-content: center;
   gap: 10px;
   background-color: #fff;
   border-radius: 15px;
@@ -176,7 +209,8 @@ const SellItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 200px;
+  min-width: 200px;
+  max-width: 31%;
   height: 300px;
   gap: 5px;
   padding: 20px;
@@ -187,9 +221,16 @@ const SellItem = styled.div`
   border-radius: 15px;
   border: 1px solid #f7f7f7;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px;
-  /* &:hover {
-    background-color: #f0f0f0;
-  } */
+
+  @media (max-width: 1199px) {
+    max-width: 45%;
+    min-width: 45%;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 100%;
+    min-width: 100%;
+  }
 ` 
 
 const SellImage = styled.img`
@@ -197,9 +238,6 @@ const SellImage = styled.img`
   height: 130px;
   align-self: center;
   object-fit: contain;
-  /* &:hover {
-    transform: scale(1.1); 
-  } */
 `
 
 const Main = styled.main`
@@ -217,16 +255,13 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     font-weight: 600;
     &:hover {
-      /* background-color: #56195d; */
       background-color: #FFD700;
-
       color: #000;
     }
 
 `
 
 const ButtonActive = styled(Button)`
-  /* background-color: #56195d; */
   background-color: #FFD700;
   color: #000;
 `
@@ -254,7 +289,6 @@ const VendorCode = styled.p`
 
 const Price = styled.span`
   font-weight: 600;
-
 `
 
 const Title = styled.h2`
