@@ -72,6 +72,9 @@ function ProductPage() {
                   <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
                   <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
                   <Characteristic>Цена: <Name>{product.retailPrice} руб</Name></Characteristic>
+                  <Characteristic>
+                    Наличие: <Name style={{color: product.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
+                  </Characteristic>
                   {/* <Characteristic>Название: <Name>{product.name}</Name></Characteristic> */}
                   <Accordion>
                     <AccordionSummary

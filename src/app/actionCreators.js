@@ -96,8 +96,10 @@ export const registerFunc = (login, password) => async(dispatch) => {
 
 export const logoutFunc = () => async(dispatch) => {
     try {
-        const response = await AuthService.logout();
+        // const response = await AuthService.logout();
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user')
         dispatch(authSlice.actions.logout())
     } catch (e) {
         if (e) {

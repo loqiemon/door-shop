@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import CategoryForm from '../features/categories/CategoryForm'
 import { useDispatch, useSelector } from 'react-redux'
 import CategoryList from '../features/categories/CategoryList'
 import ProductsForm from '../features/products/ProductsForm'
-import { addProduct, deleteProduct, editProduct } from '../app/actionCreators'
+import { addProduct, deleteProduct, editProduct, logoutFunc } from '../app/actionCreators'
 import Modal from '../features/modal/Modal'
 import ProductList from '../features/products/ProductList'
-import ProductList2 from '../features/products/ProductList2'
-import ProductList3 from '../features/products/ProductList3'
 
 
 function ProfilePage() {
@@ -33,6 +31,7 @@ function ProfilePage() {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleAdd = (product) => {
     dispatch(addProduct(product))
@@ -56,6 +55,11 @@ function ProfilePage() {
   const handleClose = () => {
     setAddModal(false)
     setEditModal(false)
+  }
+
+  const logout = () => {
+    dispatch(logoutFunc());
+    navigate('/')
   }
 
   return (
@@ -84,7 +88,10 @@ function ProfilePage() {
         </ProfileAside>
         <ProfileContent>
           {currentContent === 'profile' && (
-            <div>Контент профиля</div>
+            <Content>
+                Контент профиля
+                <Button onClick={logout}>Выйти из аккаунта</Button>
+            </Content>
           )}
           {currentContent === 'products' && (
             <Content>

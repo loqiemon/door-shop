@@ -165,10 +165,8 @@ const CategoriesContainer = styled.div`
 `
 
 const NavLogo = styled.img`
-    /* width: 300px; */
     border: none;
     @media (max-width: 767px) {
-    /* display: none; */
         width: 75px;
         height: 75px;
         object-fit: cover;

@@ -136,6 +136,9 @@ function MainPage() {
                     </CarouselMy>
                   }
                   <Name>{item.name}</Name>
+                  <span style={{color: item.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>
+                    {item.isAvaible}
+                  </span>
                   <Price>{item.retailPrice} руб.</Price>
                   {isInCart(item.id) === true ? ( 
                     <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
