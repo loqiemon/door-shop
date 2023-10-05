@@ -12,7 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
 
 
-function Aside({search, setSearch, filters, setFilters, requestProducts}) {
+function Aside({
+  search, 
+  setSearch,
+  filters,
+  setFilters,
+  requestProducts,
+  classes
+}) {
   const {countrys, manufacturers, isLoading } = useSelector(state => state.filters)
   const dispatch = useDispatch();
 
@@ -24,7 +31,7 @@ function Aside({search, setSearch, filters, setFilters, requestProducts}) {
 
 
   return (
-    <AsideList>
+    <AsideList className={classes}>
         <AsideItem>
             <Search 
                 placeholder='Поиск'
@@ -106,7 +113,16 @@ const AsideList = styled.aside`
   flex-direction: column;
   gap:15px;
 
+  @media (max-width: 991px) {
+    width: 100%; 
+    min-width: unset;
+  }
 
+  &.hidden {
+    @media (max-width: 991px) {
+      display: none;
+    } 
+  }
 `
 
 const AsideItem = styled.div`

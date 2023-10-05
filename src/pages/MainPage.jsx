@@ -33,8 +33,14 @@ function MainPage() {
   
   const navigate = useNavigate();
 
-  const goToProductPage = (e, item) => {
-    navigate(`/product/${categoryId}/${item}/${page}`)
+  const goToProductPage = (e, itemId) => {
+    if (
+      !itemId ||
+      (itemId && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
+    ) {
+      setSelectedItem(itemId);
+      navigate(`/product/${categoryId}/${itemId}/${page}`)
+    }
   };
 
   const closeModal = () => {
@@ -83,7 +89,7 @@ function MainPage() {
         filters={filters}
         setFilters={setFilters}
         requestProducts={() => requestProducts(page)}
-        className='hide990px'
+        classes='hidden'
       />
       {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
       {!isLoading && 
@@ -104,6 +110,7 @@ function MainPage() {
                 filters={filters}
                 setFilters={setFilters}
                 requestProducts={() => requestProducts(page)}
+                classes=''
               />
               </Typography>
             </AccordionDetails>
@@ -138,12 +145,14 @@ function MainPage() {
                 <Title>Таких товаров нет</Title>
               }
           </SellList>
-          <Pagination
-            totalItems={products}
-            page={page}
-            goToPage={goToPage}
-            totalCount={count}
-          />
+            <PaginationFixed>
+              <Pagination
+                totalItems={products}
+                page={page}
+                goToPage={goToPage}
+                totalCount={count}
+              />
+            </PaginationFixed>
         </Container>
       }
       {selectedItem && (
@@ -158,6 +167,21 @@ function MainPage() {
 export default MainPage
 
 
+const PaginationFixed = styled.div`
+  margin: 0 auto;
+  @media (max-width: 576px) {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    z-index: 1010;
+    display: flex;
+    justify-content: center;
+  }
+`
+
 const MyAccordion = styled(Accordion)`
   margin-top: 10px;
   display: none;
@@ -166,16 +190,16 @@ const MyAccordion = styled(Accordion)`
   }
 `
 
-
 const SellList = styled.div`
   position: relative;
   width: 100%;
   display: flex;
-  height: 700px;
+  /* height: 700px; */
+  /* max-height: 700px; */
   flex-wrap: wrap;
   padding-top: 10px;
   margin-top: 10px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   justify-content: center;
   gap: 10px;
   background-color: #fff;
@@ -196,6 +220,12 @@ const SellList = styled.div`
 	
 	scrollbar-width: thin;
 	scrollbar-color: #555 rgba(0,0,0,0);  
+
+  /* @media (max-width: 991px) {
+    min-height: 300px;
+    max-height: 90%;
+  } */
+  padding-bottom: 30px;
 `
 
 const Container = styled.div`
@@ -203,14 +233,15 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-bottom: 30px;
 `
 
 const SellItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  min-width: 200px;
-  max-width: 31%;
+  /* min-width: 200px; */
+  width: 31%;
   height: 300px;
   gap: 5px;
   padding: 20px;
@@ -245,20 +276,20 @@ const Main = styled.main`
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
+  /* height: 100%; */
 `
 
 const Button = styled.button`
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    font-weight: 600;
-    &:hover {
-      background-color: #FFD700;
-      color: #000;
-    }
-
+  padding: 12px;
+  background-color: #f7f7f7;
+  border-radius: 15px;
+  transition: all .35s ease-in;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  font-weight: 600;
+  &:hover {
+    background-color: #FFD700;
+    color: #000;
+  }
 `
 
 const ButtonActive = styled(Button)`
