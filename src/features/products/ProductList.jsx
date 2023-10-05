@@ -115,7 +115,11 @@ function ProductList({handleEdit, handleDelete, children}) {
                       <TableCellMy>{row.manufacturer}</TableCellMy>
                       <TableCellMy>{row.country}</TableCellMy>
                       {/* <TableCellMy>{row.weight}</TableCellMy> */}
-                      <TableCellMy>{row.description}</TableCellMy>
+                      <TableCellMy>
+                        <Description>
+                          {row.description}
+                        </Description>
+                      </TableCellMy>
                       <TableCellMy>{row.isAvaible}</TableCellMy>
                       <TableCellMy>{row.vendorCode} </TableCellMy>
                       <TableCellMy>{row.retailPrice} руб</TableCellMy>
@@ -169,6 +173,11 @@ const LoaderDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+const Description = styled.div`
+  height: 50px;
+  overflow: auto;
 `
 
 

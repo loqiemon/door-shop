@@ -15,7 +15,6 @@ import Aside from '../components/Aside';
 import Loader from '../components/Loader'
 import { fetchProducts } from '../app/actionCreators';
 import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
-import useSearch from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
 import copyToClipboard from '../utils/copyToClipboard'
 import Pagination from '../components/Pagination';
@@ -25,10 +24,14 @@ import Modal from '../features/modal/Modal';
 function MainPage() {
   const { categoryId, page } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems)
-  const { categories } = useSelector(state => state.categories.categories)
-  const { products, isLoading, getProductsError, count } = useSelector(state => state.products)
+  const { products, isLoading, count } = useSelector(state => state.products)
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({minPrice: '', maxPrice: '', country: '', manufacturer: ''});
+  const [filters, setFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    country: '',
+    manufacturer: ''
+  });
   const [selectedItem, setSelectedItem] = useState(null);
   
   const navigate = useNavigate();
@@ -124,7 +127,7 @@ function MainPage() {
                   <VendorCode
                     onClick={() => copyToClipboard(item.vendorCode)}
                   >
-                      ID {item.vendorCode}
+                    ID {item.vendorCode}
                   </VendorCode>
                   {item.image.split(' ').length === 1 ? 
                     <SellImage src={item.image} key={item.id}/>:

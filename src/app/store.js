@@ -6,6 +6,7 @@ import authReducer from "../features/auth/authSlice";
 import productReducer from "../features/products/productsSlice";
 import filtersReducer from '../features/filters/filtersSlice';
 import ordersReducer from '../features/order/orderSlice';
+import characteristicsReducer from '../features/characteristics/characteristicsSlice'
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         modal: modalReducer,
         products: productReducer,
         filters: filtersReducer,
-        orders: ordersReducer
+        orders: ordersReducer,
+        characteristics: characteristicsReducer
     }
 })

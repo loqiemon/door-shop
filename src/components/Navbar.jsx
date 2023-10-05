@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
-import logo from '../../public/images/favicon/android-chrome-192x192.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalSlice } from '../features/modal/modalSlice'
 
+import { modalSlice } from '../features/modal/modalSlice'
+import logo from '../../public/images/favicon/android-chrome-192x192.png';
 import useOnHoverOutside from '../hooks/useOnHoverOutside'
 import Categories from '../features/categories/Categories'
 
@@ -20,12 +20,15 @@ function Navbar() {
   
     useOnHoverOutside(dropdownRef, closeHoverMenu); 
     
-
     const dispatch = useDispatch()
 
     const toggleNav = () => {
         setIsNavActive(!isNavActive);
     };
+
+    const closeNav = () => {
+        setIsNavActive(false);
+    }
 
 
     return (
@@ -38,9 +41,9 @@ function Navbar() {
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
                     {/* <NavLink to='/'>Каталог</NavLink> */}
-                    <NavLink to='/cart'>Корзина</NavLink>
+                    <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
                     {isAuth === true ? 
-                        <NavLink to='/profile'>Профиль</NavLink>:
+                        <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
                         <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                     }
                 </NavLinks>
@@ -65,27 +68,27 @@ function Navbar() {
                         </NavBottomItem>
                     }
 
-                    <NavBottomItem to='/payment'>Оплата</NavBottomItem>
-                    <NavBottomItem to='/delivery'>Доставка по Москве</NavBottomItem>
-                    <NavBottomItem to='/support'>Помощь в выборе</NavBottomItem>
-                    <NavBottomItem to='/install'>Установка</NavBottomItem>
-                    <NavBottomItem to='/contacts'>Контакты</NavBottomItem>
-                    <NavBottomItem to='/refund'>Возврат товара</NavBottomItem>
+                    <NavBottomItem to='/payment' >Оплата</NavBottomItem>
+                    <NavBottomItem to='/delivery' >Доставка по Москве</NavBottomItem>
+                    <NavBottomItem to='/support' >Помощь в выборе</NavBottomItem>
+                    <NavBottomItem to='/install' >Установка</NavBottomItem>
+                    <NavBottomItem to='/contacts' >Контакты</NavBottomItem>
+                    <NavBottomItem to='/refund' >Возврат товара</NavBottomItem>
                 </NavBottomContainer>
             </NavBottom>
             <MobileNav className={isNavActive ? 'active' : ''}>
-                <NavLink to='/'>Каталог</NavLink>
-                <NavLink to='/cart'>Корзина</NavLink>
+                <NavLink to='/' onClick={closeNav}>Каталог</NavLink>
+                <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
                 {isAuth === true ? 
-                    <NavLink to='/profile'>Профиль</NavLink>:
+                    <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
                     <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                 }
-                <NavLink  to='/payment'>Оплата</NavLink>
-                <NavLink  to='/delivery'>Доставка по Москве</NavLink>
-                <NavLink  to='/support'>Помощь в выборе</NavLink>
-                <NavLink  to='/install'>Установка</NavLink>
-                <NavLink  to='/contacts'>Контакты</NavLink>
-                <NavLink  to='/refund'>Возврат товара</NavLink>
+                <NavLink  to='/payment' onClick={closeNav}>Оплата</NavLink>
+                <NavLink  to='/delivery' onClick={closeNav}>Доставка по Москве</NavLink>
+                <NavLink  to='/support' onClick={closeNav}>Помощь в выборе</NavLink>
+                <NavLink  to='/install' onClick={closeNav}>Установка</NavLink>
+                <NavLink  to='/contacts' onClick={closeNav}>Контакты</NavLink>
+                <NavLink  to='/refund' onClick={closeNav}>Возврат товара</NavLink>
             </MobileNav>
         </Nav>
     )
@@ -135,16 +138,12 @@ const MyMenu = styled.div`
 `
 
 const Nav = styled.nav`
-  /* padding: 10px; */
   position: relative;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
   width: 100%;
   display: flex;
-  /* align-items: center; */
-  /* justify-content: space-between; */
   flex-direction: column;
   background-color: #fff;
-  /* height: 170px; */
   font-weight: 500;
   font-size: 22px;
   /* background: url('../../public/logo.svg') center center/cover no-repeat; */
@@ -168,6 +167,12 @@ const CategoriesContainer = styled.div`
 const NavLogo = styled.img`
     /* width: 300px; */
     border: none;
+    @media (max-width: 767px) {
+    /* display: none; */
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+    }
 `
 
 const NavContainer = styled.div`
@@ -281,7 +286,7 @@ export const NavLink = styled(Link)`
 
 const HideOnMobile = styled.div`
   @media (max-width: 767px) {
-    display: none;
+    /* display: none; */
   }
 `;
 
