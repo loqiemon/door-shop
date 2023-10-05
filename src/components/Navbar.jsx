@@ -30,6 +30,11 @@ function Navbar() {
         setIsNavActive(false);
     }
 
+    const handleCategoryClick = (e) => {
+        if (e.target.closest('.categories_item')) {
+            setMenuDropDownOpen(false)
+        }
+    }
 
     return (
         <Nav>
@@ -64,7 +69,7 @@ function Navbar() {
                             Каталог товаров
                             {isMenuDropDownOpen && 
                                 <MyMenu ref={dropdownRef}>
-                                    <CategoriesContainer>
+                                    <CategoriesContainer onClick={handleCategoryClick}>
                                         <Categories/>
                                     </CategoriesContainer>   
                                 </MyMenu>

@@ -103,7 +103,7 @@ function MainPage() {
         classes='hidden'
       />
       {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
-      {!isLoading && 
+      {!isLoading &&
         <Container>
           <MyAccordion>
             <AccordionSummary
@@ -126,47 +126,51 @@ function MainPage() {
               </Typography>
             </AccordionDetails>
           </MyAccordion>
-          <SellList>
-              {products.map(item => 
-                <SellItem
-                  key={item.id}
-                  onClick={(e) => goToProductPage(e, item.id)}
-                >
-                  <VendorCode
-                    onClick={() => copyToClipboard(item.vendorCode)}
-                  >
-                    ID {item.vendorCode}
-                  </VendorCode>
-                  {item.image.split(' ').length === 1 ? 
-                    <SellImage src={item.image} key={item.id}/>:
-                    <CarouselMy>
-                      {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
-                    </CarouselMy>
-                  }
-                  <Name>{item.name}</Name>
-                  <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
-                    {item.isAvaible}
-                  </IsAvaible>
-                  <Price>{item.retailPrice} руб.</Price>
-                  {isInCart(item.id) === true ? ( 
-                    <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
-                  ): 
-                    <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
-                  }
-                </SellItem>
-              )}
-              {!isLoading && products.length === 0 &&
-                <Title>Таких товаров нет</Title>
-              }
-          </SellList>
-            <PaginationFixed>
-              <Pagination
-                page={page}
-                goToPage={goToPage}
-                totalCount={count}
-              />
-            </PaginationFixed>
+          {products.length > 0 && 
+              <>
+                <SellList>
+                  {products.map(item => 
+                    <SellItem
+                      key={item.id}
+                      onClick={(e) => goToProductPage(e, item.id)}
+                    >
+                      <VendorCode
+                        onClick={() => copyToClipboard(item.vendorCode)}
+                      >
+                        ID {item.vendorCode}
+                      </VendorCode>
+                      {item.image.split(' ').length === 1 ? 
+                        <SellImage src={item.image} key={item.id}/>:
+                        <CarouselMy>
+                          {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
+                        </CarouselMy>
+                      }
+                      <Name>{item.name}</Name>
+                      <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
+                        {item.isAvaible}
+                      </IsAvaible>
+                      <Price>{item.retailPrice} руб.</Price>
+                      {isInCart(item.id) === true ? ( 
+                        <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
+                      ): 
+                        <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
+                      }
+                    </SellItem>
+                  )}
+              </SellList>
+              <PaginationFixed>
+                <Pagination
+                  page={page}
+                  goToPage={goToPage}
+                  totalCount={count}
+                />
+              </PaginationFixed>
+            </>
+          }
         </Container>
+      }
+      {!isLoading && products.length === 0 &&
+        <Title>Таких товаров нет</Title>
       }
       {selectedItem && (
         <Modal onClose={closeModal}>
