@@ -207,10 +207,15 @@ export const editProduct = (product) => async(dispatch) => {
     try {
         const response = await $api.put(API_URL+`Accessories/${product.id}`, {...product, image: product.image.join(' ')});
         dispatch(productsSlice.actions.editProductSuccess({...product, image: product.image.join(' ')}))
+        setTimeout(() => {
+            dispatch(productsSlice.actions.deleteAlert())
+        }, 5000)
     } catch (e) {
         if (e) {
-            console.error(e)
             dispatch(productsSlice.actions.editProductError(e.message))
+            setTimeout(() => {
+                dispatch(productsSlice.actions.deleteAlert())
+            }, 5000)
         }
     }
 }

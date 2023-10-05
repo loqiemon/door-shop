@@ -40,14 +40,16 @@ function Navbar() {
                     </NavLink>
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
-                    {/* <NavLink to='/'>Каталог</NavLink> */}
                     <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
                     {isAuth === true ? 
                         <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
                         <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                     }
                 </NavLinks>
-                <Hamburger className={isNavActive ? 'hamburger-active' : ''} onClick={toggleNav}>
+                <Hamburger 
+                    className={isNavActive ? 'hamburger-active' : ''}
+                    onClick={toggleNav}
+                >
                     <span></span>
                     <span></span>
                     <span></span>
@@ -76,19 +78,19 @@ function Navbar() {
                     <NavBottomItem to='/refund' >Возврат товара</NavBottomItem>
                 </NavBottomContainer>
             </NavBottom>
-            <MobileNav className={isNavActive ? 'active' : ''}>
-                <NavLink to='/' onClick={closeNav}>Каталог</NavLink>
-                <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
+            <MobileNav className={isNavActive ? 'active' : ''} onClick={closeNav}>
+                <NavLink to='/'>Каталог</NavLink>
+                <NavLink to='/cart'>Корзина</NavLink>
                 {isAuth === true ? 
-                    <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
+                    <NavLink to='/profile'>Профиль</NavLink>:
                     <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                 }
-                <NavLink  to='/payment' onClick={closeNav}>Оплата</NavLink>
-                <NavLink  to='/delivery' onClick={closeNav}>Доставка по Москве</NavLink>
-                <NavLink  to='/support' onClick={closeNav}>Помощь в выборе</NavLink>
-                <NavLink  to='/install' onClick={closeNav}>Установка</NavLink>
-                <NavLink  to='/contacts' onClick={closeNav}>Контакты</NavLink>
-                <NavLink  to='/refund' onClick={closeNav}>Возврат товара</NavLink>
+                <NavLink  to='/payment'>Оплата</NavLink>
+                <NavLink  to='/delivery'>Доставка по Москве</NavLink>
+                <NavLink  to='/support'>Помощь в выборе</NavLink>
+                <NavLink  to='/install'>Установка</NavLink>
+                <NavLink  to='/contacts'>Контакты</NavLink>
+                <NavLink  to='/refund'>Возврат товара</NavLink>
             </MobileNav>
         </Nav>
     )

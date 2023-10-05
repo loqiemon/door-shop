@@ -62,7 +62,7 @@ function Aside({
                 label="Type"
               >
               <MenuItem value="">
-                  <em>None</em>
+                  <em>Не указана</em>
               </MenuItem>
               {countrys.map(country => 
                   <MenuItem 
@@ -84,7 +84,7 @@ function Aside({
                 label="Type"
               >
               <MenuItem value="">
-                  <em>None</em>
+                  <em>Не указан</em>
               </MenuItem>
               {manufacturers.map(manufacturer => 
                   <MenuItem 

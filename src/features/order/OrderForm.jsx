@@ -100,10 +100,10 @@ function OrderForm() {
             </Select>
         </FormControl>
         <div>
-          Даю согласие на обработку персональнх данных
+          <span>Даю согласие на обработку персональнх данных</span>
           <Checkbox 
             checked={checked}
-            onChange={e => setChecked(event.target.checked)}
+            onChange={e => setChecked(e.target.checked)}
           />
         </div>
         <Button onClick={handleSubmit}>Оформить заказ</Button>
@@ -157,7 +157,6 @@ const Button = styled.button`
     font-weight: 700;
 
     &:hover {
-      /* background-color: #56195d; */
       background-color: #FFD700;
       color: #000;
       box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 17px;
@@ -167,7 +166,6 @@ const Button = styled.button`
 const StyledTextarea = styled(TextareaAutosize)`
   width: 100%;
   max-width: 450px;
-  /* min-width: 250px; */
   background-color: #f7f7f7;
   padding: 12px;
   border-radius: 15px;

@@ -10,8 +10,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { addToCart, readCart, removeFromCart } from '../cart/cartSlice'
 import { fetchProduct } from '../../app/actionCreators'
-import axios from 'axios'
-import { API_URL } from '../../services/constants'
 import Loader from '../../components/Loader'
 
 
@@ -20,11 +18,8 @@ function ProductPage() {
   const { categoryId, productId, page } = useParams();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-
   const cartItems = useSelector((state) => state.cart.cartItems)
-  
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +52,9 @@ function ProductPage() {
             <>
               <SubContainer>
                 <MyCarousel>
-                  {product.image.split(' ').map( (imgPath, i) => <Image src={imgPath} key={imgPath}/> )}
+                  {product.image.split(' ').map(
+                    (imgPath, i) => <Image src={imgPath} key={imgPath}/>  
+                  )}
                 </MyCarousel>
                 {isInCart(product.id) === true ? ( 
                   <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>
@@ -75,7 +72,6 @@ function ProductPage() {
                   <Characteristic>
                     Наличие: <Name style={{color: product.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
                   </Characteristic>
-                  {/* <Characteristic>Название: <Name>{product.name}</Name></Characteristic> */}
                   <Accordion>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}

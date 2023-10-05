@@ -40,7 +40,7 @@ export const productsSlice = createSlice({
         },
         addProductSuccess(state, action) {
             state.addProductsError = '';
-            state.alert = 'Успешно добавлен';
+            state.alert = 'Успешно';
             state.products = [...state.products, action.payload];
             state.count += 1;
             state.isLoading = false;

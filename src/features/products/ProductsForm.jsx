@@ -261,7 +261,7 @@ function ProductsForm({
         {isAlertVisible && <AlertJsx 
           message={alertState}
           onClose={() => setIsAlertVisible(false)}
-          type={alertState === 'Успешно добавлен' ? 'success' : 'error'} />
+          type={alertState === 'Успешно' ? 'success' : 'error'} />
         }
     </Container>
   )

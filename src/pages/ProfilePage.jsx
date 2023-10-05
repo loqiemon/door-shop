@@ -35,7 +35,6 @@ function ProfilePage() {
 
   const handleAdd = (product) => {
     dispatch(addProduct(product))
-    
   }
 
   const handleEditConfirm = (prod) => {
