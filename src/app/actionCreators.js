@@ -133,8 +133,8 @@ export const fetchProducts = (params) => async(dispatch) => {
         const requestParams = new URLSearchParams({
             PageNumber: params.pageNumber || '',
             PageSize: params.PageSize || '',
-            minRetailPrice: params.minRetailPrice ? parseFloat(params.minRetailPrice) : '',
-            maxRetailPrice: params.maxRetailPrice ? parseFloat(params.maxRetailPrice) : '',
+            minRetailPrice: params.minPrice ? parseFloat(params.minPrice) : '',
+            maxRetailPrice: params.maxPrice ? parseFloat(params.maxPrice) : '',
             searchByName: params.searchByName || '',
             searchByVendorCode: params.searchByVendorCode || '',
             country: params.country || '',

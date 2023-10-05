@@ -43,7 +43,9 @@ function Navbar() {
                     <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
                     {isAuth === true ? 
                         <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
-                        <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
+                        <NavLink onClick={() => dispatch(modalSlice.actions.open())}>
+                            Профиль
+                        </NavLink>
                     }
                 </NavLinks>
                 <Hamburger 
@@ -129,7 +131,6 @@ const MobileNav = styled.div`
 `
 
 const MyMenu = styled.div`
-    /* position: absolute; */
     position: absolute;
     z-index: 1000;
     margin: 0 auto;

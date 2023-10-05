@@ -7,9 +7,27 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
+
+
+function valuetext(value) {
+  return `${value} руб`;
+}
+
+const marks = [
+  {
+    value: 0,
+    label: '0 руб',
+  },
+  {
+    value: 200,
+    label: '200т.р.',
+  },
+];
 
 
 function Aside({
@@ -20,6 +38,8 @@ function Aside({
   requestProducts,
   classes
 }) {
+  const [value, setValue] = React.useState([0, 200]);
+
   const {countrys, manufacturers, isLoading } = useSelector(state => state.filters)
   const dispatch = useDispatch();
 
@@ -28,6 +48,15 @@ function Aside({
       dispatch(fetchFilters())
     }
   }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    setFilters(prev => ({
+      ...prev, 
+      minPrice: newValue[0]*1000,
+      maxPrice: newValue[1]*1000
+    }))
+  };
 
 
   return (
@@ -52,6 +81,17 @@ function Aside({
                 id="outlined-basic"
                 label="До"
             />
+            <MyBox >
+              <Slider
+                getAriaLabel={() => 'Диапазон цен'}
+                value={value}
+                onChange={handleChange}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+                max={200}
+                marks={marks}
+              />
+            </MyBox>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
               <Select
@@ -105,7 +145,13 @@ function Aside({
 export default Aside
 
 
+const MyBox = styled(Box)`
+  margin: 0 auto;
+  width: 90%;
+`
+
 const AsideList = styled.aside`
+  width: 270px;
   width: 20%;
   min-width: 200px;
   padding: 10px;

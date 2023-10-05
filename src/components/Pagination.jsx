@@ -1,12 +1,9 @@
 import React from 'react';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import styled from 'styled-components';
 import { Pagination as MUIPagination } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 function Pagination({ 
-  totalItems,
   page,
   goToPage,
   totalCount 

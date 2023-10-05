@@ -83,6 +83,14 @@ function MainPage() {
     requestProducts(pageNumber)
     navigate(`/catalog/${categoryId}/${pageNumber}`);
   };
+
+  const isAvaibleFunc = (isAvaible) => {
+    if (isAvaible.trim() === 'В наличии') {
+      return 'avaible'
+    } else {
+      return 'not_avaible'
+    }
+  }
    
   return (
     <Main>
@@ -136,9 +144,9 @@ function MainPage() {
                     </CarouselMy>
                   }
                   <Name>{item.name}</Name>
-                  <span style={{color: item.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>
+                  <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
                     {item.isAvaible}
-                  </span>
+                  </IsAvaible>
                   <Price>{item.retailPrice} руб.</Price>
                   {isInCart(item.id) === true ? ( 
                     <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
@@ -153,7 +161,6 @@ function MainPage() {
           </SellList>
             <PaginationFixed>
               <Pagination
-                totalItems={products}
                 page={page}
                 goToPage={goToPage}
                 totalCount={count}
@@ -172,6 +179,16 @@ function MainPage() {
 
 export default MainPage
 
+const IsAvaible = styled.span`
+  font-weight: 600;
+  &.avaible {
+    color: #A8DF8E;
+  }
+
+  &.not_avaible {
+    color: #C70039;
+  }
+`
 
 const PaginationFixed = styled.div`
   margin: 0 auto;
@@ -198,6 +215,7 @@ const MyAccordion = styled(Accordion)`
 
 const SellList = styled.div`
   position: relative;
+  /* width: 1010px; */
   width: 100%;
   display: flex;
   /* height: 700px; */
@@ -247,8 +265,9 @@ const SellItem = styled.div`
   flex-direction: column;
   text-align: left;
   /* min-width: 200px; */
-  width: 31%;
-  height: 300px;
+  /* width: 31%; */
+  width: 45%;
+  height: 320px;
   gap: 5px;
   padding: 20px;
   position: relative;
@@ -343,6 +362,7 @@ const Name = styled.span`
 `
 
 const CarouselMy = styled(Carousel)`
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
 `

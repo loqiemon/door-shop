@@ -142,7 +142,6 @@ function ProductList({handleEdit, handleDelete, children}) {
           </Table>
         </TableContainer2>
           <Pagination
-            totalItems={products}
             page={page}
             goToPage={goToPage}
             totalCount={count}
