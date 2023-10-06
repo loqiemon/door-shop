@@ -12,12 +12,17 @@ import OrderForm from '../order/OrderForm';
 
 
 function Cart() {
+    const [totalPrice, setTotalPrice] = useState(0);
     const cartItems = useSelector((state) => state.cart.cartItems)
     const dispatch = useDispatch()
 
     useEffect(() => {
       dispatch(readCart())
     }, []);
+
+    useEffect(() => {
+      setTotalPrice(cartItems.reduce((acc, item) => acc+item.retailPrice*item.count, 0))
+    }, [cartItems]);
 
     
     const handleIncrement = (item) => {
@@ -45,7 +50,7 @@ function Cart() {
     <Container>
       <SubContainer>
         <Title>Оформление заказа</Title>
-        <OrderForm/>
+        <OrderForm totalPrice={totalPrice}/>
       </SubContainer>
       <SubContainer>
         <Title>Товары в корзине</Title>
@@ -108,7 +113,7 @@ function Cart() {
                           <td></td>
                           <td></td>
                           <td>Итого: </td>
-                          <td>{cartItems.reduce((acc, item) => acc+item.retailPrice*item.count, 0)} руб.</td>
+                          <td>{totalPrice} руб.</td>
                         </tr>
                       </tbody>
                     </Table>

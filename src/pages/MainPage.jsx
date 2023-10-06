@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
-import { useNavigate } from 'react-router-dom';
-import ProductItem from '../features/products/ProductItem';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -12,71 +12,71 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Aside from '../components/Aside';
-import Loader from '../components/Loader'
-import { fetchProducts } from '../app/actionCreators';
-import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
-import { useParams } from 'react-router-dom';
-import copyToClipboard from '../utils/copyToClipboard'
+import Loader from '../components/Loader';
 import Pagination from '../components/Pagination';
-import Modal from '../features/modal/Modal';
+import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
+import { useGetProductQuery } from '../features/products/productApi';
+import copyToClipboard from '../utils/copyToClipboard'
 
 
 function MainPage() {
   const { categoryId, page } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems)
-  const { products, isLoading, count } = useSelector(state => state.products)
-  const [search, setSearch] = useState('');
+
   const [filters, setFilters] = useState({
+    search: '',
     minPrice: '',
     maxPrice: '',
     country: '',
     manufacturer: ''
   });
-  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [acceptFilters, setAcceptFilters] = useState({
+    categoryId,
+    pageNumber: page,
+    PageSize: 10,
+  });
+
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+    error,
+  } = useGetProductQuery(acceptFilters)
   
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setAcceptFilters(prev => ({...prev, categoryId, pageNumber: page}))
+    dispatch(readCart())
+  }, [categoryId, page]);
 
   const goToProductPage = (e, itemId) => {
     if (
       !itemId ||
       (itemId && e.target && e.target.tagName !== "BUTTON" && e.target.tagName !== "P")
     ) {
-      setSelectedItem(itemId);
       navigate(`/product/${categoryId}/${itemId}/${page}`)
     }
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
   };
 
   const isInCart = (itemId) => {
     return cartItems.some((item) => item.id === itemId);
   };
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchProducts({
-      categoryId, 
-      pageNumber: page,
-      PageSize: 10
-    }))
-    dispatch(readCart())
-  }, [categoryId]);
 
   const requestProducts = (pageNumber) => {
-    const filterParams = {
+    setAcceptFilters({
       categoryId,
       pageNumber,
       PageSize: 10,
       minPrice: filters.minPrice,
       maxPrice: filters.maxPrice,
-      searchByName: search,
+      searchByName: filters.search,
       country: filters.country,
       manufacturer: filters.manufacturer
-    }
-    dispatch(fetchProducts(filterParams))
+    })
   }
 
   const goToPage = (pageNumber) => {
@@ -95,15 +95,13 @@ function MainPage() {
   return (
     <Main>
       <Aside 
-        search={search}
-        setSearch={setSearch}
         filters={filters}
         setFilters={setFilters}
         requestProducts={() => requestProducts(page)}
         classes='hidden'
       />
-      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
-      {!isLoading &&
+      {(isLoading || isFetching) && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading && !isFetching &&
         <Container>
           <MyAccordion>
             <AccordionSummary
@@ -116,8 +114,6 @@ function MainPage() {
             <AccordionDetails>
               <Typography>
               <Aside 
-                search={search}
-                setSearch={setSearch}
                 filters={filters}
                 setFilters={setFilters}
                 requestProducts={() => requestProducts(page)}
@@ -126,10 +122,10 @@ function MainPage() {
               </Typography>
             </AccordionDetails>
           </MyAccordion>
-          {products.length > 0 && 
+          {products?.accessories.length > 0 && !error && 
               <>
                 <SellList>
-                  {products.map(item => 
+                  {products.accessories.map(item => 
                     <SellItem
                       key={item.id}
                       onClick={(e) => goToProductPage(e, item.id)}
@@ -162,21 +158,16 @@ function MainPage() {
                 <Pagination
                   page={page}
                   goToPage={goToPage}
-                  totalCount={count}
+                  totalCount={products.totalCount}
                 />
               </PaginationFixed>
             </>
           }
         </Container>
       }
-      {!isLoading && products.length === 0 &&
+      {!isLoading && !isFetching && !products?.accessories || error &&
         <Title>Таких товаров нет</Title>
       }
-      {selectedItem && (
-        <Modal onClose={closeModal}>
-          <ProductItem product={selectedItem} />
-        </Modal>
-      )}
     </Main>
   )
 }
@@ -219,15 +210,11 @@ const MyAccordion = styled(Accordion)`
 
 const SellList = styled.div`
   position: relative;
-  /* width: 1010px; */
   width: 100%;
   display: flex;
-  /* height: 700px; */
-  /* max-height: 700px; */
   flex-wrap: wrap;
   padding-top: 10px;
   margin-top: 10px;
-  /* overflow-y: scroll; */
   justify-content: center;
   gap: 10px;
   background-color: #fff;
@@ -249,10 +236,6 @@ const SellList = styled.div`
 	scrollbar-width: thin;
 	scrollbar-color: #555 rgba(0,0,0,0);  
 
-  /* @media (max-width: 991px) {
-    min-height: 300px;
-    max-height: 90%;
-  } */
   padding-bottom: 30px;
 `
 
@@ -268,8 +251,6 @@ const SellItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  /* min-width: 200px; */
-  /* width: 31%; */
   width: 45%;
   height: 320px;
   gap: 5px;
@@ -300,7 +281,7 @@ const SellImage = styled.img`
   object-fit: contain;
 `
 
-const Main = styled.main`
+const Main = styled.div`
   width: 100%;
   display: flex;
   max-width: 1280px;

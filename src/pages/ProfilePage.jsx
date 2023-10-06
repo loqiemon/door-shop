@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import CategoryForm from '../features/categories/CategoryForm'
 import { useDispatch, useSelector } from 'react-redux'
-import CategoryList from '../features/categories/CategoryList'
-import ProductsForm from '../features/products/ProductsForm'
+
 import { addProduct, deleteProduct, editProduct, logoutFunc } from '../app/actionCreators'
-import Modal from '../features/modal/Modal'
-import ProductList from '../features/products/ProductList'
+
+import ProductsAdminPage from '../features/products/ProductsAdminPage'
+import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
 
 
 function ProfilePage() {
@@ -61,80 +60,98 @@ function ProfilePage() {
     navigate('/')
   }
 
+  const isHaveRole = (role) => {
+    return user.role === role
+  }
+
+  const isCurrentContent = (content) => {
+    return currentContent === content
+  }
+
+
   return (
     <ProfileContainer>
       <ProfileTitle>Настройки</ProfileTitle>
-      {/* <ProfileMain> */}
         <ProfileAside>
-        {currentContent === 'profile' ? 
-          <ActiveMenuItem onClick={() => setCurrentContent('profile')}>Профиль</ActiveMenuItem>:
-          <ProfileAsideItem onClick={() => setCurrentContent('profile')}>Профиль</ProfileAsideItem>
+        <ContentButton 
+          name='profile'
+          text='Профиль' 
+          currentContent={currentContent}
+          setCurrentContent={setCurrentContent}
+        />
+        {isHaveRole('admin') && 
+          <ContentButton 
+            name='products'
+            text='Товары' 
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
         }
-        {user.role === 'admin' && (
-          currentContent === 'products' ? (
-            <ActiveMenuItem onClick={() => setCurrentContent('products')}>Товары</ActiveMenuItem>
-          ) : (
-            <ProfileAsideItem onClick={() => setCurrentContent('products')}>Товары</ProfileAsideItem>
-          )
-        )}
-        {user.role === 'admin' && (
-          currentContent === 'categories' ? (
-            <ActiveMenuItem onClick={() => setCurrentContent('categories')}>Категории</ActiveMenuItem>
-          ) : (
-            <ProfileAsideItem onClick={() => setCurrentContent('categories')}>Категории</ProfileAsideItem>
-          )
-        )}
+        {isHaveRole('admin') && 
+          <ContentButton 
+            name='categories'
+            text='Категории' 
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
+        {isHaveRole('admin') && 
+          <ContentButton 
+            name='orders'
+            text='Заказы' 
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
         </ProfileAside>
         <ProfileContent>
-          {currentContent === 'profile' && (
+          {isCurrentContent('profile') && (
             <Content>
                 Контент профиля
                 <Button onClick={logout}>Выйти из аккаунта</Button>
             </Content>
           )}
-          {currentContent === 'products' && (
+          {isCurrentContent('products') && (
             <Content>
-              {addModal &&
-                <Modal onClose={handleClose}>
-                  <ProductsForm
-                    handleSubmit={handleAdd}
-                    inputValues={{}}
-                  />
-                </Modal>
-              }
-              {editModal &&
-                <Modal onClose={handleClose} >
-                  <ProductsForm
-                      title='Редактирование товара'
-                      btnText='Сохранить'
-                      handleSubmit={(prod) => handleEditConfirm(prod)}
-                      inputValues = {{...productEdit, image: productEdit.image.split(' ')}}
-                    />
-                </Modal>
-              }
-              <ProductList
+              <ProductsAdminPage
+                handleClose={handleClose}
+                handleAdd={handleAdd}
+                addModal={addModal}
+                editModal={editModal}
+                productEdit={productEdit}
+                setAddModal={setAddModal}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
-              >
-                <Button onClick={() => setAddModal(true)}>Добавить товар</Button>
-              </ProductList>
+                handleEditConfirm={handleEditConfirm}
+              />
             </Content>
           )}
-          {currentContent === 'categories' && (
+          {isCurrentContent('categories') && (
             <Content>
-                {addModal && <Modal onClose={handleClose}><CategoryForm/></Modal>}
-                <CategoryList>
-                  <Button onClick={() => setAddModal(true)}>Добавить категорию</Button>
-                </CategoryList>
+                <CategoriesAdminPage
+                  addModal={addModal}
+                  handleClose={handleClose}
+                  setAddModal={setAddModal}
+                />
             </Content>
           )}
         </ProfileContent>
-      {/* </ProfileMain> */}
     </ProfileContainer>
   )
 }
 
 export default ProfilePage
+
+
+function ContentButton ({ currentContent, name, text, setCurrentContent }) {
+  return (
+    currentContent === name ? (
+      <ActiveMenuItem onClick={() => setCurrentContent(name)}>{text}</ActiveMenuItem>
+    ) : (
+      <ProfileAsideItem onClick={() => setCurrentContent(name)}>{text}</ProfileAsideItem>
+    )
+  )
+}
 
 const ProfileContainer = styled.div`
     max-width: 1280px;
@@ -152,11 +169,8 @@ const ProfileTitle = styled.h1`
 `
 
 const ProfileAside = styled.div`
-  /* width: 200px;  */
   padding: 20px;
-  /* max-height: 190px; */
   display: flex;
-  /* flex-direction: column; */
   background-color: #fff;
   gap: 10px;
   border-radius: 15px;
@@ -184,17 +198,9 @@ const ProfileAsideItem = styled(Link)`
   }
 `
 
-const ProfileMain = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 20px 0;
-`
-
 const ProfileContent = styled.div`
   width: 100%;
   padding: 0 5px;
-  /* overflow-y: scroll; */
-  /* max-height: 70%; */
   overflow-y: hidden;
 `
 const Content = styled.div`

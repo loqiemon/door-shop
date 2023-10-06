@@ -31,8 +31,6 @@ const marks = [
 
 
 function Aside({
-  search, 
-  setSearch,
   filters,
   setFilters,
   requestProducts,
@@ -64,8 +62,8 @@ function Aside({
         <AsideItem>
             <Search 
                 placeholder='Поиск'
-                value={search}
-                onChange={e => setSearch(e.target.value)}
+                value={filters.search}
+                onChange={e => setFilters(prev => ({...prev, search: e.target.value}))}
             />
         </AsideItem>
         <AsideItem>

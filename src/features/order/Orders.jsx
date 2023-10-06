@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+
 
 function Orders() {
   return (
@@ -7,3 +9,7 @@ function Orders() {
 }
 
 export default Orders
+
+const Container = styled.div`
+  
+`

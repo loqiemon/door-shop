@@ -1,12 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from '@reduxjs/toolkit/query'
 import cartReducer from "../features/cart/cartSlice";
 import categoriesReducer from "../features/categories/categoriesSlice";
 import modalReducer from "../features/modal/modalSlice";
 import authReducer from "../features/auth/authSlice";
 import productReducer from "../features/products/productsSlice";
 import filtersReducer from '../features/filters/filtersSlice';
-import ordersReducer from '../features/order/orderSlice';
-import characteristicsReducer from '../features/characteristics/characteristicsSlice'
+import { orderApi } from '../features/order/orderSlice';
+import { productApi } from '../features/products/productApi'
+import characteristicsReducer from '../features/characteristics/characteristicsApi'
+
 
 export const store = configureStore({
     reducer: {
@@ -16,7 +19,13 @@ export const store = configureStore({
         modal: modalReducer,
         products: productReducer,
         filters: filtersReducer,
-        orders: ordersReducer,
+        // orders: ordersReducer,
+        [orderApi.reducerPath]: orderApi.reducer,
+        [productApi.reducerPath]: productApi.reducer,
         characteristics: characteristicsReducer
-    }
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(productApi.middleware),
 })
+
+setupListeners(store.dispatch)

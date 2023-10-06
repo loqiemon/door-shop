@@ -7,7 +7,7 @@ import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
 import { productsSlice } from "../features/products/productsSlice";
 import { filtersSlice } from "../features/filters/filtersSlice";
-import { addOrder, addOrderError, addOrderSuccess } from '../features/order/orderSlice'
+// import { addOrder, addOrderError, addOrderSuccess } from '../features/order/orderSlice'
 import $api from "../services/axiosConfig";
 
 
@@ -127,21 +127,30 @@ export const checkAuth = () => async(dispatch) => {
 
 
 //Товары
-export const fetchProducts = (params) => async(dispatch) => {
+export const fetchProducts = ({
+    categoryId,
+    pageNumber,
+    PageSize,
+    minPrice,
+    maxPrice,
+    searchByName,
+    searchByVendorCode,
+    country,
+    manufacturer
+}) => async(dispatch) => {
     try {
         dispatch(productsSlice.actions.productsFetching())
-        const requestParams = new URLSearchParams({
-            PageNumber: params.pageNumber || '',
-            PageSize: params.PageSize || '',
-            minRetailPrice: params.minPrice ? parseFloat(params.minPrice) : '',
-            maxRetailPrice: params.maxPrice ? parseFloat(params.maxPrice) : '',
-            searchByName: params.searchByName || '',
-            searchByVendorCode: params.searchByVendorCode || '',
-            country: params.country || '',
-            manufacturer: params.manufacturer || ''
-        }).toString();
-        
-        const apiUrl = params.categoryId ? `${API_URL}Accessories?typeId=${params.categoryId}&${requestParams}` : `${API_URL}Accessories?${requestParams}`;
+        const requestParams = new URLSearchParams()
+        categoryId && requestParams.append("typeId", categoryId);
+        pageNumber && requestParams.append("PageNumber", pageNumber);
+        PageSize && requestParams.append("PageSize", PageSize);
+        minPrice && requestParams.append("minRetailPrice", parseFloat(minPrice)); 
+        maxPrice && requestParams.append("maxRetailPrice", parseFloat(maxPrice)); 
+        searchByName && requestParams.append("searchByName", searchByName); 
+        searchByVendorCode && requestParams.append("searchByVendorCode", searchByVendorCode); 
+        country && requestParams.append("country", country);
+        manufacturer && requestParams.append("manufacturer", manufacturer); 
+        const apiUrl = `${API_URL}Accessories?${requestParams}`;
         const response = await axios.get(apiUrl);
         dispatch(productsSlice.actions.productsFetchingSuccess(response.data));
 
@@ -239,14 +248,57 @@ export const fetchFilters = () =>  async (dispatch) => {
 
 //Заказы
 
-export const addOrderRequest = (order) => async (dispatch) => {
-    try {
-        dispatch(addOrder());
-        const response = await axios.post(`${API_URL}orders`, order)
-        dispatch(addOrderSuccess(response.data))
-    } catch (e) {
-        dispatch(addOrderError(e.message))
-    }
-}
+// export const addOrderRequest = (order) => async (dispatch) => {
+//     try {
+//         dispatch(addOrder());
+//         const response = await axios.post(`${API_URL}Orders`, order)
+//         dispatch(addOrderSuccess(response.data))
+//     } catch (e) {
+//         dispatch(addOrderError(e.message))
+//     }
+// }
+
+// export const editOrderRequest = (order) => async (dispatch) => {
+//     try {
+//         dispatch(addOrder());
+//         const response = await axios.put(`${API_URL}Orders`, order)
+//         dispatch(addOrderSuccess(response.data))
+//     } catch (e) {
+//         dispatch(addOrderError(e.message))
+//     }
+// }
+
+
+// export const deleteOrderRequest = (id) => async (dispatch) => {
+//     try {
+//         dispatch(addOrder());
+//         await axios.post(`${API_URL}Orders`, id)
+//         dispatch(addOrderSuccess(id))
+//     } catch (e) {
+//         dispatch(addOrderError(e.message))
+//     }
+// }
+
+
+// export const fetchOrderRequest = (order) => async (dispatch) => {
+//     try {
+//         dispatch(addOrder());
+//         const response = await axios.post(`${API_URL}Orders`, order)
+//         dispatch(addOrderSuccess(response.data))
+//     } catch (e) {
+//         dispatch(addOrderError(e.message))
+//     }
+// }
+
+// export const fetchOrdersRequest = (order) => async (dispatch) => {
+//     try {
+//         dispatch(addOrder());
+//         const response = await axios.post(`${API_URL}Orders`, order)
+//         dispatch(addOrderSuccess(response.data))
+//     } catch (e) {
+//         dispatch(addOrderError(e.message))
+//     }
+// }
+
 
 //Заказы

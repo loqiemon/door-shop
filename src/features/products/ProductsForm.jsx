@@ -145,6 +145,7 @@ function ProductsForm({
     retailPriceInput.onChange('');
     wholesalePriceInput.onChange('');
     vendorCodeInput.onChange('');
+    setCharacteristics([]);
     setSelectedImage([]);
     setAccessoryTypeId('');
   }

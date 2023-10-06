@@ -10,9 +10,9 @@ import Checkbox from '@mui/material/Checkbox';
 
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux';
-import { addOrderRequest } from '../../app/actionCreators';
+// import { addOrderRequest } from '../../app/actionCreators';
 
-function OrderForm() {
+function OrderForm({totalPrice}) {
   const { value: name, onChange: setName } = useInput('');
   const { value: secondName, onChange: setSecondName } = useInput('');
   const { value: email, onChange: setEmail } = useInput('');
@@ -22,29 +22,38 @@ function OrderForm() {
   const [ paymentType, setPaymentType] = useState('cash');
   const [ checked, setChecked ] = useState(false);
 
-  var validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
+  const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (
-        name.length > 0 &&
-        secondName.length > 0 &&
-        address.length > 0 &&
-        email.length > 0 &&
-        email.match(validEmailRegex) &&
-        phone.length > 0,
-        checked
+      name.length > 0 &&
+      secondName.length > 0 &&
+      address.length > 0 &&
+      email.length > 0 &&
+      email.match(validEmailRegex) &&
+      phone.length > 0,
+      checked
     ) {
-        const order = {
-            name: `${name} ${secondName}`,
-            email,
-            address,
-            phone,
-            comment,
-            paymentType
-        }
-        dispatch(addOrderRequest(order))
+      const order = {
+        name: `${name} ${secondName}`,
+        email,
+        address,
+        phoneNumber: phone,
+        comment,
+        paymentType,
+        date: new Date(),
+        status: 'Не обработан',
+        total: totalPrice
+      }
+      dispatch(addOrderRequest(order))
+      setName('')
+      setSecondName('')
+      setEmail('')
+      setAddress('')
+      setPhone('')
+      setComment('')
+      setChecked(false)
     }
   }
 
@@ -52,31 +61,31 @@ function OrderForm() {
   return (
     <Container>
         <Input
-            value={name}
-            onChange={e => setName(e.target.value)}
-            label='Имя'
+          value={name}
+          onChange={e => setName(e.target.value)}
+          label='Имя'
         />
         <Input
-            value={secondName}
-            onChange={e => setSecondName(e.target.value)}
-            label='Фамилия'
+          value={secondName}
+          onChange={e => setSecondName(e.target.value)}
+          label='Фамилия'
         />
         <Input
-            value={address}
-            onChange={e => setAddress(e.target.value)}
-            label='Адрес'
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+          label='Адрес'
         />
         <Input
-            value={phone}
-            onChange={e => setPhone(e.target.value)}
-            label='Телефон'
-            type='tel'
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
+          label='Телефон'
+          type='tel'
         />
         <Input
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            label='Почта'
-            type='email'
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          label='Почта'
+          type='email'
         />
         <StyledTextarea
           aria-label="Комментарий"
