@@ -6,7 +6,7 @@ export const productApi = createApi({
     baseUrl: API_URL,
   }),
   endpoints: (build) => ({
-    getProduct: build.query({
+    getProducts: build.query({
       query: ({
         categoryId,
         pageNumber,
@@ -36,7 +36,27 @@ export const productApi = createApi({
         return ({ url: apiUrl })
       },
     }),
+    getProduct: build.query({
+        query: (id) => {
+            const apiUrl = `Accessories/${id}`;
+            return ({ url: apiUrl })
+        }
+    }),
+    postProduct: build.mutation({
+        query(product) {
+            const {id, ...body} = product;
+            console.log(product, 'productapi')
+            return {
+                url: `Accessories`,
+                method: 'POST',
+                body: {
+                    ...body,
+                    image: body.image.join(' ')
+                },
+            }   
+        }
+    })
   }),
 })
 
-export const { useGetProductQuery, useLazyGetProductQuery } = productApi
+export const { useGetProductsQuery, useGetProductQuery, usePostProductMutation } = productApi

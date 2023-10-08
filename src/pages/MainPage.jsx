@@ -15,7 +15,7 @@ import Aside from '../components/Aside';
 import Loader from '../components/Loader';
 import Pagination from '../components/Pagination';
 import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
-import { useGetProductQuery } from '../features/products/productApi';
+import { useGetProductsQuery } from '../features/products/productApi';
 import copyToClipboard from '../utils/copyToClipboard'
 
 
@@ -42,7 +42,7 @@ function MainPage() {
     isLoading,
     isFetching,
     error,
-  } = useGetProductQuery(acceptFilters)
+  } = useGetProductsQuery(acceptFilters)
   
   const dispatch = useDispatch()
   const navigate = useNavigate();

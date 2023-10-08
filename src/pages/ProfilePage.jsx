@@ -7,6 +7,7 @@ import { addProduct, deleteProduct, editProduct, logoutFunc } from '../app/actio
 
 import ProductsAdminPage from '../features/products/ProductsAdminPage'
 import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
+import { usePostProductMutation } from '../features/products/productApi'
 
 
 function ProfilePage() {
@@ -31,9 +32,12 @@ function ProfilePage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [addPost, { isLoading }] = usePostProductMutation()
+
 
   const handleAdd = (product) => {
-    dispatch(addProduct(product))
+    // dispatch(addProduct(product))
+    addPost(product)
   }
 
   const handleEditConfirm = (prod) => {
