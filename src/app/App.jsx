@@ -22,6 +22,7 @@ import { checkAuth } from './actionCreators'
 import Register from '../features/auth/Register'
 import ProfilePage from '../pages/ProfilePage'
 import ProductPage from '../features/products/ProductPage'
+import Footer from '../components/Footer'
 
 
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/refund"  element={<RefundPage/>}/>
           <Route path="/product/:categoryId/:productId/:page"  element={<ProductPage/>}/>
         </Routes>
+        {/* <Footer/> */}
        </BrowserRouter> 
     </>
   )

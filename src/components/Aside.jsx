@@ -1,6 +1,4 @@
-import React, {
-    useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -9,6 +7,8 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { motion } from "framer-motion"
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
@@ -134,6 +134,18 @@ function Aside({
               )}
               </Select>
             </FormControl>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Сортировка</InputLabel>
+              <Select
+                value={filters.sortType}
+                onChange={e => setFilters((prev) => ({...prev, sortType: e.target.value}))}
+                label="Type"
+              >
+                <MenuItem value="asc">По возрастанию</MenuItem>
+                <MenuItem value="desc">По убыванию</MenuItem>
+              </Select>
+            </FormControl>
+
         </AsideItem>
         <AsideButton onClick={requestProducts}>Применить</AsideButton>
     </AsideList>
@@ -141,6 +153,36 @@ function Aside({
 }
 
 export default Aside
+
+const Button = styled(motion.div)`
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  gap: 15px;
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 19px;
+  transition: all .3s ease-in;
+  align-items: center;
+  &:hover {
+        /* background-color: #5065f6; */
+        background-color: #FFD700;
+        color: #000;
+    }
+`
+
+const Flex = styled(motion.div)`
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  span {
+    font-weight: 600;
+    font-size: 20px;
+  }
+`
 
 
 const MyBox = styled(Box)`

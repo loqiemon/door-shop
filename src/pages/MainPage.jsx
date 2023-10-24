@@ -1,8 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
 import Accordion from '@mui/material/Accordion';
@@ -10,6 +9,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { motion } from "framer-motion"
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader';
@@ -17,6 +17,7 @@ import Pagination from '../components/Pagination';
 import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
 import { useGetProductsQuery } from '../features/products/productApi';
 import copyToClipboard from '../utils/copyToClipboard'
+import isOurPhoto from '../utils/isOurPhoto'
 
 
 function MainPage() {
@@ -28,7 +29,8 @@ function MainPage() {
     minPrice: '',
     maxPrice: '',
     country: '',
-    manufacturer: ''
+    manufacturer: '',
+    sortType: ''
   });
 
   const [acceptFilters, setAcceptFilters] = useState({
@@ -75,7 +77,8 @@ function MainPage() {
       maxPrice: filters.maxPrice,
       searchByName: filters.search,
       country: filters.country,
-      manufacturer: filters.manufacturer
+      manufacturer: filters.manufacturer,
+      sortType: filters.sortType
     })
   }
 
@@ -85,12 +88,14 @@ function MainPage() {
   };
 
   const isAvaibleFunc = (isAvaible) => {
-    if (isAvaible.trim() === 'В наличии') {
+    if (isAvaible?.trim() === 'В наличии') {
       return 'avaible'
     } else {
       return 'not_avaible'
     }
   }
+  
+  
    
   return (
     <Main>
@@ -138,7 +143,7 @@ function MainPage() {
                       {item.image.split(' ').length === 1 ? 
                         <SellImage src={item.image} key={item.id}/>:
                         <CarouselMy>
-                          {item.image.split(' ').map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
+                          {isOurPhoto(item.image).map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
                         </CarouselMy>
                       }
                       <Name>{item.name}</Name>
@@ -165,7 +170,7 @@ function MainPage() {
           }
         </Container>
       }
-      {!isLoading && !isFetching && !products?.accessories || error &&
+      {!isLoading && !isFetching && products?.totalCount === 0 &&
         <Title>Таких товаров нет</Title>
       }
     </Main>
@@ -286,6 +291,7 @@ const Main = styled.div`
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
+
   /* height: 100%; */
 `
 
@@ -348,6 +354,6 @@ const Name = styled.span`
 
 const CarouselMy = styled(Carousel)`
   width: 150px;
-  height: 150px;
+  height: 170px;
   margin: 0 auto;
 `

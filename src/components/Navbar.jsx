@@ -92,12 +92,12 @@ function Navbar() {
                     <NavLink to='/profile'>Профиль</NavLink>:
                     <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                 }
-                <NavLink  to='/payment'>Оплата</NavLink>
-                <NavLink  to='/delivery'>Доставка по Москве</NavLink>
-                <NavLink  to='/support'>Помощь в выборе</NavLink>
-                <NavLink  to='/install'>Установка</NavLink>
-                <NavLink  to='/contacts'>Контакты</NavLink>
-                <NavLink  to='/refund'>Возврат товара</NavLink>
+                <NavLink to='/payment'>Оплата</NavLink>
+                <NavLink to='/delivery'>Доставка по Москве</NavLink>
+                <NavLink to='/support'>Помощь в выборе</NavLink>
+                <NavLink to='/install'>Установка</NavLink>
+                <NavLink to='/contacts'>Контакты</NavLink>
+                <NavLink to='/refund'>Возврат товара</NavLink>
             </MobileNav>
         </Nav>
     )
@@ -155,7 +155,11 @@ const Nav = styled.nav`
   font-weight: 500;
   font-size: 22px;
   /* background: url('../../public/logo.svg') center center/cover no-repeat; */
-  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  background: #6a11cb;
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
 
 
   @media (max-width: 767px) {
@@ -262,11 +266,11 @@ export const NavLink = styled(Link)`
     &:hover,
     &:focus{
         /* color: #5065f6; */
-        color: #ffd900b7;
+        color: #FFD700;
     }
     &:active{
         /* color: #0064fa; */
-        color: #ffd900b7;
+        color: #FFD700;
     };
     font-size: 25px;
     font-weight: 600;
@@ -278,10 +282,10 @@ export const NavLink = styled(Link)`
         text-align: center;
 
         &:focus{
-            color: #ffd900b7;
+            color: #FFD700;
         }
         &:active{
-            color: #ffd900b7;
+            color: #FFD700;
         };
     }
 

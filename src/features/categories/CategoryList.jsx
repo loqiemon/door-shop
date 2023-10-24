@@ -19,91 +19,6 @@ import { deleteCategory, editCategory, fetchCategories } from '../../app/actionC
 import { convertImageToBase64 } from '../../utils/convertImage';
 
 
-
-
-const TableContainer1 = styled.div`
-  width: 100%;
-  /* max-height: 350px; */
-  max-height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 20px;
-  padding-bottom: 10px; 
-`;
-
-
-const EditButton = styled.button`
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  margin-right: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2980b9;
-  }
-`;
-
-const DeleteButton = styled.button`
-  background-color: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #c0392b;
-  }
-`;
-
-
-const TableCellHeader = styled(TableCell)`
-  cursor: pointer;
-  transition: all .3s ease-in;
-  text-align: center;
-
-  /* &:hover {
-    transform: scale(1.02);
-    background-color: #0064fa;
-    color: #fff;
-  } */
-`
-
-
-const Input = styled.input`
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    /* margin-left: 15px; */
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`
-
-const TableContainer2 = styled(TableContainer)`
-    height: 500px;
-` 
-
-const Button = styled.button`
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin-left: 15px;
-    &:hover {
-      background-color: #56195d;
-      color: white;
-    }
-`
-
-const TableImage = styled.img`
-  max-width: 100px;
-  max-height: 100px;
-`
-
-
 function CategoryList({children}) {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
   const [isOpen, setIsOpen] = useState(false);
@@ -193,7 +108,6 @@ function CategoryList({children}) {
       {isOpen &&     
         <Modal
             children={
-              // edit === true ? 
                 <>
                     <Input value={editInput.type} onChange={e => setEditInput(prev => ({...prev, type: e.target.value}))}/>
                     <Input 
@@ -203,9 +117,6 @@ function CategoryList({children}) {
                     />
                     <Button onClick={() => dispatch(editCategory(editInput))}>Сохранить</Button>
                 </>
-
-                // : 
-                // <Button onClick={() => dispatch(deleteCategory(editInput.id))} >Удалить?</Button>
               }
             onClose={() => setIsOpen(false)}
         >
@@ -217,3 +128,87 @@ function CategoryList({children}) {
 }
 
 export default CategoryList;
+
+
+
+const TableContainer1 = styled.div`
+  width: 100%;
+  /* max-height: 350px; */
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding-bottom: 10px; 
+`;
+
+
+const EditButton = styled.button`
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
+
+const DeleteButton = styled.button`
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #c0392b;
+  }
+`;
+
+
+const TableCellHeader = styled(TableCell)`
+  cursor: pointer;
+  transition: all .3s ease-in;
+  text-align: center;
+
+  /* &:hover {
+    transform: scale(1.02);
+    background-color: #0064fa;
+    color: #fff;
+  } */
+`
+
+
+const Input = styled.input`
+    background-color: #f7f7f7;
+    padding: 12px;
+    border-radius: 15px;
+    /* margin-left: 15px; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
+
+const TableContainer2 = styled(TableContainer)`
+    height: 500px;
+` 
+
+const Button = styled.button`
+    padding: 12px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    transition: all .35s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-left: 15px;
+    &:hover {
+      background-color: #56195d;
+      color: white;
+    }
+`
+
+const TableImage = styled.img`
+  max-width: 100px;
+  max-height: 100px;
+`

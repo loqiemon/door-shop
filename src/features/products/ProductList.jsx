@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,52 +7,38 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Carousel from 'react-material-ui-carousel'
 
-import useSearch from '../../hooks/useSearch';
-import useInput from '../../hooks/useInput';
-import usePagination from '../../hooks/usePagination';
-import { fetchProducts, fetchCategories } from '../../app/actionCreators';
 import Loader from '../../components/Loader';
 import Pagination from '../../components/Pagination';
+import { useGetProductsQuery } from './productApi';
+import isOurPhoto from '../../utils/isOurPhoto'
 
 
 function ProductList({handleEdit, handleDelete, children}) {
-  const { products, isLoading, getProductsError, addProductsError, count } = useSelector(state => state.products);
-  const { categories } = useSelector(state => state.categories);
-  const { value: search, onChange: setSearch} = useInput();
-  const [searchProp, setSearchProp] = useState('name');
-  const { searchedArray } = useSearch(products, search, searchProp);
+  const [filters, setFilters] = useState({
+    searchByName: '',
+    searchParameter: '',
+    pageNumber: 1,
+  });
+  const [acceptFilters, setAcceptFilters] = useState({});
   const [page, setPage] = useState(1);
 
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProducts({
-      pageNumber: 1,
-      PageSize: 10
-    }))
-    dispatch(fetchCategories())
-  }, [])
-
-
-
-  const requestProducts = (pageNumber) => {
-    dispatch(fetchProducts({
-      pageNumber,
-      PageSize: 10
-    }))
-  }
+  const { data: accessories, isLoading, isFetching } = useGetProductsQuery(acceptFilters)
+  const products = accessories?.accessories || [];
+  const count = accessories?.totalCount || 0;
 
   const goToPage = (pageNumber) => {
     setPage(pageNumber)
-    requestProducts(pageNumber);
+    setAcceptFilters(prev => ({
+      ...prev,
+      ...filters,
+      pageNumber: pageNumber || page,
+    }))
   };
 
   return (
@@ -63,17 +48,17 @@ function ProductList({handleEdit, handleDelete, children}) {
           {children}
           <Input 
             placeholder='Поиск...'
-            value={search}
-            onChange={e => setSearch(e.target.value)}
+            value={filters.searchByName}
+            onChange={e => setFilters(prev => ({...prev, searchByName: e.target.value}))}
           />
         </div>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Поле сортировки</InputLabel>
+              <InputLabel id="demo-simple-select-standard-label">Поле поиска</InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={searchProp}
-                onChange={e => setSearchProp(e.target.value)}
+                value={filters.searchParameter}
+                onChange={e => setFilters(prev => ({...prev, searchParameter: e.target.value}))}
                 label="Type"
               >
               <MenuItem value='name'>Имя</MenuItem>
@@ -83,9 +68,10 @@ function ProductList({handleEdit, handleDelete, children}) {
               <MenuItem value='isAvaible'>Доступность</MenuItem>
               </Select>
           </FormControl>
+          <Button onClick={() => goToPage(page)}>Применить</Button>
       </Container>
-      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
-      {!isLoading &&
+      {isLoading || isFetching && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading && !isFetching &&
         <>
            <TableContainer2 component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -106,7 +92,7 @@ function ProductList({handleEdit, handleDelete, children}) {
               </TableRowMy>
             </TableHead>
             <TableBody>
-                {searchedArray.map((row, rowIndex) => (
+                {products.map((row, rowIndex) => (
                   <TableRowMy
                     key={rowIndex}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -126,7 +112,7 @@ function ProductList({handleEdit, handleDelete, children}) {
                       <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
                       <TableCellMy>
                         <Carousel>
-                          {row.image.split(' ').map(imagePath => 
+                          {isOurPhoto(row.image).map(imagePath => 
                             <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
                           )}
                         </Carousel>

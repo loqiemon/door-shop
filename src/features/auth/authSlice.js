@@ -20,7 +20,6 @@ export const authSlice = createSlice({
         },
         login: (state) => {
             state.isLoadingAuth = true;
-            console.log(1)
         },
         loginSuccess: (state, action) => {
             state.isAuth = true;

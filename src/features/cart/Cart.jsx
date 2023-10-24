@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components';
-import { editInCart, readCart, removeFromCart } from './cartSlice';
 import Carousel from 'react-material-ui-carousel'
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import Table from '@mui/joy/Table';
-import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
+
+
 import OrderForm from '../order/OrderForm';
+import { editInCart, readCart, removeFromCart } from './cartSlice';
+import isOurPhoto from '../../utils/isOurPhoto'
+
 
 
 function Cart() {
@@ -21,7 +23,8 @@ function Cart() {
     }, []);
 
     useEffect(() => {
-      setTotalPrice(cartItems.reduce((acc, item) => acc+item.retailPrice*item.count, 0))
+      // setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice + item.variant.priceModifier)*item.count, 0))
+      setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice)*item.count, 0))
     }, [cartItems]);
 
     
@@ -77,38 +80,43 @@ function Cart() {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartItems.map((item) => (
-                          <TableRow key={item.id}>
-                            <td>
-                              {item.image.split(' ').length === 1 ? 
-                                <CartImage src={item.image} key={item.id}/>:
-                                <CarouselMy>
-                                  {item.image.split(' ').map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
-                                </CarouselMy>
-                              }
-                            </td>
-                            <td>{item.name}</td>
-                            <td>
-                              <Counter>
-                                <CounterBtn onClick={() => handleDecrement(item)}>
-                                  <i className="fa-solid fa-minus"></i>
-                                </CounterBtn>
-                                <CounterInput 
-                                  type="number"
-                                  onChange={(e) => handleChange(e, item)}
-                                  value={item.count}
-                                />
-                                <CounterBtn onClick={() => handleIncrement(item)}>
-                                  <i className="fa-solid fa-plus"></i>
-                                </CounterBtn>
-                              </Counter>
-                            </td>
-                            <td>{item.retailPrice * item.count} руб.</td>
-                            <td>
-                              <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
-                            </td>
-                          </TableRow>
-                        ))}
+                        {cartItems.map((item) => {
+                          const images = isOurPhoto(item.image)
+                          console.log(images)
+                          return (
+                            <TableRow key={item.id}>
+                              <td>
+                                {images.length === 1 ? 
+                                  <CartImage src={images[0]} key={item.id}/>:
+                                  <CarouselMy>
+                                    {images.map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
+                                  </CarouselMy>
+                                }
+                              </td>
+                              <td>{item.name}</td>
+                              <td>
+                                <Counter>
+                                  <CounterBtn onClick={() => handleDecrement(item)}>
+                                    <i className="fa-solid fa-minus"></i>
+                                  </CounterBtn>
+                                  <CounterInput 
+                                    type="number"
+                                    onChange={(e) => handleChange(e, item)}
+                                    value={item.count}
+                                  />
+                                  <CounterBtn onClick={() => handleIncrement(item)}>
+                                    <i className="fa-solid fa-plus"></i>
+                                  </CounterBtn>
+                                </Counter>
+                              </td>
+                              {/* <td>{(item.retailPrice + item.variant.priceModifier) * item.count} руб.</td> */}
+                              <td>{(item.retailPrice) * item.count} руб.</td>
+                              <td>
+                                <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
+                              </td>
+                            </TableRow>
+                          )
+                        })}
                         <tr>
                           <td></td>
                           <td></td>

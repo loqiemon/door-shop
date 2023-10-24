@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,6 +14,8 @@ import useInput from '../../hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
 import { convertImageToBase64 } from '../../utils/convertImage';
 import AlertJsx from '../../components/Alert'
+import isOurPhoto from '../../utils/isOurPhoto'
+import { API_URL } from '../../services/constants';
 
 
 function ProductsForm({
@@ -21,7 +24,6 @@ function ProductsForm({
   btnText = 'Добавить',
   title = 'Добавление товара' 
 }) {
-  console.log(inputValues)
   const nameInput = useInput(inputValues.name);
   const vendorCodeInput = useInput(inputValues.vendorCode);
   const manufacturerInput = useInput(inputValues.manufacturer);
@@ -37,8 +39,11 @@ function ProductsForm({
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
   const [characteristics, setCharacteristics] = useState(inputValues.characteristics || []);
-  const featureNameInput = useInput('')
-  const featureValueInput = useInput('')
+  const featureNameInput = useInput('');
+  const [featureNameSelect, setFeatureNameSelect] = useState('');
+  const featureValueInput = useInput('');
+  const featurePriceModifierInput = useInput('');
+  const [characteristicTypes, setCharacteristicTypes] = useState([]);
 
   const alertState = useSelector(state => state.products.alert)
 
@@ -59,6 +64,10 @@ function ProductsForm({
 
   useEffect(() => {
     dispatch(fetchCategories())
+    fetch(`${API_URL}CharacteristicTypes`)
+      .then(res => res.json())
+      .then(data => setCharacteristicTypes(data))
+
   }, []);
 
   const categories = useSelector(state => state.categories.categories);
@@ -82,23 +91,33 @@ function ProductsForm({
   };
 
   const deleteCharacteristic = (id) => {
-    setCharacteristics(prev => prev.filter(item => item.id !== id))
+    // setCharacteristics(prev => prev.filter(item => item.id !== id))
+    setCharacteristics(prev => prev.filter((item, index) => index !== id))
   }
 
   const addCharacteristic = () => {
     if (
-      featureNameInput.value.length !== 0 &&
-      featureValueInput.value.length !== 0 
+      featureNameSelect.length !== 0 &&
+      featureValueInput.value.length !== 0 &&
+      featurePriceModifierInput.value.length !== 0 &&
+      characteristics.find(item => item.characteristicTypeId === featureNameSelect.id) === undefined
     ) {
       const feature = {
-        id: uuidv4(),
-        name: featureNameInput.value.trim(),
-        value: featureValueInput.value.trim()
+        characteristicTypeId : featureNameSelect.id,
+        value: featureValueInput.value.trim(),
+        priceModifier: parseFloat(featurePriceModifierInput.value)
       }
       featureNameInput.onChange('');
       featureValueInput.onChange('');
+      featurePriceModifierInput.onChange('');
+      setFeatureNameSelect('');
       setCharacteristics(prev => [...prev, feature])
     }
+  }
+
+  const findCharacteristic = (id) => {
+    const a = characteristicTypes.find(item => item.id === id)
+    return a
   }
   
 
@@ -112,15 +131,15 @@ function ProductsForm({
       country: countryInput.value.trim(),
       weight: weightInput.value,
       description: descriptionInput.value.trim(),
-      retailPrice: retailPriceInput.value,
-      wholesalePrice: wholesalePriceInput.value,
+      retailPrice: parseFloat(retailPriceInput.value),
+      wholesalePrice: parseFloat(wholesalePriceInput.value),
       accessoryTypeId: accessoryTypeId,
       vendorCode: vendorCodeInput.value.trim(),
       isAvaible: isAvaibleInput.value.trim(),
       image: selectedImage,
-      characteristics: JSON.stringify(characteristics)
+      characteristics: characteristics
     };
-    console.log(productData)
+
     if (
         !nameInput.value ||
         !manufacturerInput.value ||
@@ -208,12 +227,11 @@ function ProductsForm({
           onChange={handleImageChange}
         />
 
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-standard-label">Тип</InputLabel>
+        {categories.length > 0 &&
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Тип товара</InputLabel>
             <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={accessoryTypeId || ''}
+              value={accessoryTypeId}
               onChange={handleChange}
               label="Type"
             >
@@ -229,28 +247,49 @@ function ProductsForm({
                 </MenuItem>
             )}
             </Select>
-        </FormControl>
-        <Input
+          </FormControl>
+        }
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={characteristicTypes}
+          getOptionLabel={(option) => option.name || ""}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Тип хар-ки" />}
+          isOptionEqualToValue={(option, value) => option.name === value || value === ""}
+          value={featureNameSelect}
+          onChange={(e, newValue) => {setFeatureNameSelect(newValue)}}
+          inputValue={featureNameInput.value}
+          onInputChange={(e, newInputValue) => featureNameInput.onChange(newInputValue)}
+        />
+        {/* <Input
           value={featureNameInput.value}
           onChange={e => featureNameInput.onChange(e.target.value)}
           label="Характеристика"
-        />
+        /> */}
         <Input
           value={featureValueInput.value}
           onChange={e => featureValueInput.onChange(e.target.value)}
           label="Значение"
         />
+        <Input
+          value={featurePriceModifierInput.value}
+          onChange={e => featurePriceModifierInput.onChange(e.target.value)}
+          label="Модификатор цены"
+        />
         <Button onClick={addCharacteristic}>Добавить характеристику</Button>
-        {characteristics.map(characteristic => 
+        {characteristics.map((characteristic, index) => 
           <div 
-            onClick={() => deleteCharacteristic(characteristic.id)}
-            key={characteristic.id}
+            onClick={() => deleteCharacteristic(index)}
+
+            key={index}
           >
-            {characteristic.name}: {characteristic.value}
+            {characteristicTypes.length > 0 && 
+            findCharacteristic(characteristic.characteristicTypeId).name}: {characteristic.value} {characteristic.priceModifier}
           </div>
         )}
         <div>
-          {selectedImage && selectedImage.map((image, index) => (
+          {selectedImage && isOurPhoto(selectedImage.join(" ")).map((image, index) => (
             <div key={index}>
               <img src={image} alt={`Фото ${index + 1}`} width="100" />
               <button onClick={() => handleRemoveImage(index)}>Удалить</button>

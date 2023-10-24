@@ -9,6 +9,7 @@ import filtersReducer from '../features/filters/filtersSlice';
 import { orderApi } from '../features/order/orderSlice';
 import { productApi } from '../features/products/productApi'
 import characteristicsReducer from '../features/characteristics/characteristicsApi'
+import { csvApi } from "../features/csv/csvApi";
 
 
 export const store = configureStore({
@@ -22,7 +23,8 @@ export const store = configureStore({
         // orders: ordersReducer,
         [orderApi.reducerPath]: orderApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
-        characteristics: characteristicsReducer
+        characteristics: characteristicsReducer,
+        // [csvApi.reducerPath]: csvApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(productApi.middleware),

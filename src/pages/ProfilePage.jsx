@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
+import СharacteristicsType from '../features/characteristicsType/СharacteristicsType'
 
-import { addProduct, deleteProduct, editProduct, logoutFunc } from '../app/actionCreators'
+import { logoutFunc } from '../app/actionCreators'
 
 import ProductsAdminPage from '../features/products/ProductsAdminPage'
 import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
-import { usePostProductMutation } from '../features/products/productApi'
+import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation } from '../features/products/productApi'
 
 
 function ProfilePage() {
@@ -27,32 +28,38 @@ function ProfilePage() {
     accessoryTypeId: '',
     isAvaible: '',
     image: [],
-    vendorCode: ''
+    vendorCode: '',
+    searchParameter: '',
+    characteristics: []
   });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [addPost, { isLoading }] = usePostProductMutation()
+  const [putProduct] = usePutProductMutation()
 
 
   const handleAdd = (product) => {
-    // dispatch(addProduct(product))
     addPost(product)
   }
 
   const handleEditConfirm = (prod) => {
-    dispatch(editProduct(prod))
+    // dispatch(editProduct(prod))
+    putProduct(prod)
     setEditModal(false)
   }
 
   const handleEdit = (product) => {
     setEditModal(true)
-    setProductEdit({...product, accessoryType: product.accessoryTypeId})
+    setProductEdit({
+      ...product,
+      accessoryType: product.accessoryTypeId,
+      characteristics: product.characteristic 
+    })
   }
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id))
-  }
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
+
 
   const handleClose = () => {
     setAddModal(false)
@@ -77,36 +84,44 @@ function ProfilePage() {
     <ProfileContainer>
       <ProfileTitle>Настройки</ProfileTitle>
         <ProfileAside>
-        <ContentButton 
-          name='profile'
-          text='Профиль' 
-          currentContent={currentContent}
-          setCurrentContent={setCurrentContent}
-        />
-        {isHaveRole('admin') && 
           <ContentButton 
-            name='products'
-            text='Товары' 
+            name='profile'
+            text='Профиль' 
             currentContent={currentContent}
             setCurrentContent={setCurrentContent}
           />
-        }
-        {isHaveRole('admin') && 
-          <ContentButton 
-            name='categories'
-            text='Категории' 
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
-        {isHaveRole('admin') && 
-          <ContentButton 
-            name='orders'
-            text='Заказы' 
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
+          {isHaveRole('admin') && 
+            <ContentButton 
+              name='products'
+              text='Товары' 
+              currentContent={currentContent}
+              setCurrentContent={setCurrentContent}
+            />
+          }
+          {isHaveRole('admin') && 
+            <ContentButton 
+              name='categories'
+              text='Категории' 
+              currentContent={currentContent}
+              setCurrentContent={setCurrentContent}
+            />
+          }
+          {isHaveRole('admin') && 
+            <ContentButton 
+              name='orders'
+              text='Заказы' 
+              currentContent={currentContent}
+              setCurrentContent={setCurrentContent}
+            />
+          }
+          {isHaveRole('admin') && 
+            <ContentButton 
+              name='characteristictsTypes'
+              text='Типы хар-к' 
+              currentContent={currentContent}
+              setCurrentContent={setCurrentContent}
+            />
+          }
         </ProfileAside>
         <ProfileContent>
           {isCurrentContent('profile') && (
@@ -125,7 +140,7 @@ function ProfilePage() {
                 productEdit={productEdit}
                 setAddModal={setAddModal}
                 handleEdit={handleEdit}
-                handleDelete={handleDelete}
+                handleDelete={deleteProduct}
                 handleEditConfirm={handleEditConfirm}
               />
             </Content>
@@ -137,6 +152,11 @@ function ProfilePage() {
                   handleClose={handleClose}
                   setAddModal={setAddModal}
                 />
+            </Content>
+          )}
+          {isCurrentContent('characteristictsTypes') && (
+            <Content>
+              <СharacteristicsType/>
             </Content>
           )}
         </ProfileContent>
@@ -206,6 +226,7 @@ const ProfileContent = styled.div`
   width: 100%;
   padding: 0 5px;
   overflow-y: hidden;
+  /* height: 100%; */
 `
 const Content = styled.div`
   width: 100%;
@@ -213,7 +234,8 @@ const Content = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
-  padding-top: 10px;
+  padding: 10px 0;
+  height: 100%;
 `
 
 const Button = styled.button`

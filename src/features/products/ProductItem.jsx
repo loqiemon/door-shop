@@ -1,6 +1,45 @@
 import React from 'react'
 import styled from 'styled-components'
 
+
+function ProductItem({product}) {
+  return (
+    <Container>
+      <Image src={product.image}/>
+      <Column>
+        <Title>{product.name}</Title>
+        <Price>
+          <Prefix>Цена: </Prefix> 
+          {product.wholesalePrice} руб
+          </Price>
+        <Country>
+          <Prefix>Страна: </Prefix>
+          {product.country}
+          </Country>
+        <Manufacturer>
+          <Prefix>Производитель: </Prefix>
+          {product.manufacturer}
+          </Manufacturer>
+        <VendorCode>
+          <Prefix>Артикул: </Prefix>
+          {product.vendorCode}
+        </VendorCode>
+        <Weight>
+          <Prefix>Вес: </Prefix>
+          {product.weight}
+        </Weight>
+        <Description>
+          <Prefix>Описание: </Prefix>
+          {product.description}
+        </Description>
+      </Column>
+    </Container>
+  )
+}
+
+export default ProductItem
+
+
 const Container = styled.div`
   display: flex;
   gap: 20px;
@@ -60,40 +99,3 @@ const Prefix = styled.span`
   font-weight: 500;
   font-size: 20px;
 `
-
-
-function ProductItem({product}) {
-  return (
-    <Container>
-      <Image src={product.image}/>
-      <Column>
-        <Title>{product.name}</Title>
-        <Price>
-          <Prefix>Цена: </Prefix> 
-          {product.wholesalePrice} руб
-          </Price>
-        <Country>
-          <Prefix>Страна: </Prefix>
-          {product.country}
-          </Country>
-        <Manufacturer>
-          <Prefix>Производитель: </Prefix>
-          {product.manufacturer}
-          </Manufacturer>
-        <VendorCode>
-          <Prefix>Артикул: </Prefix>
-          {product.vendorCode}
-        </VendorCode>
-        <Weight>
-          <Prefix>Вес: </Prefix>
-          {product.weight}</Weight>
-        <Description>
-          <Prefix>Описание: </Prefix>
-          {product.description}
-        </Description>
-      </Column>
-    </Container>
-  )
-}
-
-export default ProductItem

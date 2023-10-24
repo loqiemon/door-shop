@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import Carousel from 'react-material-ui-carousel'
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Accordion from '@mui/material/Accordion';
@@ -8,9 +13,11 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import { addToCart, readCart, removeFromCart } from '../cart/cartSlice'
 import { fetchProduct } from '../../app/actionCreators'
 import Loader from '../../components/Loader'
+import isOurPhoto from '../../utils/isOurPhoto';
 
 
 
@@ -18,6 +25,9 @@ function ProductPage() {
   const { categoryId, productId, page } = useParams();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [variant, setVariant] = useState({});
+
+
   const cartItems = useSelector((state) => state.cart.cartItems)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,12 +42,31 @@ function ProductPage() {
       })
   }, []);
 
+
   const isInCart = (itemId) => {
     return cartItems.some((item) => item.id === itemId);
   };
 
   const goBack = () => {
     navigate(`/catalog/${categoryId}/${page}`)
+  }
+
+  const addProductToCart = (product) => {
+    if (variant.id !== undefined) {
+      dispatch(addToCart({
+        ...product, 
+        count: 1,
+        variant
+      }))
+    } else {
+      alert("Выберите хар-ки")
+    }
+
+  }
+
+  const handleChange = (id) => {
+    const chara =  product.characteristics.filter(item => item.id === parseInt(id))
+    if (chara.length > 0) setVariant(chara[0])
   }
 
   return (
@@ -51,15 +80,18 @@ function ProductPage() {
           {!isLoading && 
             <>
               <SubContainer>
-                <MyCarousel>
-                  {product.image.split(' ').map(
-                    (imgPath, i) => <Image src={imgPath} key={imgPath}/>  
-                  )}
-                </MyCarousel>
+                {isOurPhoto(product.image).length === 1 ? 
+                  <Image src={isOurPhoto(product.image)[0]} key={product.id}/>:
+                  <MyCarousel>
+                    {isOurPhoto(product.image).map(
+                      (imgPath, i) => <Image src={imgPath} key={imgPath}/>  
+                    )}
+                  </MyCarousel>
+                }
                 {isInCart(product.id) === true ? ( 
                   <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>
                 ): 
-                  <Button onClick={() => dispatch(addToCart({...product, count: 1}))} >Купить</Button>
+                  <Button onClick={() => addProductToCart(product)} >Купить</Button>
                 }
               </SubContainer>
               <SubContainer>
@@ -68,7 +100,28 @@ function ProductPage() {
                   <Characteristic>Название: <Name>{product.name}</Name></Characteristic>
                   <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
                   <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
-                  <Characteristic>Цена: <Name>{product.retailPrice} руб</Name></Characteristic>
+                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.retailPrice + variant.priceModifier: product.retailPrice} руб</Name></Characteristic>
+                  <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group"></FormLabel>
+                    <RadioGroup
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                      value={variant.id}
+                      onChange={e => handleChange(e.target.value)}
+                    >
+                      {product?.characteristics &&
+                      product?.characteristics.length > 0 &&
+                      product.characteristics.map(feature => 
+                        <FormControlLabel
+                          key={feature.value} 
+                          value={feature.id}
+                          control={<Radio />}
+                          label={`${feature.value} +${feature.priceModifier} руб`} 
+                        />
+                      )}
+                    </RadioGroup>
+                </FormControl>
+
                   <Characteristic>
                     Наличие: <Name style={{color: product.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
                   </Characteristic>
