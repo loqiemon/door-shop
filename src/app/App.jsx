@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 
 import MainPage from '../pages/MainPage'
 import CartPage from '../pages/CartPage'
-import PaymentPage from '../pages/PaymentPage'
-import InstallPage from '../pages/InstallPage'
-import DeliveryPage from '../pages/DeliveryPage'
-import SupportPage from '../pages/SupportPage'
-import ContactsPage from '../pages/ContactsPage'
-import RefundPage from '../pages/RefundPage'
+import PaymentPage from '../pages/Info/PaymentPage'
+import InstallPage from '../pages/Info/InstallPage'
+import DeliveryPage from '../pages/Info/DeliveryPage'
+import SupportPage from '../pages/Info/SupportPage'
+import ContactsPage from '../pages/Info/ContactsPage'
+import RefundPage from '../pages/Info/RefundPage'
 import Navbar from '../components/Navbar'
 
 import Modal from '../features/modal/Modal'
@@ -23,6 +23,8 @@ import Register from '../features/auth/Register'
 import ProfilePage from '../pages/ProfilePage'
 import ProductPage from '../features/products/ProductPage'
 import Footer from '../components/Footer'
+import AboutPage from '../pages/Info/AboutPage'
+import RequisitesPage from '../pages/Info/RequisitesPage'
 
 
 
@@ -61,6 +63,8 @@ function App() {
           <Route path="/install"  element={<InstallPage/>}/>
           <Route path="/contacts"  element={<ContactsPage/>}/>
           <Route path="/refund"  element={<RefundPage/>}/>
+          <Route path="/about"  element={<AboutPage/>}/>
+          <Route path="/requisites"  element={<RequisitesPage/>}/>
           <Route path="/product/:categoryId/:productId/:page"  element={<ProductPage/>}/>
         </Routes>
         <Footer/>
