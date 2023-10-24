@@ -61,6 +61,11 @@ const Form = styled.div`
     width: 100%;
     display: flex;
     gap: 20px;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      gap: 10px;
+    }
 `
 
 const Title = styled.h2`

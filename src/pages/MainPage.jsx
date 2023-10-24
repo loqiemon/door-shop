@@ -72,7 +72,7 @@ function MainPage() {
     let pageNumberToSet = 1;
     let filtersAreEqual = true;
 
-    debugger;
+  
     for (const key in filters) {
       if (filters.hasOwnProperty(key) && acceptFilters.hasOwnProperty(key)) {
         if (filters[key] !== acceptFilters[key]) {
@@ -313,7 +313,11 @@ const Main = styled.div`
   max-width: 1280px;
   margin: 0 auto;
 
-  /* height: 100%; */
+  height: 1920px;
+  @media (max-width: 767px) {
+    height: 3500px;
+  }
+  padding-bottom: 20px;
 `
 
 const Button = styled.button`

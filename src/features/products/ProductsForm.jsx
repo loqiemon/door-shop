@@ -311,13 +311,17 @@ export default ProductsForm
 
 
 const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    text-align: left;
-    padding-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+  padding-bottom: 20px;
+
+  @media (max-width: 767px) {
+    padding: 50px 0;
+  }
 `
 
 const Form = styled.div`

@@ -58,8 +58,8 @@ export default Footer
 
 
 const Container = styled.footer`
-    position: absolute;
-    bottom: 0;
+    /* position: absolute;
+    bottom: 0; */
     z-index: 1015;
     width: 100%;
     display: flex;
@@ -118,4 +118,8 @@ const Link = styled(LinkReact)`
 const Phone = styled.a`
     color: #fff;
     font-size: 27px;
+
+    @media (max-width: 576px) {
+        font-size: 21px;
+    }
 `

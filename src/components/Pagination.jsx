@@ -37,6 +37,7 @@ const DivFlex = styled.div`
   display: flex;
   margin: 0 auto;
   gap: 10px;
+  
 `
 
 const DivMy = styled.button`

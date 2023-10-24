@@ -22,7 +22,7 @@ function Categories() {
   }, [])
 
   return (
-    <>
+    <Container>
         <CategoriesHeader>
             <CategoriesTitle>Каталог</CategoriesTitle>
             <CategoriesInput 
@@ -51,7 +51,7 @@ function Categories() {
                 }
             </CategoriesContainer>
         }
-    </>
+    </Container>
   )
 }
 
@@ -70,7 +70,15 @@ const CategoriesContainer = styled.div`
         padding: 15px;
         justify-content: space-between;
     }
-    
+`
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: 767px) {
+        height: 2000px;
+    }
 `
 
 const CategoriesItem = styled(Link)`

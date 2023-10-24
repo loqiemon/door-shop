@@ -52,16 +52,15 @@ function ProductPage() {
   }
 
   const addProductToCart = (product) => {
-    if (variant.id !== undefined) {
+    // if (variant.id !== undefined) {
       dispatch(addToCart({
         ...product, 
         count: 1,
         variant
       }))
-    } else {
-      alert("Выберите хар-ки")
-    }
-
+    // } else {
+    //   alert("Выберите хар-ки")
+    // }
   }
 
   const handleChange = (id) => {
@@ -123,7 +122,7 @@ function ProductPage() {
                 </FormControl>
 
                   <Characteristic>
-                    Наличие: <Name style={{color: product.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
+                    Наличие: <Name style={{color: product?.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
                   </Characteristic>
                   <Accordion>
                     <AccordionSummary

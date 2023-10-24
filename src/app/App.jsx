@@ -63,7 +63,7 @@ function App() {
           <Route path="/refund"  element={<RefundPage/>}/>
           <Route path="/product/:categoryId/:productId/:page"  element={<ProductPage/>}/>
         </Routes>
-        {/* <Footer/> */}
+        <Footer/>
        </BrowserRouter> 
     </>
   )

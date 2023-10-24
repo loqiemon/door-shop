@@ -92,6 +92,10 @@ const Container = styled.div`
   width: 100%;
   padding: 20px 0;
   display: flex;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `
 
 const LoaderDiv =styled.div`

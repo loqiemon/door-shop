@@ -34,6 +34,7 @@ function ProductList({handleEdit, handleDelete, children}) {
 
   const goToPage = (pageNumber) => {
     let pageNumberToSet = 1;
+   
     if (filters.searchByName === acceptFilters.searchByName &&
       filters.searchParameter === acceptFilters.searchParameter 
     ){
@@ -53,14 +54,14 @@ function ProductList({handleEdit, handleDelete, children}) {
   return (
     <TableContainer1>
       <Container>
-        <div style={{display: 'flex', gap: '15px'}}>
+        <Container2>
           {children}
           <Input 
             placeholder='Поиск...'
             value={filters.searchByName}
             onChange={e => setFilters(prev => ({...prev, searchByName: e.target.value}))}
           />
-        </div>
+        </Container2>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">Поле поиска</InputLabel>
               <Select
@@ -149,6 +150,15 @@ function ProductList({handleEdit, handleDelete, children}) {
 
 export default ProductList;
 
+
+const Container2 = styled.div`
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
+`
 
 const TableContainer1 = styled.div`
   width: 100%;
@@ -257,4 +267,9 @@ const TableImage = styled.img`
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  padding: 10px;
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
 `

@@ -198,6 +198,10 @@ const ProfileContainer = styled.div`
     flex-direction: column;
     margin: 0 auto;
     padding-top: 20px;
+
+    @media (max-width: 576px) {
+      height: 1000px;
+    }
 `
 
 const ProfileTitle = styled.h1`
@@ -212,6 +216,7 @@ const ProfileAside = styled.div`
   background-color: #fff;
   gap: 10px;
   border-radius: 15px;
+  flex-wrap: wrap;
 `
 
 const ProfileAsideItem = styled(Link)`
