@@ -69,9 +69,30 @@ function MainPage() {
 
 
   const requestProducts = (pageNumber) => {
+    let pageNumberToSet = 1;
+    let filtersAreEqual = true;
+
+    debugger;
+    for (const key in filters) {
+      if (filters.hasOwnProperty(key) && acceptFilters.hasOwnProperty(key)) {
+        if (filters[key] !== acceptFilters[key]) {
+          filtersAreEqual = false;
+          break;
+        }
+      }
+    }
+
+    if (filtersAreEqual) {
+      pageNumberToSet = pageNumber;
+      navigate(`/catalog/${categoryId}/${pageNumber}`);
+    } else {
+      navigate(`/catalog/${categoryId}/1`);
+      pageNumberToSet = 1;
+    }
+
     setAcceptFilters({
       categoryId,
-      pageNumber,
+      pageNumber: pageNumberToSet,
       PageSize: 10,
       minPrice: filters.minPrice,
       maxPrice: filters.maxPrice,
@@ -84,7 +105,7 @@ function MainPage() {
 
   const goToPage = (pageNumber) => {
     requestProducts(pageNumber)
-    navigate(`/catalog/${categoryId}/${pageNumber}`);
+    // navigate(`/catalog/${categoryId}/${pageNumber}`);
   };
 
   const isAvaibleFunc = (isAvaible) => {

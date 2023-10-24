@@ -33,11 +33,20 @@ function ProductList({handleEdit, handleDelete, children}) {
   const count = accessories?.totalCount || 0;
 
   const goToPage = (pageNumber) => {
-    setPage(pageNumber)
+    let pageNumberToSet = 1;
+    if (filters.searchByName === acceptFilters.searchByName &&
+      filters.searchParameter === acceptFilters.searchParameter 
+    ){
+      setPage(pageNumber)
+      pageNumberToSet = pageNumber
+    } else {
+      setPage(1)
+      pageNumberToSet = 1
+    }
     setAcceptFilters(prev => ({
       ...prev,
       ...filters,
-      pageNumber: pageNumber || page,
+      pageNumber: pageNumberToSet,
     }))
   };
 
@@ -61,11 +70,11 @@ function ProductList({handleEdit, handleDelete, children}) {
                 onChange={e => setFilters(prev => ({...prev, searchParameter: e.target.value}))}
                 label="Type"
               >
-              <MenuItem value='name'>Имя</MenuItem>
-              <MenuItem value='vendorCode'>Артикул</MenuItem>
-              <MenuItem value='manufacturer'>Производитель</MenuItem>
-              <MenuItem value='country'>Страна</MenuItem>
-              <MenuItem value='isAvaible'>Доступность</MenuItem>
+                <MenuItem value='name'>Имя</MenuItem>
+                <MenuItem value='vendorCode'>Артикул</MenuItem>
+                <MenuItem value='manufacturer'>Производитель</MenuItem>
+                <MenuItem value='country'>Страна</MenuItem>
+                <MenuItem value='isAvaible'>Доступность</MenuItem>
               </Select>
           </FormControl>
           <Button onClick={() => goToPage(page)}>Применить</Button>
@@ -73,59 +82,59 @@ function ProductList({handleEdit, handleDelete, children}) {
       {isLoading || isFetching && <LoaderDiv><Loader/></LoaderDiv>}
       {!isLoading && !isFetching &&
         <>
-           <TableContainer2 component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRowMy>
-                  <TableCellHeader align="left">Название</TableCellHeader>
-                  <TableCellHeader align="left">Производитель</TableCellHeader>
-                  <TableCellHeader align="left">Страна</TableCellHeader>
-                  {/* <TableCellHeader align="left">Вес</TableCellHeader> */}
-                  <TableCellHeader align="left">Описание</TableCellHeader>
-                  <TableCellHeader align="left">Доступность</TableCellHeader>
-                  <TableCellHeader align="left">Артикул</TableCellHeader>
-                  <TableCellHeader align="left">Розничная цена</TableCellHeader>
-                  <TableCellHeader align="left">Оптовая цена</TableCellHeader>
-                  <TableCellHeader align="left">Картинка</TableCellHeader>
-                  {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
-                  <TableCellHeader align="left">Действия</TableCellHeader>
-              </TableRowMy>
-            </TableHead>
-            <TableBody>
-                {products.map((row, rowIndex) => (
-                  <TableRowMy
-                    key={rowIndex}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                      <TableCellMy>{row.name}</TableCellMy>
-                      <TableCellMy>{row.manufacturer}</TableCellMy>
-                      <TableCellMy>{row.country}</TableCellMy>
-                      {/* <TableCellMy>{row.weight}</TableCellMy> */}
-                      <TableCellMy>
-                        <Description>
-                          {row.description}
-                        </Description>
-                      </TableCellMy>
-                      <TableCellMy>{row.isAvaible}</TableCellMy>
-                      <TableCellMy>{row.vendorCode} </TableCellMy>
-                      <TableCellMy>{row.retailPrice} руб</TableCellMy>
-                      <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
-                      <TableCellMy>
-                        <Carousel>
-                          {isOurPhoto(row.image).map(imagePath => 
-                            <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
-                          )}
-                        </Carousel>
-                      </TableCellMy>
-                      {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
-                      <TableCellMy>
-                          <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
-                          <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
-                      </TableCellMy>
-                  </TableRowMy>
-                ))}
-            </TableBody>
-          </Table>
+          <TableContainer2 component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRowMy>
+                    <TableCellHeader align="left">Название</TableCellHeader>
+                    <TableCellHeader align="left">Производитель</TableCellHeader>
+                    <TableCellHeader align="left">Страна</TableCellHeader>
+                    {/* <TableCellHeader align="left">Вес</TableCellHeader> */}
+                    <TableCellHeader align="left">Описание</TableCellHeader>
+                    <TableCellHeader align="left">Доступность</TableCellHeader>
+                    <TableCellHeader align="left">Артикул</TableCellHeader>
+                    <TableCellHeader align="left">Розничная цена</TableCellHeader>
+                    <TableCellHeader align="left">Оптовая цена</TableCellHeader>
+                    <TableCellHeader align="left">Картинка</TableCellHeader>
+                    {/* <TableCellHeader align="left">Тип</TableCellHeader> */}
+                    <TableCellHeader align="left">Действия</TableCellHeader>
+                </TableRowMy>
+              </TableHead>
+              <TableBody>
+                  {products.map((row, rowIndex) => (
+                    <TableRowMy
+                      key={rowIndex}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCellMy>{row.name}</TableCellMy>
+                        <TableCellMy>{row.manufacturer}</TableCellMy>
+                        <TableCellMy>{row.country}</TableCellMy>
+                        {/* <TableCellMy>{row.weight}</TableCellMy> */}
+                        <TableCellMy>
+                          <Description>
+                            {row.description}
+                          </Description>
+                        </TableCellMy>
+                        <TableCellMy>{row.isAvaible}</TableCellMy>
+                        <TableCellMy>{row.vendorCode} </TableCellMy>
+                        <TableCellMy>{row.retailPrice} руб</TableCellMy>
+                        <TableCellMy>{row.wholesalePrice} руб</TableCellMy>
+                        <TableCellMy>
+                          <Carousel>
+                            {isOurPhoto(row.image).map(imagePath => 
+                              <TableImage src={`${imagePath}`} alt="" key={imagePath}/>  
+                            )}
+                          </Carousel>
+                        </TableCellMy>
+                        {/* <TableCellMy>{categories.filter(item => item.id === row.AccessoryTypeId)[0].Type}</TableCellMy> */}
+                        <TableCellMy>
+                            <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
+                            <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
+                        </TableCellMy>
+                    </TableRowMy>
+                  ))}
+              </TableBody>
+            </Table>
         </TableContainer2>
           <Pagination
             page={page}
