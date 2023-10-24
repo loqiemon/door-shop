@@ -4,7 +4,9 @@ import CsvForm from '../features/csv/CsvForm'
 
 function ContactsPage() {
   return (
-    <CsvForm></CsvForm>
+    <div>
+      contacts
+    </div>
   )
 }
 

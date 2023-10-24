@@ -9,6 +9,7 @@ import { logoutFunc } from '../app/actionCreators'
 import ProductsAdminPage from '../features/products/ProductsAdminPage'
 import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
 import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation } from '../features/products/productApi'
+import CsvForm from '../features/csv/CsvForm'
 
 
 function ProfilePage() {
@@ -114,10 +115,18 @@ function ProfilePage() {
               setCurrentContent={setCurrentContent}
             />
           }
-          {isHaveRole('admin') && 
+          {/* {isHaveRole('admin') && 
             <ContentButton 
               name='characteristictsTypes'
               text='Типы хар-к' 
+              currentContent={currentContent}
+              setCurrentContent={setCurrentContent}
+            />
+          } */}
+          {isHaveRole('admin') && 
+            <ContentButton 
+              name='csv'
+              text='CSV' 
               currentContent={currentContent}
               setCurrentContent={setCurrentContent}
             />
@@ -157,6 +166,11 @@ function ProfilePage() {
           {isCurrentContent('characteristictsTypes') && (
             <Content>
               <СharacteristicsType/>
+            </Content>
+          )}
+          {isCurrentContent('csv') && (
+            <Content>
+              <CsvForm/>
             </Content>
           )}
         </ProfileContent>

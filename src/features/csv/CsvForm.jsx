@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,6 +10,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from '../../app/actionCreators';
 import { usePostCsvMutation } from './csvApi';
 import { API_URL } from '../../services/constants';
+import Loader from '../../components/Loader';
+
 
 function CsvForm() {
   const [csv, setCsv] = useState();
@@ -22,12 +23,15 @@ function CsvForm() {
     dispatch(fetchCategories());
   }, [])
 
-  useEffect(() => {
-    console.log(csv)
-  }, [csv]);
 
   const categories = useSelector(state => state.categories.categories);
-  const [ postCsv ] = usePostCsvMutation();
+  const [ postCsv , { isLoading, error }] = usePostCsvMutation();
+
+  useEffect(() => {
+    if (error !== undefined) {
+      alert(error?.message);
+    }
+  }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,34 +49,39 @@ function CsvForm() {
 
   return (
     <Container>
-      <Input
-        placeholder='CSV'
-        type='file'
-        name="file"
-        accept=".csv" 
-        onChange={(e) => setCsv(e.target.files[0])}
-      />
-       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-standard-label">Тип товара</InputLabel>
-            <Select
-              value={accessoryTypeId || ''}
-              onChange={handleChange}
-              label="Type"
-            >
-            <MenuItem value="">
-                <em>None</em>
-            </MenuItem>
-            {categories.map(category => 
-                <MenuItem 
-                    value={category.id}
-                    key={category.id}
+      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
+      {!isLoading && (
+        <>
+          <Input
+            placeholder='CSV'
+            type='file'
+            name="file"
+            accept=".csv" 
+            onChange={(e) => setCsv(e.target.files[0])}
+          />
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-standard-label">Тип товара</InputLabel>
+                <Select
+                  value={accessoryTypeId || ''}
+                  onChange={handleChange}
+                  label="Type"
                 >
-                    {category.type}
+                <MenuItem value="">
+                    <em>None</em>
                 </MenuItem>
-            )}
-            </Select>
-        </FormControl>
-      <Button onClick={handleSubmit}>Отправить</Button>
+                {categories.map(category => 
+                    <MenuItem 
+                        value={category.id}
+                        key={category.id}
+                    >
+                        {category.type}
+                    </MenuItem>
+                )}
+                </Select>
+            </FormControl>
+          <Button onClick={handleSubmit}>Отправить</Button>
+        </>
+      )}
     </Container>
   )
 }
@@ -83,14 +92,18 @@ const Container = styled.div`
   width: 100%;
   padding: 20px 0;
   display: flex;
+`
 
+const LoaderDiv =styled.div`
+  position: absolute;
+  top: 45%;
+  left: 50%;
 `
 
 const Input = styled(TextField)`
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-radius: 15px; 
     border-color: #56195d;
-
   }
 
   & .MuiInputLabel-root.Mui-focused {
@@ -104,7 +117,7 @@ const Input = styled(TextField)`
     background-color: #f7f7f7;
     padding: 12px;
     border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px; */
 `
 
 const Button = styled.button`
