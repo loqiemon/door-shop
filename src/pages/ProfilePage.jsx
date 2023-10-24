@@ -216,7 +216,9 @@ const ProfileAside = styled.div`
   background-color: #fff;
   gap: 10px;
   border-radius: 15px;
-  flex-wrap: wrap;
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+  }
 `
 
 const ProfileAsideItem = styled(Link)`

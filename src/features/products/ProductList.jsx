@@ -80,7 +80,7 @@ function ProductList({handleEdit, handleDelete, children}) {
           </FormControl>
           <Button onClick={() => goToPage(page)}>Применить</Button>
       </Container>
-      {isLoading || isFetching && <LoaderDiv><Loader/></LoaderDiv>}
+      {(isLoading || isFetching) && <LoaderDiv><Loader/></LoaderDiv>}
       {!isLoading && !isFetching &&
         <>
           <TableContainer2 component={Paper}>
