@@ -53,7 +53,7 @@ function Cart() {
     <Container>
       <SubContainer>
         <Title>Оформление заказа</Title>
-        <OrderForm totalPrice={totalPrice}/>
+        <OrderForm totalPrice={totalPrice} accessories={cartItems}/>
       </SubContainer>
       <SubContainer>
         <Title>Товары в корзине</Title>

@@ -10,9 +10,11 @@ import Checkbox from '@mui/material/Checkbox';
 
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux';
+import { usePostOrderMutation } from './orderApi';
+
 // import { addOrderRequest } from '../../app/actionCreators';
 
-function OrderForm({totalPrice}) {
+function OrderForm({totalPrice, accessories}) {
   const { value: name, onChange: setName } = useInput('');
   const { value: secondName, onChange: setSecondName } = useInput('');
   const { value: email, onChange: setEmail } = useInput('');
@@ -24,6 +26,8 @@ function OrderForm({totalPrice}) {
 
   const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const dispatch = useDispatch();
+
+  const [postOrder, { isLoading }] = usePostOrderMutation();
 
   const handleSubmit = () => {
     if (
@@ -37,16 +41,24 @@ function OrderForm({totalPrice}) {
     ) {
       const order = {
         name: `${name} ${secondName}`,
-        email,
-        address,
+        mail: email,
+        adress: address,
         phoneNumber: phone,
-        comment,
+        commentary: comment,
         paymentType,
-        date: new Date(),
-        status: 'Не обработан',
-        total: totalPrice
+        // date: new Date(),
+        // status: 'Не обработан',
+        // total: totalPrice
+        accessory: accessories.map(item => {
+          return {
+            ...item,
+            count: item.count
+          }
+        })
       }
-      dispatch(addOrderRequest(order))
+      console.log(order)
+      postOrder(order)
+      // dispatch(addOrderRequest(order))
       setName('')
       setSecondName('')
       setEmail('')

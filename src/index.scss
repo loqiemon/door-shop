@@ -138,16 +138,21 @@ body , html  {
 	scrollbar-color: #555 rgba(0,0,0,0);  
 } 
 
-@font-face {
-	font-family: 'BookmanOldStyleBold';
-	src: local('bookmanOldStyle'),
-		url('../public/fonts/bookmanOldStyle/bookmanoldstyle_bold.ttf') format('truetype');
-	font-weight: bold;
-}
+// @font-face {
+// 	font-family: 'BookmanOldStyleBold';
+// 	src: local('bookmanOldStyle'),
+// 		url('../public/fonts/bookmanOldStyle/bookmanoldstyle_bold.ttf') format('truetype');
+// 	font-weight: bold;
+// }
 
 @font-face {
 	font-family: 'BookmanOldStyle';
 	src: local('bookmanOldStyle'),
-		url('../public/fonts/bookmanOldStyle/bookmanoldstyle.ttf') format('truetype');
+		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.ttf') format('truetype'),
+		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.woff2') format('woff2'),
+		url('../public/fonts/bookmanOldStyle/ofont.ru_Bookman-Old-Style-Cyr.woff') format('woff'),
+		url('../public/fonts/bookmanOldStyle/ofont.ru_Bookman-Old-Style-Cyr.ttf') format('truetype');
+		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.woff') format('woff'),
+		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.svg') format('svg');
 	font-weight: normal;
 }

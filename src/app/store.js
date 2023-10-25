@@ -6,7 +6,7 @@ import modalReducer from "../features/modal/modalSlice";
 import authReducer from "../features/auth/authSlice";
 import productReducer from "../features/products/productsSlice";
 import filtersReducer from '../features/filters/filtersSlice';
-import { orderApi } from '../features/order/orderSlice';
+import { orderApi } from '../features/order/orderApi';
 import { productApi } from '../features/products/productApi'
 import characteristicsReducer from '../features/characteristics/characteristicsApi'
 import { csvApi } from "../features/csv/csvApi";
@@ -27,7 +27,10 @@ export const store = configureStore({
         // [csvApi.reducerPath]: csvApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(productApi.middleware),
+        getDefaultMiddleware()
+            .concat(orderApi.middleware)
+            // .concat(csvApi.middleware)
+            .concat(productApi.middleware),
 })
 
 setupListeners(store.dispatch)

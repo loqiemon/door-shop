@@ -10,6 +10,7 @@ import ProductsAdminPage from '../features/products/ProductsAdminPage'
 import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
 import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation } from '../features/products/productApi'
 import CsvForm from '../features/csv/CsvForm'
+import Orders from '../features/order/Orders'
 
 
 function ProfilePage() {
@@ -133,46 +134,43 @@ function ProfilePage() {
           }
         </ProfileAside>
         <ProfileContent>
+          <Content>
           {isCurrentContent('profile') && (
-            <Content>
+            <>
                 Контент профиля
                 <Button onClick={logout}>Выйти из аккаунта</Button>
-            </Content>
+            </>
           )}
           {isCurrentContent('products') && (
-            <Content>
-              <ProductsAdminPage
-                handleClose={handleClose}
-                handleAdd={handleAdd}
-                addModal={addModal}
-                editModal={editModal}
-                productEdit={productEdit}
-                setAddModal={setAddModal}
-                handleEdit={handleEdit}
-                handleDelete={deleteProduct}
-                handleEditConfirm={handleEditConfirm}
-              />
-            </Content>
+            <ProductsAdminPage
+              handleClose={handleClose}
+              handleAdd={handleAdd}
+              addModal={addModal}
+              editModal={editModal}
+              productEdit={productEdit}
+              setAddModal={setAddModal}
+              handleEdit={handleEdit}
+              handleDelete={deleteProduct}
+              handleEditConfirm={handleEditConfirm}
+            />
           )}
           {isCurrentContent('categories') && (
-            <Content>
-                <CategoriesAdminPage
-                  addModal={addModal}
-                  handleClose={handleClose}
-                  setAddModal={setAddModal}
-                />
-            </Content>
+            <CategoriesAdminPage
+              addModal={addModal}
+              handleClose={handleClose}
+              setAddModal={setAddModal}
+            />
           )}
           {isCurrentContent('characteristictsTypes') && (
-            <Content>
               <СharacteristicsType/>
-            </Content>
           )}
           {isCurrentContent('csv') && (
-            <Content>
               <CsvForm/>
-            </Content>
           )}
+          {isCurrentContent('orders') && (
+              <Orders/>
+          )}
+          </Content>
         </ProfileContent>
     </ProfileContainer>
   )
