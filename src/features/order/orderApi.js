@@ -24,9 +24,21 @@ export const orderApi = createApi({
           sortBy && requestParams.append("sortBy", sortBy);
           sortType && requestParams.append("sortType", sortType);
           const apiUrl = `Orders?${requestParams}`;
-          return ({ url: apiUrl })
+          return ({ 
+            url: apiUrl,
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+            } 
+          })
         },
         providesTags: ['Orders'],
+      }),
+      getOrderByTelephone: builder.query({
+        query: (telephone) => ({
+          url: `Orders/phone?phoneNumber=${telephone}`,
+          method: 'GET',
+        }),
+        providesTags: ['Orders']
       }),
       postOrder: builder.mutation({
         query: (order) => ({
@@ -56,6 +68,7 @@ export const orderApi = createApi({
 
 export const { 
   useGetOrdersQuery,
+  useGetOrderByTelephoneQuery,
   usePostOrderMutation,
   usePutOrderMutation,
   useDeleteOrderMutation

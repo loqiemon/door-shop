@@ -21,6 +21,7 @@ function InstallPage() {
         За консультацией обращаться по телефону <Link type='tel' href='tel:+7-977-454-67-77'>+7-977-454-67-77</Link>
       </Paragraph>
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br />
     </Container>
   )
 }

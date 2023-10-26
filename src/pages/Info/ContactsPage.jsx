@@ -21,6 +21,7 @@ function ContactsPage() {
         </Div>
       </Subtitle2>
       <br/><br />
+      <br/><br />
     </Container>
   )
 }

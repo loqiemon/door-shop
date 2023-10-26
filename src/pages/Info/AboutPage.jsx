@@ -66,6 +66,7 @@ function AboutPage() {
         Контакты для заказов: <Link href="mailto:furniturarf@list.ru">furniturarf@list.ru</Link> <Link href="tel:+79774546777">+7-977-454-67-77</Link>  
       </Subtitle>
       <br /><br /><br /><br /><br /><br />
+      <br /><br /><br />
     </Container>
   )
 }

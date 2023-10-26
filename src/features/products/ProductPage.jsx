@@ -76,7 +76,7 @@ function ProductPage() {
                        </Back>
         }
         <Container>
-          {!isLoading && 
+          {!isLoading &&  
             <>
               <SubContainer>
                 {isOurPhoto(product.image).length === 1 ? 
@@ -115,14 +115,14 @@ function ProductPage() {
                           key={feature.value} 
                           value={feature.id}
                           control={<Radio />}
-                          label={`${feature.value} +${feature.priceModifier} руб`} 
+                          label={`${feature.value} +${feature.value} руб`} 
                         />
                       )}
                     </RadioGroup>
                 </FormControl>
 
                   <Characteristic>
-                    Наличие: <Name style={{color: product?.isAvaible.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
+                    Наличие: <Name style={{color: product?.isAvaible?.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
                   </Characteristic>
                   <Accordion>
                     <AccordionSummary
@@ -136,6 +136,24 @@ function ProductPage() {
                       <Typography>
                         <Name>{product.description}</Name>
                       </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                    <Typography>Доп. Характеристики</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {product.characteristic.length > 0 && product.characteristic.map(feature => 
+                        <Typography>
+                          <Name>
+                            {feature.characteristicType.name}: {feature.value}
+                          </Name>
+                        </Typography>
+                      )}
                     </AccordionDetails>
                   </Accordion>
                 </TextContainer>
@@ -167,7 +185,7 @@ const ContainerCommon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 70%;
+  /* height: 70%; */
 `
 
 const MyLoader = styled.div`

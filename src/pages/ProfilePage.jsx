@@ -11,6 +11,7 @@ import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
 import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation } from '../features/products/productApi'
 import CsvForm from '../features/csv/CsvForm'
 import Orders from '../features/order/Orders'
+import GetOrder from '../features/order/GetOrder'
 
 
 function ProfilePage() {
@@ -138,6 +139,7 @@ function ProfilePage() {
           {isCurrentContent('profile') && (
             <ProfileCurrent>
                 Контент профиля
+                <GetOrder/>
                 <Button onClick={logout}>Выйти из аккаунта</Button>
             </ProfileCurrent>
           )}
