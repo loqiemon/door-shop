@@ -74,7 +74,7 @@ const CategoriesContainer = styled.div`
         padding-bottom: 40px;
         justify-content: space-between;
     }
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 `
 
 const Container = styled.div`

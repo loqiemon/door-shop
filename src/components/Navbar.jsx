@@ -46,12 +46,13 @@ function Navbar() {
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
                     <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
-                    {isAuth === true ? 
-                        <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>:
-                        <NavLink onClick={() => dispatch(modalSlice.actions.open())}>
-                            Профиль
-                        </NavLink>
-                    }
+                    {/* {isAuth === true ?  */}
+                        <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
+                        {/* : */}
+                        {/* <NavLink onClick={() => dispatch(modalSlice.actions.open())}> */}
+                            {/* Профиль */}
+                        {/* </NavLink> */}
+                    {/* } */}
                 </NavLinks>
                 <Hamburger 
                     className={isNavActive ? 'hamburger-active' : ''}

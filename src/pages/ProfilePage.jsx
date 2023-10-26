@@ -12,6 +12,7 @@ import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation
 import CsvForm from '../features/csv/CsvForm'
 import Orders from '../features/order/Orders'
 import GetOrder from '../features/order/GetOrder'
+import {modalSlice} from '../features/modal/modalSlice'
 
 
 function ProfilePage() {
@@ -74,6 +75,10 @@ function ProfilePage() {
     navigate('/')
   }
 
+  const login = () => {
+    dispatch(modalSlice.actions.open())
+  }
+  
   const isHaveRole = (role) => {
     return user.role === role
   }
@@ -138,9 +143,9 @@ function ProfilePage() {
           <Content>
           {isCurrentContent('profile') && (
             <ProfileCurrent>
-                Контент профиля
                 <GetOrder/>
                 <Button onClick={logout}>Выйти из аккаунта</Button>
+                <Button onClick={login}>Войти</Button>
             </ProfileCurrent>
           )}
           {isCurrentContent('products') && (
@@ -208,6 +213,7 @@ const ProfileContainer = styled.div`
 const ProfileCurrent = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   gap: 20px;
 `
 
@@ -286,6 +292,7 @@ const Content = styled.div`
 
 const Button = styled.button`
     padding: 12px;
+    max-width: 250px;
     background-color: #f7f7f7;
     border-radius: 15px;
     transition: all .35s ease-in;
