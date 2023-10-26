@@ -52,7 +52,7 @@ function ProductList({handleEdit, handleDelete, children}) {
   };
 
   return (
-    <TableContainer1>
+    <TableContainer1 style={{height: (isFetching || isLoading) ? '50vh' : 'auto'}}>
       <Container>
         <Container2>
           {children}
@@ -152,18 +152,18 @@ export default ProductList;
 
 
 const Container2 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 15px;
-    @media (max-width: 576px) {
-      flex-direction: column;
-    }
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 `
 
 const TableContainer1 = styled.div`
   width: 100%;
   /* max-height: 350px; */
-  max-height: 500px;
+  /* max-height: 500px; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -214,9 +214,8 @@ const TableCellMy = styled(TableCell)`
   height: 50px; 
   overflow: auto;
   text-overflow: ellipsis; 
-
-  
 `
+
 const TableRowMy = styled(TableRow)`
   height: 50px;
   overflow: auto;
@@ -237,14 +236,14 @@ const TableCellHeader = styled(TableCell)`
 
 
 const Input = styled.input`
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #f7f7f7;
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
 const TableContainer2 = styled(TableContainer)`
-    height: 500px;
+  /* height: 500px; */
 ` 
 
 const Button = styled.button`

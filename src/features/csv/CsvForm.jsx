@@ -91,6 +91,7 @@ export default CsvForm
 const Container = styled.div`
   width: 100%;
   padding: 20px 0;
+  height: 50vh;
   display: flex;
   @media (max-width: 767px) {
     flex-direction: column;
@@ -130,7 +131,7 @@ const Button = styled.button`
     border-radius: 15px;
     transition: all .35s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+    max-height: 60px;
     &:hover {
       background-color: #56195d;
       color: white;

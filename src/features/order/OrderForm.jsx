@@ -11,6 +11,9 @@ import Checkbox from '@mui/material/Checkbox';
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux';
 import { usePostOrderMutation } from './orderApi';
+import { PHONENUMBER } from '../../services/constants';
+import { clearCart } from '../cart/cartSlice';
+import AlertJsx from '../../components/Alert';
 
 // import { addOrderRequest } from '../../app/actionCreators';
 
@@ -23,13 +26,27 @@ function OrderForm({totalPrice, accessories}) {
   const { value: comment, onChange: setComment } = useInput('');
   const [ paymentType, setPaymentType] = useState('cash');
   const [ checked, setChecked ] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
 
   const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const dispatch = useDispatch();
 
-  const [postOrder, { isLoading }] = usePostOrderMutation();
+  const [postOrder, { isLoading, error }] = usePostOrderMutation();
+
+  const showAlert = () => {
+    setIsAlertVisible(true);
+
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 5000);
+  };
 
   const handleSubmit = () => {
+    const pattern = /^[0-9]{11}$/;
+    if (!pattern.test(phone)) {
+      alert("Номер должен быть в формате 89005553535");
+      return
+    }
     if (
       name.length > 0 &&
       secondName.length > 0 &&
@@ -46,18 +63,25 @@ function OrderForm({totalPrice, accessories}) {
         phoneNumber: phone,
         commentary: comment,
         paymentType,
+        status: 'Не обработан',
         // date: new Date(),
         // status: 'Не обработан',
         // total: totalPrice
         accessory: accessories.map(item => {
           return {
             ...item,
+            accessoryId: item.id,
             count: item.count
           }
         })
       }
-      console.log(order)
-      postOrder(order)
+      postOrder(order)  .then(() => {
+        dispatch(clearCart());
+        showAlert();
+      })
+      .catch((error) => {
+        alert(`Не удалось добавить заказ. Свяжитесь с нами ${PHONENUMBER} `);
+      });
       // dispatch(addOrderRequest(order))
       setName('')
       setSecondName('')
@@ -92,6 +116,7 @@ function OrderForm({totalPrice, accessories}) {
           onChange={e => setPhone(e.target.value)}
           label='Телефон'
           type='tel'
+          
         />
         <Input
           value={email}
@@ -121,13 +146,18 @@ function OrderForm({totalPrice, accessories}) {
             </Select>
         </FormControl>
         <div>
-          <span>Даю согласие на обработку персональнх данных</span>
+          <span>Даю согласие на обработку персональных данных</span>
           <Checkbox 
             checked={checked}
             onChange={e => setChecked(e.target.checked)}
           />
         </div>
         <Button onClick={handleSubmit}>Оформить заказ</Button>
+        {isAlertVisible && <AlertJsx 
+          message={'Заказ успешно оформлен. Менеджер свяжется с вами.'}
+          onClose={() => setIsAlertVisible(false)}
+          type={'success'} />
+        }
     </Container>
   )
 }

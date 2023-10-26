@@ -108,7 +108,7 @@ body {
 
 body, html {
 	width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
 *, html {
@@ -117,7 +117,10 @@ body, html {
 
 #root {
 	width: 100%;
-    height: 100vh;
+    // height: 100vh;
+	display: flex;
+	flex-flow: column nowrap;
+	height: 100%;
 }
 
 body , html  {
@@ -151,8 +154,12 @@ body , html  {
 		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.ttf') format('truetype'),
 		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.woff2') format('woff2'),
 		url('../public/fonts/bookmanOldStyle/ofont.ru_Bookman-Old-Style-Cyr.woff') format('woff'),
-		url('../public/fonts/bookmanOldStyle/ofont.ru_Bookman-Old-Style-Cyr.ttf') format('truetype');
+		url('../public/fonts/bookmanOldStyle/ofont.ru_Bookman-Old-Style-Cyr.ttf') format('woff');
 		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.woff') format('woff'),
 		// url('../public/fonts/bookmanOldStyle/bookmanoldstyle.svg') format('svg');
 	font-weight: normal;
+}
+
+.main {
+	flex: 1;
 }

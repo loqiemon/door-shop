@@ -25,7 +25,7 @@ function AlertJsx({
   return ReactDOM.createPortal(
     visible ? (
       <AlertMy severity={type} >
-        {message}
+        <span>{message}</span>
       </AlertMy>
     ) : null,
     document.getElementById('root') 
@@ -37,7 +37,20 @@ export default AlertJsx;
 
 const AlertMy = styled(Alert)`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  /* bottom: 0;
+  right: 0; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1005;
+  min-width: 300px;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 21px;
+    font-weight: 500;
+  }
 `

@@ -119,7 +119,7 @@ function MainPage() {
   
    
   return (
-    <Main>
+    <Main className='main'>
       <Aside 
         filters={filters}
         setFilters={setFilters}
@@ -189,10 +189,10 @@ function MainPage() {
               </PaginationFixed>
             </>
           }
+        {products?.totalCount === 0 &&
+          <Title>Таких товаров нет</Title>
+        }
         </Container>
-      }
-      {!isLoading && !isFetching && products?.totalCount === 0 &&
-        <Title>Таких товаров нет</Title>
       }
     </Main>
   )
@@ -213,7 +213,7 @@ const IsAvaible = styled.span`
 
 const PaginationFixed = styled.div`
   margin: 0 auto;
-  @media (max-width: 576px) {
+  /* @media (max-width: 576px) {
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -223,7 +223,7 @@ const PaginationFixed = styled.div`
     z-index: 1010;
     display: flex;
     justify-content: center;
-  }
+  } */
 `
 
 const MyAccordion = styled(Accordion)`
@@ -245,6 +245,7 @@ const SellList = styled.div`
   gap: 10px;
   background-color: #fff;
   border-radius: 15px;
+  overflow-y: scroll;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   &::-webkit-scrollbar {
 		width: 5px;           
@@ -313,11 +314,13 @@ const Main = styled.div`
   max-width: 1280px;
   margin: 0 auto;
 
-  height: 1920px;
+  /* height: 100%; */
+  /* min-height: 500px; */
+  /* height: 1920px;
   @media (max-width: 767px) {
     height: 3500px;
-  }
-  padding-bottom: 20px;
+  } */
+  padding-bottom: 40px;
 `
 
 const Button = styled.button`
@@ -339,9 +342,11 @@ const ButtonActive = styled(Button)`
 `
 
 const LoaderDiv =styled.div`
-  position: absolute;
-  top: 45%;
+  margin: 0 auto;
+  /* position: absolute;
+  top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%); */
 `
 
 const VendorCode = styled.p`
@@ -367,9 +372,10 @@ const Title = styled.h2`
   font-weight: 600;
   font-size: 27px;
   color: #000;
-  position: absolute;
-  left: 43%;
-  top: 43%;
+  /* position: absolute; */
+  /* left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%); */
 `
 
 const Name = styled.span`

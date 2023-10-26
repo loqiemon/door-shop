@@ -82,7 +82,7 @@ function Cart() {
                       <tbody>
                         {cartItems.map((item) => {
                           const images = isOurPhoto(item.image)
-                          console.log(images)
+  
                           return (
                             <TableRow key={item.id}>
                               <td>
@@ -192,6 +192,8 @@ const tableStyle = {
 const Container = styled.div`
   width: 100%;
   display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
 
   @media (max-width: 1199px) {
     flex-direction: column;

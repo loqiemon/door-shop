@@ -10,7 +10,22 @@ export const orderApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
     endpoints: (builder) => ({
       getOrders: builder.query({
-        query: () => `Orders`,
+        query: ({
+          search = '',
+          searchParameter = 'name',
+          page = 1,
+          sortBy = 'date',
+          sortType = 'asc',
+        }) => {
+          const requestParams = new URLSearchParams();
+          search && requestParams.append("search", search);
+          searchParameter && requestParams.append("searchParameter", searchParameter);
+          page && requestParams.append("page", page);
+          sortBy && requestParams.append("sortBy", sortBy);
+          sortType && requestParams.append("sortType", sortType);
+          const apiUrl = `Orders?${requestParams}`;
+          return ({ url: apiUrl })
+        },
         providesTags: ['Orders'],
       }),
       postOrder: builder.mutation({

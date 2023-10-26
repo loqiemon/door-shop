@@ -44,8 +44,8 @@ function ProductsForm({
   const featureValueInput = useInput('');
   const featurePriceModifierInput = useInput('');
   const [characteristicTypes, setCharacteristicTypes] = useState([]);
-
-  const alertState = useSelector(state => state.products.alert)
+  const [alertState, setAlertState] = useState('');
+  // const alertState = useSelector(state => state.products.alert)
 
   const showAlert = () => {
     setIsAlertVisible(true);
@@ -55,9 +55,9 @@ function ProductsForm({
     }, 5000);
   };
 
-  useEffect(() => {
-    showAlert()
-  }, [alertState]);
+  // useEffect(() => {
+  //   showAlert()
+  // }, [alertState]);
 
 
   const dispatch = useDispatch();
@@ -155,6 +155,13 @@ function ProductsForm({
     }
     
     handleSubmit(productData)
+      .then(() => {
+        setAlertState('Успешно');
+        showAlert();
+      }).catch(() => {
+        setAlertState('Ошибка');
+        showAlert();
+      })
     nameInput.onChange('');
     manufacturerInput.onChange('');
     countryInput.onChange('');

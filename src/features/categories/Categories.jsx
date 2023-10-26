@@ -59,26 +59,31 @@ export default Categories
 
 
 const CategoriesContainer = styled.div`
+    /* margin-top: 20px; */
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     max-width: 1280px;
     margin: 0 auto;
-    padding-top: 20px;
+    /* padding-top: 20px; */
+    
+    margin-bottom: 80px;
     @media (max-width: 1200px) {
         padding: 15px;
+        padding-bottom: 40px;
         justify-content: space-between;
     }
+    overflow-y: scroll;
 `
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
-
-    @media (max-width: 767px) {
+    /* height: 100%;    */
+    padding: 20px 0 60px 0;
+    /* @media (max-width: 767px) {
         height: 2000px;
-    }
+    } */
 `
 
 const CategoriesItem = styled(Link)`
@@ -133,6 +138,7 @@ const CategoriesHeader = styled.div`
     max-width: 1280px;
     margin: 0 auto;
     margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 `
@@ -147,6 +153,7 @@ const CategoriesInput = styled.input`
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px 5px;
 `
 
 const CategoriesSearchTitle = styled.h2`

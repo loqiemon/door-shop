@@ -60,7 +60,7 @@ function CategoryList({children}) {
   };
 
   return (
-    <TableContainer1>
+    <TableContainer1 style={{height: (isLoading) ? '50vh' : 'auto'}}>
       <div style={{display: 'flex', gap: '15px'}}>
         {children}
         <Input 
@@ -134,7 +134,7 @@ export default CategoryList;
 const TableContainer1 = styled.div`
   width: 100%;
   /* max-height: 350px; */
-  max-height: 500px;
+  /* max-height: 500px; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -192,7 +192,7 @@ const Input = styled.input`
 `
 
 const TableContainer2 = styled(TableContainer)`
-    height: 500px;
+    /* height: 500px; */
 ` 
 
 const Button = styled.button`

@@ -42,13 +42,13 @@ function ProfilePage() {
 
 
   const handleAdd = (product) => {
-    addPost(product)
+    return addPost(product)
   }
 
-  const handleEditConfirm = (prod) => {
+  const handleEditConfirm = (product) => {
     // dispatch(editProduct(prod))
-    putProduct(prod)
     setEditModal(false)
+    return putProduct(product)
   }
 
   const handleEdit = (product) => {
@@ -136,10 +136,10 @@ function ProfilePage() {
         <ProfileContent>
           <Content>
           {isCurrentContent('profile') && (
-            <>
+            <ProfileCurrent>
                 Контент профиля
                 <Button onClick={logout}>Выйти из аккаунта</Button>
-            </>
+            </ProfileCurrent>
           )}
           {isCurrentContent('products') && (
             <ProductsAdminPage
@@ -190,16 +190,23 @@ function ContentButton ({ currentContent, name, text, setCurrentContent }) {
 }
 
 const ProfileContainer = styled.div`
+    width: 100%;
     max-width: 1280px;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     padding-top: 20px;
-
-    @media (max-width: 576px) {
+  
+    /* @media (max-width: 576px) {
       height: 1000px;
-    }
+    } */
+`
+
+const ProfileCurrent = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 20px;
 `
 
 const ProfileTitle = styled.h1`
@@ -209,6 +216,7 @@ const ProfileTitle = styled.h1`
 `
 
 const ProfileAside = styled.div`
+  width: 100%;
   padding: 20px;
   display: flex;
   background-color: #fff;
@@ -246,6 +254,23 @@ const ProfileContent = styled.div`
   padding: 0 5px;
   overflow-y: hidden;
   /* height: 100%; */
+  max-height: 900px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+		width: 5px;           
+	}
+	  
+  &::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0);      
+  }
+	  
+	&::-webkit-scrollbar-thumb {
+		background-color: #555;  
+		border-radius: 20px;      
+	}
+	
+	scrollbar-width: thin;
+	scrollbar-color: #555 rgba(0,0,0,0); 
 `
 const Content = styled.div`
   width: 100%;
@@ -254,7 +279,7 @@ const Content = styled.div`
   gap: 20px;
   align-items: flex-start;
   padding: 10px 0;
-  height: 100%;
+  /* height: 100%; */
 `
 
 const Button = styled.button`
@@ -263,7 +288,7 @@ const Button = styled.button`
     border-radius: 15px;
     transition: all .35s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+    max-height: 60px;
     &:hover {
       /* background-color: #56195d; */
       background-color: #FFD700;

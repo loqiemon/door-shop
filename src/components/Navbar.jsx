@@ -122,7 +122,7 @@ const MobileNav = styled.div`
         padding: 30px 15px;
         background-color: rgba(0,0,0, 0.8);
 
-        z-index: 1000;
+        z-index: 1020;
         transition: 0.6s all;
         &-active {
             left: 0 !important;

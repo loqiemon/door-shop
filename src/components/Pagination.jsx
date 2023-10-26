@@ -6,13 +6,14 @@ import Stack from '@mui/material/Stack';
 function Pagination({ 
   page,
   goToPage,
-  totalCount 
+  totalCount,
+  pageSize = 10
 }) {
   const handleChange = (event, value) => {
     goToPage(value)
   };
 
-  const totalPages = Math.ceil(totalCount / 10)
+  const totalPages = Math.ceil(totalCount / pageSize)
 
   return (
     <DivFlex>

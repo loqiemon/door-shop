@@ -87,16 +87,21 @@ const Image = styled.img`
 const Container = styled.footer`
     /* position: absolute;
     bottom: 0; */
-    z-index: 1015;
+    /* z-index: 1015; */
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
     background-color: #000;
     justify-content: center;
+    
 
     @media (max-width: 576px) {
         padding-bottom: 50px;
+    }
+
+    .hide-footer {
+        display: none;
     }
 `
 
@@ -143,6 +148,9 @@ const List = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    @media (max-width: 767px) {
+        align-items: center;
+    }
 `
 
 const Link = styled(LinkReact)`
