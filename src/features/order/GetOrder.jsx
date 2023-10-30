@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
 
-
+import Loader from '../../components/Loader'
 import useInput from '../../hooks/useInput'
 import { useGetOrderByTelephoneQuery } from './orderApi';
 
@@ -37,16 +37,17 @@ function GetOrder() {
 
   return (
     <Container>
+        {isLoading && <LoaderFlex><Loader/></LoaderFlex>}
         <>
           <Input 
               value={phone.value}
               onChange={e => phone.onChange(e.target.value)}
-              placeholder='89008553535'
+              placeholder='89008553535' 
               label='Телефон'
           />
           <Button onClick={handleSubmit}>Отправить</Button>
         </>
-        <Container2>
+        {!isLoading &&  <Container2>
             {orders && orders.length === 0 && <Bold>Заказов нет</Bold>}
               {orders && orders.map((order) => (
                 <Order key={order.id}>
@@ -80,7 +81,7 @@ function GetOrder() {
                   </Accordion>
                 </Order>
               ))}
-          </Container2>
+          </Container2>}
     </Container>
   )
 }
@@ -137,6 +138,7 @@ const LoaderFlex = styled.div`
 
 
 const Container = styled.div`
+  position: relative;
   width: 100%;
   min-height: 400px;
   padding: 10px 0;
@@ -160,15 +162,6 @@ const Button = styled.button`
       color: #000;
     }
 `
-
-// const Input = styled.input`
-//     height: 60px;
-//     max-width: 250px;
-//     background-color: #f7f7f7;
-//     padding: 12px;
-//     border-radius: 15px;
-//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-// `
 
 const Input = styled(TextField)`
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {

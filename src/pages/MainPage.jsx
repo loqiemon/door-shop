@@ -343,6 +343,7 @@ const ButtonActive = styled(Button)`
 
 const LoaderDiv =styled.div`
   margin: 0 auto;
+  margin-top: 50px;
   /* position: absolute;
   top: 50%;
   left: 50%;

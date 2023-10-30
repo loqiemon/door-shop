@@ -20,8 +20,6 @@ function InstallPage() {
       <Paragraph>
         За консультацией обращаться по телефону <Link type='tel' href='tel:+7-977-454-67-77'>+7-977-454-67-77</Link>
       </Paragraph>
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br />
     </Container>
   )
 }
@@ -37,6 +35,7 @@ const Container = styled.div`
   margin: 0 auto;
   font-weight: 500;
   font-size: 20px;
+  height: 100%;
 `
 
 const ChechMark = styled(CheckIcon)`

@@ -1,27 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
-import CheckIcon from '@mui/icons-material/Check';
 
 function RequisitesPage() {
   return (
     <Container>
-      <Paragraph>
-        Мы работаем и принимаем заказы по сервису, ремонту, установке, а также по покупке дверной фурнитуры.
-        <br/><br/>Принимаем заказы: 
-      </Paragraph>
-      <List>
-        <ListItem><ChechMark/>Круглосуточно (через сайт или электронную почту)</ListItem>
-        <ListItem><ChechMark/>По телефону или в чатах telegram, watsapp в часы работы магазина.</ListItem>
-      </List>
-      <Paragraph>
-        <span>Режим работы: с понедельника по пятницу с 10:00 до 18:00</span>
-        <span>Наш телефон: <Link type='tel' href='tel:+7-977-454-67-77'>+7- 977-454-67-77</Link></span>
-        <span>Наша почта: <Link href='mailto:furniturarf@list.ru'>furniturarf@list.ru</Link></span>
-        <Subtitle>ИП Кудашкин Даниил Владимирович</Subtitle>
-        <Subtitle>ИНН  775104710110</Subtitle>
-        <Subtitle>ОГРНИП  323774600696270</Subtitle>
-      </Paragraph>
-      <br /><br /><br /><br /><br /><br />
+      <Title>Реквизиты</Title>
+      <Subtitle>Телефон <Link type='tel' href='tel:+7-977-454-67-77' >+7-977-454-67-77</Link></Subtitle>
+      <Subtitle>Почта <Link href='mailto:furniturarf@list.ru'>furniturarf@list.ru</Link></Subtitle>
+      <Subtitle>Веб-сайт <Link href='https://фурнитурарф.com/'>https://фурнитурарф.com/</Link></Subtitle>
+      <Subtitle>ИП Кудашкин Даниил Владимирович</Subtitle>
+      <Subtitle>ИНН 775104710110</Subtitle>
+      <Subtitle>ОГРНИП 323774600696270</Subtitle>
+      <Subtitle2>
+        <Subtitle>Банковский счет </Subtitle>
+        <Div>
+          <Subtitle>Банк:  ООО «Банк Точка» </Subtitle>
+          <Subtitle>Расчётный счет:  4080 2810 0200 0014 0182 </Subtitle>
+          <Subtitle>Валюта счета: российский рубль  </Subtitle>
+          <Subtitle>Корреспондентный счет: 30101810745374525104 </Subtitle>
+          <Subtitle>БИК: 044525104 </Subtitle>
+        </Div>
+      </Subtitle2>
     </Container>
   )
 }
@@ -31,16 +30,17 @@ export default RequisitesPage
 const Container = styled.div`
   width: 100%;
   max-width: 1280px;
-  padding: 10px;
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   font-weight: 500;
   font-size: 20px;
-`
-
-const ChechMark = styled(CheckIcon)`
-  color: green;
+  text-align: left;
+  height: 100%;
+  @media (max-width: 576px) {
+    height: auto;
+  }
 `
 
 const Link = styled.a`
@@ -54,31 +54,30 @@ const Title = styled.h1`
   font-weight: 700;
 `
 
-const List = styled.ul`
 
-`
-
-const ListItem = styled.li`
-  margin-top: 10px;
-  text-align: left;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`
-
-const Paragraph = styled.p`
-  text-align: left;
-  line-height: 25px;
-  margin-top: 10px;
+const Div = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  padding: 15px;
+  gap: 12px;
+  border-radius: 10px;
+  border: 1px solid #5151e6;
 `
 
 const Subtitle = styled.span`
   margin-top: 15px;
   font-size: 20px;
   font-weight: 600;
-  text-align: left;
+`
+
+const Subtitle2 = styled.div`
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 `

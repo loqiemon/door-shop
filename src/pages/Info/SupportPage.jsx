@@ -6,11 +6,12 @@ function SupportPage() {
     <Container>
       <Paragraph>
         Если у Вас возникли трудности с выбором  дверной фурнитуры, замком или вы не знаете какой Вам нужен размер, то наши  технические специалисты готовы вам помочь.
-        <br /><br />Вы можете позвонить или написать нам на номер <Link type='tel' href='tel:+7-977-454-67-77'>+7-977-454-67-77</Link> 
+        {/* <br /><br /> */}
+        Вы можете позвонить или написать нам на номер <Link type='tel' href='tel:+7-977-454-67-77'>+7-977-454-67-77</Link> 
       </Paragraph>
-      {new Array(21).fill(1).map((_, index) => (
+      {/* {new Array(21).fill(1).map((_, index) => (
         <br key={index} />
-      ))}
+      ))} */}
     </Container>
   )
 }
@@ -26,6 +27,11 @@ const Container = styled.div`
   margin: 0 auto;
   font-weight: 500;
   font-size: 20px;
+
+  height: 100%;
+  /* @media (max-width: 991px) {
+        height: auto;
+    } */
 `
 
 const Link = styled.a`

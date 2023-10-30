@@ -45,13 +45,13 @@ function AboutPage() {
   return (
     <Container>
       <Paragraph>
-        <Subtitle>Большой опыт</Subtitle> наконец-то позволил открыть торговую площадку по продаже дверной фурнитуры именно для Вас! Благодаря нашей практике, мы готовы предложить Вам исключительно качественный продукт.<br/>
+        <Subtitle>Большой опыт</Subtitle> наконец-то позволил открыть торговую площадку по продаже дверной фурнитуры именно для Вас! Благодаря нашей практике, мы готовы предложить Вам исключительно качественный продукт.<br />
       </Paragraph>
       <Paragraph>
-        <Subtitle>Наша миссия</Subtitle> - способствовать безопасности Вашего дома.<br/>
+        <Subtitle>Наша миссия</Subtitle> - способствовать безопасности Вашего дома.<br />
       </Paragraph>
       <Paragraph>
-      <Subtitle>Наша цель</Subtitle> - постоянное улучшение качества сервиса как в продажа, так и в услугах. Вопросы клиентов мы стараемся решить всеобъемлюще и максимально оперативно.
+        <Subtitle>Наша цель</Subtitle> - постоянное улучшение качества сервиса как в продажах, так и в услугах. Вопросы клиентов мы стараемся решить всеобъемлюще и максимально оперативно.
         Мы работает с надежными поставщиками, чтобы вы могли быть уверены в качестве каждого предложенного нами товара.
       </Paragraph>
       <Subtitle>
@@ -63,10 +63,8 @@ function AboutPage() {
         ))}
       </List>
       <Subtitle>
-        Контакты для заказов: <Link href="mailto:furniturarf@list.ru">furniturarf@list.ru</Link> <Link href="tel:+79774546777">+7-977-454-67-77</Link>  
+        Контакты для заказов: <Link href="mailto:furniturarf@list.ru">furniturarf@list.ru</Link> <Link href="tel:+79774546777">+7-977-454-67-77</Link>
       </Subtitle>
-      <br /><br /><br /><br /><br /><br />
-      <br /><br /><br />
     </Container>
   )
 }
@@ -83,6 +81,10 @@ const Container = styled.div`
   /* height: 50vh; */
   font-weight: 500;
   font-size: 20px;
+  height: 100%;
+  @media (max-width: 576px) {
+    height: auto;
+  }
 `
 
 const Link = styled.a`
@@ -109,6 +111,7 @@ const ListItem = styled.li`
   display: flex;
   align-items: center;
   gap: 5px;
+  font-weight: 600;
 `
 
 const Paragraph = styled.p`

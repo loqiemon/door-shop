@@ -181,11 +181,17 @@ const Container = styled.div`
 
 const ContainerCommon = styled.div`
   width: 100%;
+  margin: 0 auto;
+  max-width: 1280px;
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* height: 70%; */
+  height: 100%;
+
+  @media (max-width: 991px) {
+        height: auto;
+    }
 `
 
 const MyLoader = styled.div`

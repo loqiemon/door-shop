@@ -213,7 +213,7 @@ const AsideList = styled.aside`
 
 const AsideItem = styled.div`
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     border-radius: 15px;
