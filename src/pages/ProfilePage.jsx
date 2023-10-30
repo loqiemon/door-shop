@@ -12,7 +12,8 @@ import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation
 import CsvForm from '../features/csv/CsvForm'
 import Orders from '../features/order/Orders'
 import GetOrder from '../features/order/GetOrder'
-import {modalSlice} from '../features/modal/modalSlice'
+import { modalSlice } from '../features/modal/modalSlice'
+import Register from '../features/auth/Register'
 
 
 function ProfilePage() {
@@ -58,7 +59,7 @@ function ProfilePage() {
     setProductEdit({
       ...product,
       accessoryType: product.accessoryTypeId,
-      characteristics: product.characteristic 
+      characteristics: product.characteristic
     })
   }
 
@@ -78,7 +79,7 @@ function ProfilePage() {
   const login = () => {
     dispatch(modalSlice.actions.open())
   }
-  
+
   const isHaveRole = (role) => {
     return user.role === role
   }
@@ -91,38 +92,38 @@ function ProfilePage() {
   return (
     <ProfileContainer>
       <ProfileTitle>Настройки</ProfileTitle>
-        <ProfileAside>
-          <ContentButton 
-            name='profile'
-            text='Профиль' 
+      <ProfileAside>
+        <ContentButton
+          name='profile'
+          text='Профиль'
+          currentContent={currentContent}
+          setCurrentContent={setCurrentContent}
+        />
+        {isHaveRole('admin') &&
+          <ContentButton
+            name='products'
+            text='Товары'
             currentContent={currentContent}
             setCurrentContent={setCurrentContent}
           />
-          {isHaveRole('admin') && 
-            <ContentButton 
-              name='products'
-              text='Товары' 
-              currentContent={currentContent}
-              setCurrentContent={setCurrentContent}
-            />
-          }
-          {isHaveRole('admin') && 
-            <ContentButton 
-              name='categories'
-              text='Категории' 
-              currentContent={currentContent}
-              setCurrentContent={setCurrentContent}
-            />
-          }
-          {isHaveRole('admin') && 
-            <ContentButton 
-              name='orders'
-              text='Заказы' 
-              currentContent={currentContent}
-              setCurrentContent={setCurrentContent}
-            />
-          }
-          {/* {isHaveRole('admin') && 
+        }
+        {isHaveRole('admin') &&
+          <ContentButton
+            name='categories'
+            text='Категории'
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
+        {isHaveRole('admin') &&
+          <ContentButton
+            name='orders'
+            text='Заказы'
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
+        {/* {isHaveRole('admin') && 
             <ContentButton 
               name='characteristictsTypes'
               text='Типы хар-к' 
@@ -130,22 +131,31 @@ function ProfilePage() {
               setCurrentContent={setCurrentContent}
             />
           } */}
-          {isHaveRole('admin') && 
-            <ContentButton 
-              name='csv'
-              text='CSV' 
-              currentContent={currentContent}
-              setCurrentContent={setCurrentContent}
-            />
-          }
-        </ProfileAside>
-        <ProfileContent>
-          <Content>
+        {isHaveRole('admin') &&
+          <ContentButton
+            name='csv'
+            text='CSV'
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
+        {isHaveRole('admin') &&
+          <ContentButton
+            name='users'
+            text='Оптовики'
+            currentContent={currentContent}
+            setCurrentContent={setCurrentContent}
+          />
+        }
+      </ProfileAside>
+      <ProfileContent>
+        <Content>
           {isCurrentContent('profile') && (
             <ProfileCurrent>
-                <GetOrder/>
-                <Button onClick={logout}>Выйти из аккаунта</Button>
-                <Button onClick={login}>Войти</Button>
+              <GetOrder />
+              <Button onClick={logout}>Выйти из аккаунта</Button>
+              <Button onClick={login}>Войти</Button>
+              <Button onClick={login}>Зарегистрироваться</Button>
             </ProfileCurrent>
           )}
           {isCurrentContent('products') && (
@@ -169,16 +179,19 @@ function ProfilePage() {
             />
           )}
           {isCurrentContent('characteristictsTypes') && (
-              <СharacteristicsType/>
+            <СharacteristicsType />
           )}
           {isCurrentContent('csv') && (
-              <CsvForm/>
+            <CsvForm />
           )}
           {isCurrentContent('orders') && (
-              <Orders/>
+            <Orders />
           )}
-          </Content>
-        </ProfileContent>
+          {isCurrentContent('users') && (
+            <Register />
+          )}
+        </Content>
+      </ProfileContent>
     </ProfileContainer>
   )
 }
@@ -186,7 +199,7 @@ function ProfilePage() {
 export default ProfilePage
 
 
-function ContentButton ({ currentContent, name, text, setCurrentContent }) {
+function ContentButton({ currentContent, name, text, setCurrentContent }) {
   return (
     currentContent === name ? (
       <ActiveMenuItem onClick={() => setCurrentContent(name)}>{text}</ActiveMenuItem>

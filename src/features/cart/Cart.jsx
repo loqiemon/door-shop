@@ -14,120 +14,125 @@ import isOurPhoto from '../../utils/isOurPhoto'
 
 
 function Cart() {
-    const [totalPrice, setTotalPrice] = useState(0);
-    const cartItems = useSelector((state) => state.cart.cartItems)
-    const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
+  const [totalPrice, setTotalPrice] = useState(0);
+  const cartItems = useSelector((state) => state.cart.cartItems)
+  const dispatch = useDispatch()
 
-    useEffect(() => {
-      dispatch(readCart())
-    }, []);
+  useEffect(() => {
+    dispatch(readCart())
+  }, []);
 
-    useEffect(() => {
-      // setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice + item.variant.priceModifier)*item.count, 0))
-      setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice)*item.count, 0))
-    }, [cartItems]);
-
-    
-    const handleIncrement = (item) => {
-      dispatch(editInCart({...item, count: parseInt(item.count)+1}))
-    };
-  
-    const handleDecrement = (item) => {
-      if (item.count > 1) {
-        dispatch(editInCart({...item, count: parseInt(item.count)-1}))
-      } else {
-        dispatch(removeFromCart(item.id))
-      }
-    };
-
-    const handleChange = (e, item) => {
-      if (e.target.value > 1) {
-        dispatch(editInCart({...item, count: e.target.value}))
-      } else {
-        dispatch(removeFromCart(item.id))
-      }
+  useEffect(() => {
+    // setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice + item.variant.priceModifier)*item.count, 0))
+    if (user && user.role === 'user') {
+      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.wholesalePrice) * item.count, 0))
+    } else {
+      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.retailPrice) * item.count, 0))
     }
+  }, [cartItems]);
 
-    
+
+  const handleIncrement = (item) => {
+    dispatch(editInCart({ ...item, count: parseInt(item.count) + 1 }))
+  };
+
+  const handleDecrement = (item) => {
+    if (item.count > 1) {
+      dispatch(editInCart({ ...item, count: parseInt(item.count) - 1 }))
+    } else {
+      dispatch(removeFromCart(item.id))
+    }
+  };
+
+  const handleChange = (e, item) => {
+    if (e.target.value > 1) {
+      dispatch(editInCart({ ...item, count: e.target.value }))
+    } else {
+      dispatch(removeFromCart(item.id))
+    }
+  }
+
+
   return (
     <Container>
       <SubContainer>
         <Title>Оформление заказа</Title>
-        <OrderForm totalPrice={totalPrice} accessories={cartItems}/>
+        <OrderForm totalPrice={totalPrice} accessories={cartItems} />
       </SubContainer>
       <SubContainer>
         <Title>Товары в корзине</Title>
         {cartItems.length === 0 && <Title>Вы не добавили товары в корзину</Title>}
         {cartItems.length !== 0 &&
-                  <Box sx={{ width: '100%' }}>
-                  <Sheet
-                    variant="outlined"
-                    sx={sheetStyle}
-                  >
-                    <Table
-                      borderAxis="bothBetween"
-                      stripe="odd"
-                      hoverRow
-                      sx={tableStyle}
-                    >
-                      <thead>
-                        <tr>
-                          <th style={{ width: 150 }}>Фото</th>
-                          <th style={{ width: 200 }}>Наименование товара</th>
-                          <th style={{ width: 130 }}>Кол-во</th>
-                          <th style={{ width: 100 }}>Итого</th>
-                          <th style={{ width: 30 }}></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {cartItems.map((item) => {
-                          const images = isOurPhoto(item.image)
-  
-                          return (
-                            <TableRow key={item.id}>
-                              <td>
-                                {images.length === 1 ? 
-                                  <CartImage src={images[0]} key={item.id}/>:
-                                  <CarouselMy>
-                                    {images.map( (imgPath, i) => <CartImage src={imgPath} key={imgPath}/> )}
-                                  </CarouselMy>
-                                }
-                              </td>
-                              <td>{item.name}</td>
-                              <td>
-                                <Counter>
-                                  <CounterBtn onClick={() => handleDecrement(item)}>
-                                    <i className="fa-solid fa-minus"></i>
-                                  </CounterBtn>
-                                  <CounterInput 
-                                    type="number"
-                                    onChange={(e) => handleChange(e, item)}
-                                    value={item.count}
-                                  />
-                                  <CounterBtn onClick={() => handleIncrement(item)}>
-                                    <i className="fa-solid fa-plus"></i>
-                                  </CounterBtn>
-                                </Counter>
-                              </td>
-                              {/* <td>{(item.retailPrice + item.variant.priceModifier) * item.count} руб.</td> */}
-                              <td>{(item.retailPrice) * item.count} руб.</td>
-                              <td>
-                                <i className="fa-solid fa-trash" onClick={()=> dispatch(removeFromCart(item.id))}></i>
-                              </td>
-                            </TableRow>
-                          )
-                        })}
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td>Итого: </td>
-                          <td>{totalPrice} руб.</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </Sheet>
-                </Box>
-        } 
+          <Box sx={{ width: '100%' }}>
+            <Sheet
+              variant="outlined"
+              sx={sheetStyle}
+            >
+              <Table
+                borderAxis="bothBetween"
+                stripe="odd"
+                hoverRow
+                sx={tableStyle}
+              >
+                <thead>
+                  <tr>
+                    <th style={{ width: 150 }}>Фото</th>
+                    <th style={{ width: 200 }}>Наименование товара</th>
+                    <th style={{ width: 130 }}>Кол-во</th>
+                    <th style={{ width: 100 }}>Итого</th>
+                    <th style={{ width: 30 }}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems.map((item) => {
+                    const images = isOurPhoto(item.image)
+
+                    return (
+                      <TableRow key={item.id}>
+                        <td>
+                          {images.length === 1 ?
+                            <CartImage src={images[0]} key={item.id} /> :
+                            <CarouselMy>
+                              {images.map((imgPath, i) => <CartImage src={imgPath} key={imgPath} />)}
+                            </CarouselMy>
+                          }
+                        </td>
+                        <td>{item.name}</td>
+                        <td>
+                          <Counter>
+                            <CounterBtn onClick={() => handleDecrement(item)}>
+                              <i className="fa-solid fa-minus"></i>
+                            </CounterBtn>
+                            <CounterInput
+                              type="number"
+                              onChange={(e) => handleChange(e, item)}
+                              value={item.count}
+                            />
+                            <CounterBtn onClick={() => handleIncrement(item)}>
+                              <i className="fa-solid fa-plus"></i>
+                            </CounterBtn>
+                          </Counter>
+                        </td>
+                        {/* <td>{(item.retailPrice + item.variant.priceModifier) * item.count} руб.</td> */}
+                        <td>{(user.role === 'user' ? item.wholesalePrice : item.retailPrice) * item.count} руб.</td>
+                        <td>
+                          <i className="fa-solid fa-trash" onClick={() => dispatch(removeFromCart(item.id))}></i>
+                        </td>
+                      </TableRow>
+                    )
+                  })}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Итого: </td>
+                    <td>{totalPrice} руб.</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Sheet>
+          </Box>
+        }
       </SubContainer>
     </Container>
   )

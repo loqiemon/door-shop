@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';  
+import FormControl from '@mui/material/FormControl';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchCategories } from '../../app/actionCreators';
@@ -25,13 +25,13 @@ function CsvForm() {
 
 
   const categories = useSelector(state => state.categories.categories);
-  const [ postCsv , { isLoading, error }] = usePostCsvMutation();
+  const [postCsv, { isLoading, error }] = usePostCsvMutation();
 
-  useEffect(() => {
-    if (error !== undefined) {
-      alert(error?.message);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error !== undefined) {
+  //     alert(error?.message);
+  //   }
+  // }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +39,12 @@ function CsvForm() {
       postCsv({
         file: csv,
         accessoryTypeId
-      });
+      }).then((response) => {
+        console.log(response)
+        alert(response.error.data);
+      }).catch((error) => {
+        alert("Ошибка");
+      })
     }
   }
 
@@ -49,36 +54,36 @@ function CsvForm() {
 
   return (
     <Container>
-      {isLoading && <LoaderDiv><Loader/></LoaderDiv>}
+      {isLoading && <LoaderDiv><Loader /></LoaderDiv>}
       {!isLoading && (
         <>
           <Input
             placeholder='CSV'
             type='file'
             name="file"
-            accept=".csv" 
+            accept=".csv"
             onChange={(e) => setCsv(e.target.files[0])}
           />
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">Тип товара</InputLabel>
-                <Select
-                  value={accessoryTypeId || ''}
-                  onChange={handleChange}
-                  label="Type"
+            <InputLabel id="demo-simple-select-standard-label">Тип товара</InputLabel>
+            <Select
+              value={accessoryTypeId || ''}
+              onChange={handleChange}
+              label="Type"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {categories.map(category =>
+                <MenuItem
+                  value={category.id}
+                  key={category.id}
                 >
-                <MenuItem value="">
-                    <em>None</em>
+                  {category.type}
                 </MenuItem>
-                {categories.map(category => 
-                    <MenuItem 
-                        value={category.id}
-                        key={category.id}
-                    >
-                        {category.type}
-                    </MenuItem>
-                )}
-                </Select>
-            </FormControl>
+              )}
+            </Select>
+          </FormControl>
           <Button onClick={handleSubmit}>Отправить</Button>
         </>
       )}
@@ -99,7 +104,7 @@ const Container = styled.div`
   }
 `
 
-const LoaderDiv =styled.div`
+const LoaderDiv = styled.div`
   position: absolute;
   top: 45%;
   left: 50%;

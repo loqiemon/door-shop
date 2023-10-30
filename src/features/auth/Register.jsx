@@ -5,50 +5,71 @@ import { useDispatch } from 'react-redux'
 import { registerFunc } from '../../app/actionCreators'
 
 
-function Register({setShowRegister}) {
-    const { value: login, onChange: handleLogin } = useInput()
-    const { value: password, onChange: handlePassword } = useInput()
-    const { value: password1, onChange: handlePassword1 } = useInput()
-    const { value: name, onChange: handleName } = useInput()
-    const dispatch = useDispatch();
-  
-    const handleSubmit = () => {
-      if (login.length > 3 && password.length > 7 && name.length > 3 && password1 === password) {
-        dispatch(registerFunc(login, password))
+function Register({ setShowRegister }) {
+  const { value: login, onChange: handleLogin } = useInput('')
+  const { value: password, onChange: handlePassword } = useInput('')
+  const { value: password1, onChange: handlePassword1 } = useInput('')
+  const { value: name, onChange: handleName } = useInput('')
+  const { value: phoneNumber, onChange: handlePhoneNumber } = useInput('')
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    if (
+      login.length > 3 &&
+      password.length > 7 &&
+      name.length > 3 &&
+      password1 === password &&
+      phoneNumber.length > 3
+    ) {
+      const user = {
+        email: login,
+        password,
+        name,
+        role: 'user',
+        phoneNumber
       }
+      dispatch(registerFunc(user))
     }
+  }
 
   return (
     <AuthContainer>
-      <Authinput 
-        placeholder='Логин'
+      <Authinput
+        placeholder='Почта'
         value={login}
         onChange={e => handleLogin(e.target.value)}
       />
-      <Authinput 
+      <Authinput
         placeholder='Пароль'
         type='password'
         value={password}
         onChange={e => handlePassword(e.target.value)}
       />
-    <Authinput 
+      <Authinput
         placeholder='Повторите пароль'
         type='password'
         value={password1}
         onChange={e => handlePassword1(e.target.value)}
       />
-      <Authinput 
+      <Authinput
         placeholder='Имя'
         value={name}
         onChange={e => handleName(e.target.value)}
       />
-      <AuthButton onClick={handleSubmit} type='submit'>Зарегистрироваться</AuthButton>
-      <AuthText>Уже есть аккаунт? <AuthBtn onClick={() => setShowRegister(false)}>Войти!</AuthBtn></AuthText>
+      <Authinput
+        placeholder='Номер телефона'
+        value={phoneNumber}
+        onChange={e => handlePhoneNumber(e.target.value)}
+      />
+      <AuthButton onClick={handleSubmit} type='submit'>Зарегистрировать</AuthButton>
+      {/* <AuthText>Уже есть аккаунт? <AuthBtn onClick={() => setShowRegister(false)}>Войти!</AuthBtn></AuthText> */}
     </AuthContainer>
   )
 }
 
 export default Register
+
+
 
 
 const AuthContainer = styled.div`

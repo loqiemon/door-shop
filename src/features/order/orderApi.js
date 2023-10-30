@@ -51,12 +51,12 @@ export const orderApi = createApi({
     }),
     putOrder: builder.mutation({
       query: (order) => ({
-        url: `Orders`,
+        url: `Orders/${order.id}`,
         method: 'PUT',
         headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
         },
-        body: order,
+        body: { ...order },
       }),
       invalidatesTags: ['Orders'],
     }),

@@ -10,18 +10,19 @@ import TextField from '@mui/material/TextField';
 import Loader from '../../components/Loader'
 import useInput from '../../hooks/useInput'
 import { useGetOrderByTelephoneQuery } from './orderApi';
+import { useSelector } from 'react-redux';
 
 
 function GetOrder() {
   const phone = useInput('');
   const [skip, setSkip] = useState(true);
-
-  const { 
+  const user = useSelector((state) => state.auth.user);
+  const {
     data,
     error,
-    isLoading 
+    isLoading
   } = useGetOrderByTelephoneQuery(phone.value, {
-      skip: skip
+    skip: skip
   });
 
   const orders = data || [];
@@ -37,51 +38,51 @@ function GetOrder() {
 
   return (
     <Container>
-        {isLoading && <LoaderFlex><Loader/></LoaderFlex>}
-        <>
-          <Input 
-              value={phone.value}
-              onChange={e => phone.onChange(e.target.value)}
-              placeholder='89008553535' 
-              label='Телефон'
-          />
-          <Button onClick={handleSubmit}>Отправить</Button>
-        </>
-        {!isLoading &&  <Container2>
-            {orders && orders.length === 0 && <Bold>Заказов нет</Bold>}
-              {orders && orders.map((order) => (
-                <Order key={order.id}>
-                  <Span><Bold>Имя: </Bold>{order.name}</Span>
-                  <Span><Bold>Адрес: </Bold>{order.adress}</Span>
-                  <Span><Bold>Номер: </Bold>{order.phoneNumber}</Span>
-                  <Span><Bold>Почта: </Bold>{order.mail}</Span>
-                  <Span><Bold>Статус заказа: </Bold>{order.status}</Span>
-                  <Span><Bold>Дата заказа: </Bold>{new Date(order.date).toLocaleDateString()}</Span>
-                  <Span><Bold>Сумма заказа: </Bold>{order.sum} руб</Span>
-                  <Span><Bold>Тип оплаты: </Bold>{order.paymentType}</Span>
-                  <Span><Bold>Комментарий: </Bold>{order.commentary}</Span>
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <Typography style={{fontWeight: 'bold', fontSize: '20px'}}>Товары</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      {order.accessories.map(item => 
-                        <Product key={item.id}>
-                          <Span><Bold>Наименование: </Bold>{item.name}</Span>
-                          <Span><Bold>Артикул: </Bold>{item.vendorCode}</Span>
-                          <Span><Bold>Кол-во: </Bold>{item.count}</Span>
-                          <Span><Bold>Сумма: </Bold>{item.retailPrice * item.count}</Span>
-                        </Product>
-                      )}
-                    </AccordionDetails>
-                  </Accordion>
-                </Order>
-              ))}
-          </Container2>}
+      {isLoading && <LoaderFlex><Loader /></LoaderFlex>}
+      <>
+        <Input
+          value={phone.value}
+          onChange={e => phone.onChange(e.target.value)}
+          placeholder='89008553535'
+          label='Телефон'
+        />
+        <Button onClick={handleSubmit}>Отправить</Button>
+      </>
+      {!isLoading && <Container2>
+        {orders && orders.length === 0 && <Bold>Заказов нет</Bold>}
+        {orders && orders.map((order) => (
+          <Order key={order.id}>
+            <Span><Bold>Имя: </Bold>{order.name}</Span>
+            <Span><Bold>Адрес: </Bold>{order.adress}</Span>
+            <Span><Bold>Номер: </Bold>{order.phoneNumber}</Span>
+            <Span><Bold>Почта: </Bold>{order.mail}</Span>
+            <Span><Bold>Статус заказа: </Bold>{order.status}</Span>
+            <Span><Bold>Дата заказа: </Bold>{new Date(order.date).toLocaleDateString()}</Span>
+            <Span><Bold>Сумма заказа: </Bold>{order.sum} руб</Span>
+            <Span><Bold>Тип оплаты: </Bold>{order.paymentType}</Span>
+            <Span><Bold>Комментарий: </Bold>{order.commentary}</Span>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Товары</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {order.accessories.map(item =>
+                  <Product key={item.id}>
+                    <Span><Bold>Наименование: </Bold>{item.name}</Span>
+                    <Span><Bold>Артикул: </Bold>{item.vendorCode}</Span>
+                    <Span><Bold>Кол-во: </Bold>{item.count}</Span>
+                    <Span><Bold>Сумма: </Bold>{(user.role === 'user' ? item.wholesalePrice : item.retailPrice) * item.count}</Span>
+                  </Product>
+                )}
+              </AccordionDetails>
+            </Accordion>
+          </Order>
+        ))}
+      </Container2>}
     </Container>
   )
 }

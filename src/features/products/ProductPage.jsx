@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Carousel from 'react-material-ui-carousel'
 import Radio from '@mui/material/Radio';
@@ -27,7 +27,7 @@ function ProductPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [variant, setVariant] = useState({});
 
-
+  const user = useSelector((state) => state.auth.user)
   const cartItems = useSelector((state) => state.cart.cartItems)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,115 +53,118 @@ function ProductPage() {
 
   const addProductToCart = (product) => {
     // if (variant.id !== undefined) {
-      dispatch(addToCart({
-        ...product, 
-        count: 1,
-        variant
-      }))
+    dispatch(addToCart({
+      ...product,
+      count: 1,
+      variant
+    }))
     // } else {
     //   alert("Выберите хар-ки")
     // }
   }
 
   const handleChange = (id) => {
-    const chara =  product.characteristics.filter(item => item.id === parseInt(id))
+    const chara = product.characteristics.filter(item => item.id === parseInt(id))
     if (chara.length > 0) setVariant(chara[0])
   }
 
   return (
-      <ContainerCommon>
-        {isLoading && <MyLoader><Loader/></MyLoader>}
-        {!isLoading && <Back onClick={goBack}>
-                            <i className="fa-solid fa-backward"></i> Назад 
-                       </Back>
-        }
-        <Container>
-          {!isLoading &&  
-            <>
-              <SubContainer>
-                {isOurPhoto(product.image).length === 1 ? 
-                  <Image src={isOurPhoto(product.image)[0]} key={product.id}/>:
-                  <MyCarousel>
-                    {isOurPhoto(product.image).map(
-                      (imgPath, i) => <Image src={imgPath} key={imgPath}/>  
-                    )}
-                  </MyCarousel>
+    <ContainerCommon>
+      {isLoading && <MyLoader><Loader /></MyLoader>}
+      {!isLoading && <Back onClick={goBack}>
+        <i className="fa-solid fa-backward"></i> Назад
+      </Back>
+      }
+      <Container>
+        {!isLoading &&
+          <>
+            <SubContainer>
+              {isOurPhoto(product.image).length === 1 ?
+                <Image src={isOurPhoto(product.image)[0]} key={product.id} /> :
+                <MyCarousel>
+                  {isOurPhoto(product.image).map(
+                    (imgPath, i) => <Image src={imgPath} key={imgPath} />
+                  )}
+                </MyCarousel>
+              }
+              {isInCart(product.id) === true ? (
+                <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>
+              ) :
+                <Button onClick={() => addProductToCart(product)} >Купить</Button>
+              }
+            </SubContainer>
+            <SubContainer>
+              <TextContainer>
+                <Span>Характеристики</Span>
+                <Characteristic>Название: <Name>{product.name}</Name></Characteristic>
+                <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
+                <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
+                {user.role === 'user' ?
+                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.wholesalePrice + variant.priceModifier : product.wholesalePrice} руб</Name></Characteristic> :
+                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.retailPrice + variant.priceModifier : product.retailPrice} руб</Name></Characteristic>
                 }
-                {isInCart(product.id) === true ? ( 
-                  <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>
-                ): 
-                  <Button onClick={() => addProductToCart(product)} >Купить</Button>
-                }
-              </SubContainer>
-              <SubContainer>
-                <TextContainer>
-                  <Span>Характеристики</Span>
-                  <Characteristic>Название: <Name>{product.name}</Name></Characteristic>
-                  <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
-                  <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
-                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.retailPrice + variant.priceModifier: product.retailPrice} руб</Name></Characteristic>
-                  <FormControl>
+                <FormControl>
                   <FormLabel id="demo-controlled-radio-buttons-group"></FormLabel>
-                    <RadioGroup
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      value={variant.id}
-                      onChange={e => handleChange(e.target.value)}
-                    >
-                      {product?.characteristics &&
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={variant.id}
+                    onChange={e => handleChange(e.target.value)}
+                  >
+                    {product?.characteristics &&
                       product?.characteristics.length > 0 &&
-                      product.characteristics.map(feature => 
+                      product.characteristics.map(feature =>
                         <FormControlLabel
-                          key={feature.value} 
+                          key={feature.value}
                           value={feature.id}
                           control={<Radio />}
-                          label={`${feature.value} +${feature.value} руб`} 
+                          label={`${feature.value} +${feature.value} руб`}
                         />
                       )}
-                    </RadioGroup>
+                  </RadioGroup>
                 </FormControl>
 
-                  <Characteristic>
-                    Наличие: <Name style={{color: product?.isAvaible?.trim() === 'В наличии' ? '#A8DF8E': '#C70039'}}>{product.isAvaible}</Name>
-                  </Characteristic>
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <Typography>Описание</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        <Name>{product.description}</Name>
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
+                <Characteristic>
+                  Наличие: <Name style={{ color: product?.isAvaible?.trim() === 'В наличии' ? '#A8DF8E' : '#C70039' }}>{product.isAvaible}</Name>
+                </Characteristic>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>Описание</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      <Name>{product.description}</Name>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
                     <Typography>Доп. Характеристики</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      {product.characteristic.length > 0 && product.characteristic.map(feature => 
-                        <Typography>
-                          <Name>
-                            {feature.characteristicType.name}: {feature.value}
-                          </Name>
-                        </Typography>
-                      )}
-                    </AccordionDetails>
-                  </Accordion>
-                </TextContainer>
-              </SubContainer>
-            </>
-          }
-        </Container>
-      </ContainerCommon>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {product.characteristic.length > 0 && product.characteristic.map(feature =>
+                      <Typography>
+                        <Name>
+                          {feature.characteristicType.name}: {feature.value}
+                        </Name>
+                      </Typography>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              </TextContainer>
+            </SubContainer>
+          </>
+        }
+      </Container>
+    </ContainerCommon>
   )
 }
 
@@ -173,7 +176,7 @@ const Container = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 10px;
-
+  padding-bottom: 20px;
   @media (max-width: 767px) {
     flex-direction: column;
   }
@@ -187,11 +190,11 @@ const ContainerCommon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 100%;
+  /* height: 100%; */
 
   @media (max-width: 991px) {
-        height: auto;
-    }
+    height: auto;
+  }
 `
 
 const MyLoader = styled.div`

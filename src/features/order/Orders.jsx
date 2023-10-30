@@ -5,12 +5,19 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckIcon from '@mui/icons-material/Check';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import BackpackIcon from '@mui/icons-material/Backpack';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 import { useDeleteOrderMutation, useGetOrdersQuery, usePutOrderMutation } from './orderApi';
 import Loader from '../../components/Loader';
 import Pagination from '../../components/Pagination';
 import OrderFillters from './OrderFillters';
+import Modal from '../modal/Modal';
+import OrderForm from './OrderForm';
+
 
 
 function Orders() {
@@ -23,6 +30,8 @@ function Orders() {
   });
   const [acceptFilters, setAcceptFilters] = useState({});
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState({});
 
   const { data, isLoading, isFetching, error } = useGetOrdersQuery(acceptFilters);
   const { orders, totalCount } = data || { orders: [], totalCount: 0 };
@@ -52,6 +61,12 @@ function Orders() {
     }))
   };
 
+  const handleEdit = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
+
   return (
     <Container style={{ height: (isFetching || isLoading) ? '50vh' : 'auto' }}>
       {(isFetching || isLoading) ?
@@ -66,10 +81,19 @@ function Orders() {
                 <Span><Bold>Адрес: </Bold>{order.adress}</Span>
                 <Span><Bold>Номер: </Bold>{order.phoneNumber}</Span>
                 <Span><Bold>Почта: </Bold>{order.mail}</Span>
-                <Span><Bold>Статус заказа: </Bold>{order.status}</Span>
+                <Span><Bold>Статус заказа: </Bold>
+                  {order.status === 'Не обработан' && <span style={{ color: '#b1980f91' }}>Не обработан</span>}
+                  {order.status === 'В обработке' && <><AccessTimeIcon />В обработке</>}
+                  {order.status === 'Собран' && <><BackpackIcon />Собран</>}
+                  {order.status === 'Доставлен' && <><CheckMark />Доставлен</>}
+                  {order.status === 'Отменен' && <><CloseIcon style={{ color: 'red' }} />Отменен</>}
+                </Span>
                 <Span><Bold>Дата заказа: </Bold>{new Date(order.date).toLocaleDateString()}</Span>
                 <Span><Bold>Сумма заказа: </Bold>{order.sum} руб</Span>
-                <Span><Bold>Тип оплаты: </Bold>{order.paymentType}</Span>
+                <Span>
+                  <Bold>Тип оплаты: </Bold>
+                  {order.paymentType === 'cash' ? 'Наличными' : 'Картой'}
+                </Span>
                 <Span><Bold>Комментарий: </Bold>{order.commentary}</Span>
                 <Accordion>
                   <AccordionSummary
@@ -96,12 +120,12 @@ function Orders() {
                 >
                   Удалить
                 </Span> */}
-                <Bold
+                <Button
                   style={{ cursor: 'pointer', marginTop: '10px' }}
-                // onClick={() => putOrder(order)}
+                  onClick={() => handleEdit(order)}
                 >
                   Редактировать
-                </Bold>
+                </Button>
               </Order>
             ))}
           </Container2>
@@ -111,6 +135,17 @@ function Orders() {
             goToPage={goToPage}
             pageSize={10}
           />
+          {isModalOpen &&
+            <Modal onClose={() => setIsModalOpen(false)} >
+              <OrderForm
+                setIsModalOpen={setIsModalOpen}
+                totalPrice={selectedOrder.sum}
+                accessories={selectedOrder.accessories}
+                orderProp={selectedOrder}
+                formType='edit'
+              />
+            </Modal>
+          }
         </>
       }
     </Container>
@@ -142,7 +177,9 @@ const Container2 = styled.div`
   overflow-y: auto;
 `
 
-
+const CheckMark = styled(CheckIcon)`
+  color: green;
+`
 
 const Order = styled.div`
   /* width: 100%; */
@@ -161,6 +198,9 @@ const Order = styled.div`
 
 const Span = styled.span`
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `
 
 const Bold = styled.span`
@@ -184,3 +224,18 @@ const LoaderFlex = styled.div`
   transform: translate(-50%, -50%);
 `
 
+const Button = styled.button`
+    padding: 12px;
+    max-width: 250px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    transition: all .35s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    max-height: 60px;
+    margin: 0 auto;
+    &:hover {
+      /* background-color: #56195d; */
+      background-color: #FFD700;
+      color: #000;
+    }
+`

@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import TelegramIcon from '@mui/icons-material/Telegram';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
 import useInput from '../../hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { loginFunc } from '../../app/actionCreators'
@@ -7,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { PHONENUMBER } from '../../services/constants'
 
 
-function Login({setShowRegister}) {
+function Login({ setShowRegister }) {
   const dispatch = useDispatch();
   const { value: login, onChange: handleLogin } = useInput();
   const { value: password, onChange: handlePassword } = useInput();
@@ -22,15 +25,15 @@ function Login({setShowRegister}) {
     handlePassword('');
     navigate('/profile')
   }
- 
+
   return (
     <AuthContainer>
-      <Authinput 
+      <Authinput
         placeholder='Логин'
         value={login}
         onChange={e => handleLogin(e.target.value)}
       />
-      <Authinput 
+      <Authinput
         placeholder='Пароль'
         type='password'
         value={password}
@@ -38,19 +41,33 @@ function Login({setShowRegister}) {
       />
       <AuthButton onClick={handleSubmit} type='submit'>Войти</AuthButton>
       <AuthText>
-        <span>Нет аккаунта? </span> 
-        <AuthBtn 
-          // onClick={() => setShowRegister(true)}
-          >
+        <span>Нет аккаунта? </span>
+        <AuthBtn
+        // onClick={() => setShowRegister(true)}
+        >
           Оставьте заявку!
         </AuthBtn>
+        <Link type='tel' href={`tel:${PHONENUMBER}`}>{PHONENUMBER}</Link>
+        <Link type='tel' href='https://wa.me/79774546777'><WhatsAppIcon />Ватсап</Link>
+        <Link type='tel' href='https://t.me/furniturarf'><TelegramIcon /> Телеграм</Link>
       </AuthText>
-      {PHONENUMBER}
+
+
     </AuthContainer>
   )
 }
 
 export default Login
+
+const Link = styled.a`
+  font-weight: bold;
+  color: #5151e6;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-top: 5px;
+`
 
 const AuthContainer = styled.div`
     width: 100%;

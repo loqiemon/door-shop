@@ -2,24 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-function ProductItem({product}) {
+function ProductItem({ product }) {
   return (
     <Container>
-      <Image src={product.image}/>
+      <Image src={product.image} />
       <Column>
         <Title>{product.name}</Title>
         <Price>
-          <Prefix>Цена: </Prefix> 
-          {product.wholesalePrice} руб
-          </Price>
+          <Prefix>Цена: </Prefix>
+          {/* {product.wholesalePrice} руб */}
+        </Price>
         <Country>
           <Prefix>Страна: </Prefix>
           {product.country}
-          </Country>
+        </Country>
         <Manufacturer>
           <Prefix>Производитель: </Prefix>
           {product.manufacturer}
-          </Manufacturer>
+        </Manufacturer>
         <VendorCode>
           <Prefix>Артикул: </Prefix>
           {product.vendorCode}

@@ -23,7 +23,7 @@ import isOurPhoto from '../utils/isOurPhoto'
 function MainPage() {
   const { categoryId, page } = useParams();
   const cartItems = useSelector((state) => state.cart.cartItems)
-
+  const user = useSelector((state) => state.auth.user)
   const [filters, setFilters] = useState({
     search: '',
     minPrice: '',
@@ -45,12 +45,12 @@ function MainPage() {
     isFetching,
     error,
   } = useGetProductsQuery(acceptFilters)
-  
+
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAcceptFilters(prev => ({...prev, categoryId, pageNumber: page}))
+    setAcceptFilters(prev => ({ ...prev, categoryId, pageNumber: page }))
     dispatch(readCart())
   }, [categoryId, page]);
 
@@ -72,7 +72,7 @@ function MainPage() {
     let pageNumberToSet = 1;
     let filtersAreEqual = true;
 
-  
+
     for (const key in filters) {
       if (filters.hasOwnProperty(key) && acceptFilters.hasOwnProperty(key)) {
         if (filters[key] !== acceptFilters[key]) {
@@ -115,18 +115,18 @@ function MainPage() {
       return 'not_avaible'
     }
   }
-  
-  
-   
+
+
+
   return (
     <Main className='main'>
-      <Aside 
+      <Aside
         filters={filters}
         setFilters={setFilters}
         requestProducts={() => requestProducts(page)}
         classes='hidden'
       />
-      {(isLoading || isFetching) && <LoaderDiv><Loader/></LoaderDiv>}
+      {(isLoading || isFetching) && <LoaderDiv><Loader /></LoaderDiv>}
       {!isLoading && !isFetching &&
         <Container>
           <MyAccordion>
@@ -139,46 +139,46 @@ function MainPage() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-              <Aside 
-                filters={filters}
-                setFilters={setFilters}
-                requestProducts={() => requestProducts(page)}
-                classes=''
-              />
+                <Aside
+                  filters={filters}
+                  setFilters={setFilters}
+                  requestProducts={() => requestProducts(page)}
+                  classes=''
+                />
               </Typography>
             </AccordionDetails>
           </MyAccordion>
-          {products?.accessories.length > 0 && !error && 
-              <>
-                <SellList>
-                  {products.accessories.map(item => 
-                    <SellItem
-                      key={item.id}
-                      onClick={(e) => goToProductPage(e, item.id)}
+          {products?.accessories.length > 0 && !error &&
+            <>
+              <SellList>
+                {products.accessories.map(item =>
+                  <SellItem
+                    key={item.id}
+                    onClick={(e) => goToProductPage(e, item.id)}
+                  >
+                    <VendorCode
+                      onClick={() => copyToClipboard(item.vendorCode)}
                     >
-                      <VendorCode
-                        onClick={() => copyToClipboard(item.vendorCode)}
-                      >
-                        ID {item.vendorCode}
-                      </VendorCode>
-                      {item.image.split(' ').length === 1 ? 
-                        <SellImage src={item.image} key={item.id}/>:
-                        <CarouselMy>
-                          {isOurPhoto(item.image).map( (imgPath, i) => <SellImage src={imgPath} key={imgPath}/> )}
-                        </CarouselMy>
-                      }
-                      <Name>{item.name}</Name>
-                      <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
-                        {item.isAvaible}
-                      </IsAvaible>
-                      <Price>{item.retailPrice} руб.</Price>
-                      {isInCart(item.id) === true ? ( 
-                        <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
-                      ): 
-                        <Button onClick={() => dispatch(addToCart({...item, count: 1}))} >Купить</Button>
-                      }
-                    </SellItem>
-                  )}
+                      ID {item.vendorCode}
+                    </VendorCode>
+                    {item.image.split(' ').length === 1 ?
+                      <SellImage src={item.image} key={item.id} /> :
+                      <CarouselMy>
+                        {isOurPhoto(item.image).map((imgPath, i) => <SellImage src={imgPath} key={imgPath} />)}
+                      </CarouselMy>
+                    }
+                    <Name>{item.name}</Name>
+                    <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
+                      {item.isAvaible}
+                    </IsAvaible>
+                    <Price>{user.role === 'user' ? item.wholesalePrice : item.retailPrice} руб.</Price>
+                    {isInCart(item.id) === true ? (
+                      <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
+                    ) :
+                      <Button onClick={() => dispatch(addToCart({ ...item, count: 1 }))} >Купить</Button>
+                    }
+                  </SellItem>
+                )}
               </SellList>
               <PaginationFixed>
                 <Pagination
@@ -189,9 +189,9 @@ function MainPage() {
               </PaginationFixed>
             </>
           }
-        {products?.totalCount === 0 &&
-          <Title>Таких товаров нет</Title>
-        }
+          {products?.totalCount === 0 &&
+            <Title>Таких товаров нет</Title>
+          }
         </Container>
       }
     </Main>
@@ -299,7 +299,7 @@ const SellItem = styled.div`
     max-width: 100%;
     min-width: 100%;
   }
-` 
+`
 
 const SellImage = styled.img`
   width: 130px;
@@ -341,7 +341,7 @@ const ButtonActive = styled(Button)`
   color: #000;
 `
 
-const LoaderDiv =styled.div`
+const LoaderDiv = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   /* position: absolute;

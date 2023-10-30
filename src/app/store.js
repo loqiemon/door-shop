@@ -24,12 +24,12 @@ export const store = configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
         characteristics: characteristicsReducer,
-        // [csvApi.reducerPath]: csvApi.reducer
+        [csvApi.reducerPath]: csvApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(orderApi.middleware)
-            // .concat(csvApi.middleware)
+            .concat(csvApi.middleware)
             .concat(productApi.middleware),
 })
 
