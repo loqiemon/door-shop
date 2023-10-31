@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -9,6 +9,7 @@ function CustomSelect({
   value,
   options = [],
   label,
+  children,
   ...props
 }) {
   return (
@@ -25,6 +26,7 @@ function CustomSelect({
         {options.map(option => (
           <MenuItem value={option.value}>{option.text}</MenuItem>
         ))}
+        {children}
       </Select>
     </FormControl>
   )
