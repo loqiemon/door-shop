@@ -9,7 +9,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { motion } from "framer-motion"
+
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader';
@@ -182,11 +182,13 @@ function MainPage() {
                         onClick={() => dispatch(removeFromCart(item.id))}
                         text='Уже в корзине'
                         active={true}
+                        style={ButtonStyle}
                       />
                     ) :
                       <Button
                         onClick={() => dispatch(addToCart({ ...item, count: 1 }))}
                         text='Купить'
+                        style={ButtonStyle}
                       />
                     }
                   </SellItem>
@@ -222,6 +224,12 @@ const IsAvaible = styled.span`
     color: ${colors.red};
   }
 `
+
+const ButtonStyle = {
+  height: 'auto',
+  maxWidth: '100%',
+  width: '100%'
+}
 
 const PaginationFixed = styled.div`
   margin: 0 auto;

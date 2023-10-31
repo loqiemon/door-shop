@@ -11,7 +11,8 @@ import Loader from '../../components/Loader'
 import useInput from '../../hooks/useInput'
 import { useGetOrderByTelephoneQuery } from './orderApi';
 import { useSelector } from 'react-redux';
-
+import CustomInput from '../../shared/ui/Input/CustomInput';
+import Button from '../../shared/ui/Button/Button';
 
 function GetOrder() {
   const phone = useInput('');
@@ -40,13 +41,17 @@ function GetOrder() {
     <Container>
       {isLoading && <LoaderFlex><Loader /></LoaderFlex>}
       <>
-        <Input
+        <CustomInput
           value={phone.value}
           onChange={e => phone.onChange(e.target.value)}
           placeholder='89008553535'
           label='Телефон'
+          style={{ width: '250px' }}
         />
-        <Button onClick={handleSubmit}>Отправить</Button>
+        <Button
+          onClick={handleSubmit}
+          text='Поиск'
+        />
       </>
       {!isLoading && <Container2>
         {orders && orders.length === 0 && <Bold>Заказов нет</Bold>}
@@ -149,39 +154,4 @@ const Container = styled.div`
   /* align-items: center; */
 `
 
-const Button = styled.button`
-    height: 60px;
-    max-width: 250px;
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    max-height: 60px;
-    &:hover {
-      background-color: #FFD700;
-      color: #000;
-    }
-`
 
-const Input = styled(TextField)`
-  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px; 
-    border-color: #56195d;
-
-  }
-
-  & .MuiInputLabel-root.Mui-focused {
-    color: #56195d; 
-  }
-
-  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px;
-  }
-    /* height: 60px; */
-    max-width: 250px;
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`

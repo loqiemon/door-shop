@@ -8,14 +8,15 @@ import { useDispatch } from 'react-redux'
 import { loginFunc } from '../../app/actionCreators'
 import { useNavigate } from 'react-router-dom'
 import { PHONENUMBER } from '../../services/constants'
-
+import CustomInput from '../../shared/ui/Input/CustomInput';
+import Button from '../../shared/ui/Button/Button';
 
 function Login({ setShowRegister }) {
-  const dispatch = useDispatch();
   const { value: login, onChange: handleLogin } = useInput();
   const { value: password, onChange: handlePassword } = useInput();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (login.length > 0 && password.length > 0) {
@@ -28,18 +29,22 @@ function Login({ setShowRegister }) {
 
   return (
     <AuthContainer>
-      <Authinput
+      <CustomInput
         placeholder='Логин'
         value={login}
         onChange={e => handleLogin(e.target.value)}
       />
-      <Authinput
+      <CustomInput
         placeholder='Пароль'
         type='password'
         value={password}
         onChange={e => handlePassword(e.target.value)}
       />
-      <AuthButton onClick={handleSubmit} type='submit'>Войти</AuthButton>
+      <Button
+        onClick={handleSubmit}
+        type='submit'
+        text='Войти'
+      />
       <AuthText>
         <span>Нет аккаунта? </span>
         <AuthBtn
@@ -51,8 +56,6 @@ function Login({ setShowRegister }) {
         <Link type='tel' href='https://wa.me/79774546777'><WhatsAppIcon />Ватсап</Link>
         <Link type='tel' href='https://t.me/furniturarf'><TelegramIcon /> Телеграм</Link>
       </AuthText>
-
-
     </AuthContainer>
   )
 }
@@ -77,30 +80,6 @@ const AuthContainer = styled.div`
     gap: 40px;
     align-items: center;
     justify-content: center;
-`
-
-
-const Authinput = styled.input`
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`
-
-const AuthButton = styled.button`
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    font-weight: 600;
-    font-size: 20px;
-    &:hover {
-      /* background-color: #56195d; */
-      background-color: #FFD700;
-      color: #000;
-    }
-    
 `
 
 const AuthText = styled.span`

@@ -18,6 +18,7 @@ import { addToCart, readCart, removeFromCart } from '../cart/cartSlice'
 import { fetchProduct } from '../../app/actionCreators'
 import Loader from '../../components/Loader'
 import isOurPhoto from '../../utils/isOurPhoto';
+import Button from '../../shared/ui/Button/Button';
 
 
 
@@ -52,15 +53,11 @@ function ProductPage() {
   }
 
   const addProductToCart = (product) => {
-    // if (variant.id !== undefined) {
     dispatch(addToCart({
       ...product,
       count: 1,
       variant
     }))
-    // } else {
-    //   alert("Выберите хар-ки")
-    // }
   }
 
   const handleChange = (id) => {
@@ -88,9 +85,18 @@ function ProductPage() {
                 </MyCarousel>
               }
               {isInCart(product.id) === true ? (
-                <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>
+                <Button
+                  onClick={() => dispatch(removeFromCart(product.id))}
+                  text={'Уже в корзине'}
+                  className={'active'}
+                  style={ButtonStyle}
+                />
               ) :
-                <Button onClick={() => addProductToCart(product)} >Купить</Button>
+                <Button
+                  onClick={() => addProductToCart(product)}
+                  text={'Купить'}
+                  style={ButtonStyle}
+                />
               }
             </SubContainer>
             <SubContainer>
@@ -170,6 +176,12 @@ function ProductPage() {
 
 export default ProductPage
 
+const ButtonStyle = {
+  width: '100%',
+  margin: '0 auto',
+  marginTop: '10px',
+}
+
 
 const Container = styled.div`
   width: 100%;
@@ -248,24 +260,7 @@ const Span = styled.span`
   font-weight: 500;
 `
 
-const Button = styled.button`
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    font-weight: 600;
-    width: 250px;
-    margin: 0 auto;
-    &:hover {
-      background-color: #FFD700;
-      color: #000;
-    }
-`
-const ButtonActive = styled(Button)`
-  background-color: #FFD700;
-  color: #000;
-`
+
 
 const Back = styled.span`
   padding: 10px;

@@ -6,6 +6,7 @@ function Button({
   text,
   onClick,
   active = false,
+  children,
   ...props
 }) {
   return (
@@ -14,7 +15,7 @@ function Button({
       className={active ? 'active' : ''}
       {...props}
     >
-      {text}
+      {children || text}
     </Btn>
   )
 }
@@ -23,7 +24,8 @@ export default Button
 
 
 const Btn = styled.button`
-  width: 100%;
+  height: 60px;
+  max-width: 250px;
   padding: 10px;
   background-color: #fff;
   border-radius: 15px;
@@ -32,12 +34,11 @@ const Btn = styled.button`
   transition: all .3s ease-in;
   font-weight: 600;
   &:hover {
-      /* background-color: #5065f6; */
-      background-color: ${colors.gold};
-      color: #000;
+    /* background-color: #5065f6; */
+    background-color: ${colors.gold};
+    color: #000;
   }
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
   &.active {
     background-color: ${colors.gold};
     color: #000;

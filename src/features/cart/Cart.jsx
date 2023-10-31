@@ -24,7 +24,6 @@ function Cart() {
   }, []);
 
   useEffect(() => {
-    // setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice + item.variant.priceModifier)*item.count, 0))
     if (user && user.role === 'user') {
       setTotalPrice(cartItems.reduce((acc, item) => acc + (item.wholesalePrice) * item.count, 0))
     } else {

@@ -10,7 +10,7 @@ const CartDiv = styled.div`
 function CartPage() {
   return (
     <CartDiv>
-        <Cart/>
+      <Cart />
     </CartDiv>
   )
 }

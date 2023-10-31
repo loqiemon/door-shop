@@ -143,7 +143,6 @@ function OrderForm({
         onChange={e => setPhone(e.target.value)}
         label='Телефон'
         type='tel'
-
       />
       <CustomInput
         value={email}

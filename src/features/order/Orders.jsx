@@ -17,7 +17,7 @@ import Pagination from '../../components/Pagination';
 import OrderFillters from './OrderFillters';
 import Modal from '../modal/Modal';
 import OrderForm from './OrderForm';
-
+import Button from '../../shared/ui/Button/Button';
 
 
 function Orders() {
@@ -72,7 +72,12 @@ function Orders() {
       {(isFetching || isLoading) ?
         <LoaderFlex><Loader /></LoaderFlex> :
         <>
-          <OrderFillters setFilters={setFilters} goToPage={goToPage} filters={filters} page={page} />
+          <OrderFillters
+            setFilters={setFilters}
+            goToPage={goToPage}
+            filters={filters}
+            page={page}
+          />
           <Container2>
             {orders && orders.length === 0 && <Bold>Заказов нет</Bold>}
             {orders && orders.map((order) => (
@@ -121,11 +126,10 @@ function Orders() {
                   Удалить
                 </Span> */}
                 <Button
-                  style={{ cursor: 'pointer', marginTop: '10px' }}
+                  style={ButtonStyle}
                   onClick={() => handleEdit(order)}
-                >
-                  Редактировать
-                </Button>
+                  text='Редактировать'
+                />
               </Order>
             ))}
           </Container2>
@@ -153,6 +157,13 @@ function Orders() {
 }
 
 export default Orders
+
+const ButtonStyle = {
+  maxWidth: '250px',
+  maxHeight: '60px',
+  margin: '0 auto',
+  marginTop: '10px',
+}
 
 const Container = styled.div`
   width: 100%;
@@ -224,18 +235,3 @@ const LoaderFlex = styled.div`
   transform: translate(-50%, -50%);
 `
 
-const Button = styled.button`
-    padding: 12px;
-    max-width: 250px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    max-height: 60px;
-    margin: 0 auto;
-    &:hover {
-      /* background-color: #56195d; */
-      background-color: #FFD700;
-      color: #000;
-    }
-`
