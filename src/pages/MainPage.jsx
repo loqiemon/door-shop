@@ -30,7 +30,8 @@ function MainPage() {
     maxPrice: '',
     country: '',
     manufacturer: '',
-    sortType: ''
+    sortType: '',
+    color: ''
   });
 
   const [acceptFilters, setAcceptFilters] = useState({
@@ -99,7 +100,8 @@ function MainPage() {
       searchByName: filters.search,
       country: filters.country,
       manufacturer: filters.manufacturer,
-      sortType: filters.sortType
+      sortType: filters.sortType,
+      color: filters.color
     })
   }
 
@@ -121,6 +123,7 @@ function MainPage() {
   return (
     <Main className='main'>
       <Aside
+        categoryId={categoryId}
         filters={filters}
         setFilters={setFilters}
         requestProducts={() => requestProducts(page)}

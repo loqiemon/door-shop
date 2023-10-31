@@ -12,6 +12,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
+import Button from '../shared/ui/Button/Button';
 
 
 function valuetext(value) {
@@ -31,6 +32,7 @@ const marks = [
 
 
 function Aside({
+  categoryId,
   filters,
   setFilters,
   requestProducts,
@@ -38,138 +40,144 @@ function Aside({
 }) {
   const [value, setValue] = React.useState([0, 200]);
 
-  const {countrys, manufacturers, isLoading } = useSelector(state => state.filters)
+  const { countrys, manufacturers, colors } = useSelector(state => state.filters)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (countrys.length === 0) {
-      dispatch(fetchFilters())
-    }
+    // if (countrys.length === 0) {
+    dispatch(fetchFilters(categoryId))
+    // }
   }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setFilters(prev => ({
-      ...prev, 
-      minPrice: newValue[0]*1000,
-      maxPrice: newValue[1]*1000
+      ...prev,
+      minPrice: newValue[0] * 1000,
+      maxPrice: newValue[1] * 1000
     }))
   };
 
 
   return (
     <AsideList className={classes}>
-        <AsideItem>
-            <Search 
-                placeholder='Поиск'
-                value={filters.search}
-                onChange={e => setFilters(prev => ({...prev, search: e.target.value}))}
-            />
-        </AsideItem>
-        <AsideItem>
-            <Input
-                value={filters.minPrice}
-                onChange={e => setFilters(prev => ({...prev, minPrice: e.target.value}))}
-                id="outlined-basic"
-                label="Цена от"
-            />
-            <Input
-                value={filters.maxPrice}
-                onChange={e => setFilters(prev => ({...prev, maxPrice: e.target.value}))}
-                id="outlined-basic"
-                label="До"
-            />
-            <MyBox >
-              <Slider
-                getAriaLabel={() => 'Диапазон цен'}
-                value={value}
-                onChange={handleChange}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                max={200}
-                marks={marks}
-              />
-            </MyBox>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={filters.country}
-                onChange={e => setFilters((prev) => ({...prev, country: e.target.value}))}
-                label="Type"
+      <AsideItem>
+        <Search
+          placeholder='Поиск'
+          value={filters.search}
+          onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
+        />
+      </AsideItem>
+      <AsideItem>
+        <Input
+          value={filters.minPrice}
+          onChange={e => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
+          id="outlined-basic"
+          label="Цена от"
+        />
+        <Input
+          value={filters.maxPrice}
+          onChange={e => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
+          id="outlined-basic"
+          label="До"
+        />
+        <MyBox >
+          <Slider
+            getAriaLabel={() => 'Диапазон цен'}
+            value={value}
+            onChange={handleChange}
+            valueLabelDisplay="auto"
+            getAriaValueText={valuetext}
+            max={200}
+            marks={marks}
+          />
+        </MyBox>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={filters.country}
+            onChange={e => setFilters((prev) => ({ ...prev, country: e.target.value }))}
+            label="Type"
+          >
+            <MenuItem value="">
+              <em>Не указана</em>
+            </MenuItem>
+            {countrys && countrys.map(country =>
+              <MenuItem
+                value={country}
+                key={country}
               >
-              <MenuItem value="">
-                  <em>Не указана</em>
+                {country}
               </MenuItem>
-              {countrys.map(country => 
-                  <MenuItem 
-                      value={country}
-                      key={country}
-                  >
-                      {country}
-                  </MenuItem>
-              )}
-              </Select>
-            </FormControl>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Производитель</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={filters.manufacturer}
-                onChange={e => setFilters((prev) => ({...prev, manufacturer: e.target.value}))}
-                label="Type"
+            )}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Производитель</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={filters.manufacturer}
+            onChange={e => setFilters((prev) => ({ ...prev, manufacturer: e.target.value }))}
+            label="Type"
+          >
+            <MenuItem value="">
+              <em>Не указан</em>
+            </MenuItem>
+            {manufacturers && manufacturers.map(manufacturer =>
+              <MenuItem
+                value={manufacturer}
+                key={manufacturer}
               >
-              <MenuItem value="">
-                  <em>Не указан</em>
+                {manufacturer}
               </MenuItem>
-              {manufacturers.map(manufacturer => 
-                  <MenuItem 
-                      value={manufacturer}
-                      key={manufacturer}
-                  >
-                      {manufacturer}
-                  </MenuItem>
-              )}
-              </Select>
-            </FormControl>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Сортировка</InputLabel>
-              <Select
-                value={filters.sortType}
-                onChange={e => setFilters((prev) => ({...prev, sortType: e.target.value}))}
-                label="Type"
+            )}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Цвет</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={filters.colors}
+            onChange={e => setFilters((prev) => ({ ...prev, colors: e.target.value }))}
+            label="Type"
+          >
+            <MenuItem value="">
+              <em>Не указан</em>
+            </MenuItem>
+            {colors && colors.map(color =>
+              <MenuItem
+                value={color}
+                key={color}
               >
-                <MenuItem value="asc">По возрастанию</MenuItem>
-                <MenuItem value="desc">По убыванию</MenuItem>
-              </Select>
-            </FormControl>
+                {color}
+              </MenuItem>
+            )}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Сортировка</InputLabel>
+          <Select
+            value={filters.sortType}
+            onChange={e => setFilters((prev) => ({ ...prev, sortType: e.target.value }))}
+            label="Type"
+          >
+            <MenuItem value="asc">По возрастанию</MenuItem>
+            <MenuItem value="desc">По убыванию</MenuItem>
+          </Select>
+        </FormControl>
 
-        </AsideItem>
-        <AsideButton onClick={requestProducts}>Применить</AsideButton>
+      </AsideItem>
+      <Button text='Применить' onClick={requestProducts} />
     </AsideList>
   )
 }
 
 export default Aside
 
-const Button = styled(motion.div)`
-  width: 100%;
-  padding: 5px;
-  display: flex;
-  gap: 15px;
-  border-radius: 15px;
-  font-weight: 500;
-  font-size: 19px;
-  transition: all .3s ease-in;
-  align-items: center;
-  &:hover {
-        /* background-color: #5065f6; */
-        background-color: #FFD700;
-        color: #000;
-    }
-`
 
 const Flex = styled(motion.div)`
   width: 100%;
@@ -222,29 +230,10 @@ const AsideItem = styled.div`
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
-const Search =styled.input`
+const Search = styled.input`
   width: 100%;
   padding: 5px;
 `
-
-const AsideButton = styled.button`
-    width: 100%;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 20px;
-    transition: all .3s ease-in;
-    font-weight: 600;
-    &:hover {
-        /* background-color: #5065f6; */
-        background-color: #FFD700;
-        color: #000;
-    }
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-`
-
 
 const Input = styled(TextField)`
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {

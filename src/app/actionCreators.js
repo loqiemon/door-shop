@@ -240,10 +240,10 @@ export const editProduct = (product) => async (dispatch) => {
 
 //Фильтры
 
-export const fetchFilters = () => async (dispatch) => {
+export const fetchFilters = (accessoryTypeId) => async (dispatch) => {
     try {
         dispatch(filtersSlice.actions.fetchFilters())
-        const response = await axios.get(`${API_URL}Accessories/unique-countries-and-manufacturers`)
+        const response = await axios.get(`${API_URL}Accessories/unique-countries-and-manufacturers?accessoryTypeId=${accessoryTypeId}`);
         dispatch(filtersSlice.actions.fetchFiltersSuccess(response.data))
     } catch (e) {
         dispatch(filtersSlice.actions.fetchFiltersError(e.message))
