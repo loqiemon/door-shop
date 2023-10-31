@@ -18,6 +18,8 @@ import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice'
 import { useGetProductsQuery } from '../features/products/productApi';
 import copyToClipboard from '../utils/copyToClipboard'
 import isOurPhoto from '../utils/isOurPhoto'
+import Button from '../shared/ui/Button/Button';
+import { colors } from '../shared/colors';
 
 
 function MainPage() {
@@ -176,9 +178,16 @@ function MainPage() {
                     </IsAvaible>
                     <Price>{user.role === 'user' ? item.wholesalePrice : item.retailPrice} руб.</Price>
                     {isInCart(item.id) === true ? (
-                      <ButtonActive onClick={() => dispatch(removeFromCart(item.id))}>Уже в корзине</ButtonActive>
+                      <Button
+                        onClick={() => dispatch(removeFromCart(item.id))}
+                        text='Уже в корзине'
+                        active={true}
+                      />
                     ) :
-                      <Button onClick={() => dispatch(addToCart({ ...item, count: 1 }))} >Купить</Button>
+                      <Button
+                        onClick={() => dispatch(addToCart({ ...item, count: 1 }))}
+                        text='Купить'
+                      />
                     }
                   </SellItem>
                 )}
@@ -206,27 +215,16 @@ export default MainPage
 const IsAvaible = styled.span`
   font-weight: 600;
   &.avaible {
-    color: #A8DF8E;
+    color: ${colors.green};
   }
 
   &.not_avaible {
-    color: #C70039;
+    color: ${colors.red};
   }
 `
 
 const PaginationFixed = styled.div`
   margin: 0 auto;
-  /* @media (max-width: 576px) {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: #fff;
-    padding: 10px;
-    text-align: center;
-    z-index: 1010;
-    display: flex;
-    justify-content: center;
-  } */
 `
 
 const MyAccordion = styled(Accordion)`
@@ -246,7 +244,7 @@ const SellList = styled.div`
   margin-top: 10px;
   justify-content: center;
   gap: 10px;
-  background-color: #fff;
+  background-color: ${colors.white};
   border-radius: 15px;
   overflow-y: scroll;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -288,9 +286,9 @@ const SellItem = styled.div`
   position: relative;
   cursor: pointer;
   transition: all .35s ease-in;
-  background-color: #fff;
+  background-color: ${colors.white};
   border-radius: 15px;
-  border: 1px solid #f7f7f7;
+  border: 1px solid ${colors.gray};
   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px;
 
   @media (max-width: 1199px) {
@@ -316,41 +314,12 @@ const Main = styled.div`
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
-
-  /* height: 100%; */
-  /* min-height: 500px; */
-  /* height: 1920px;
-  @media (max-width: 767px) {
-    height: 3500px;
-  } */
   padding-bottom: 40px;
-`
-
-const Button = styled.button`
-  padding: 12px;
-  background-color: #f7f7f7;
-  border-radius: 15px;
-  transition: all .35s ease-in;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  font-weight: 600;
-  &:hover {
-    background-color: #FFD700;
-    color: #000;
-  }
-`
-
-const ButtonActive = styled(Button)`
-  background-color: #FFD700;
-  color: #000;
 `
 
 const LoaderDiv = styled.div`
   margin: 0 auto;
   margin-top: 50px;
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
 `
 
 const VendorCode = styled.p`
@@ -363,7 +332,7 @@ const VendorCode = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   &:hover {
-    color: #56195d;
+    color: ${colors.purpleHover};
     font-weight: 600;
   }
 `
@@ -375,11 +344,7 @@ const Price = styled.span`
 const Title = styled.h2`
   font-weight: 600;
   font-size: 27px;
-  color: #000;
-  /* position: absolute; */
-  /* left: 50%;
-  top: 25%;
-  transform: translate(-50%, -50%); */
+  color: ${colors.black};
 `
 
 const Name = styled.span`

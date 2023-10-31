@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +14,9 @@ import { usePostOrderMutation, usePutOrderMutation } from './orderApi';
 import { PHONENUMBER } from '../../services/constants';
 import { clearCart } from '../cart/cartSlice';
 import AlertJsx from '../../components/Alert';
+import CustomInput from '../../shared/ui/Input/CustomInput';
+import Button from '../../shared/ui/Button/Button';
+import CustomSelect from '../../shared/ui/Select/CustomSelect';
 
 // import { addOrderRequest } from '../../app/actionCreators';
 
@@ -130,24 +132,24 @@ function OrderForm({
 
   return (
     <Container>
-      <Input
+      <CustomInput
         value={name}
         onChange={e => setName(e.target.value)}
         label='Имя'
       />
-      <Input
+      <CustomInput
         value={address}
         onChange={e => setAddress(e.target.value)}
         label='Адрес'
       />
-      <Input
+      <CustomInput
         value={phone}
         onChange={e => setPhone(e.target.value)}
         label='Телефон'
         type='tel'
 
       />
-      <Input
+      <CustomInput
         value={email}
         onChange={e => setEmail(e.target.value)}
         label='Почта'
@@ -161,36 +163,28 @@ function OrderForm({
         label="Комментарий"
         placeholder='Комментарий'
       />
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-standard-label">Тип оплаты</InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={paymentType}
-          onChange={e => setPaymentType(e.target.value)}
-          label="Type"
-        >
-          <MenuItem value="cash">Наличными</MenuItem>
-          <MenuItem value="card">Картой</MenuItem>
-        </Select>
-      </FormControl>
+      <CustomSelect
+        value={paymentType}
+        onChange={e => setPaymentType(e.target.value)}
+        label="Тип оплаты"
+        options={[
+          { value: 'cash', text: 'Наличными' },
+          { value: 'card', text: 'Картой' },
+        ]}
+      />
       {user && user.role === 'admin' &&
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Статус</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={status}
-            onChange={e => setStatus(e.target.value)}
-            label="Type"
-          >
-            <MenuItem value="Не обработан">Не обработан</MenuItem>
-            <MenuItem value="В обработке">В обработке</MenuItem>
-            <MenuItem value="Собран">Собран</MenuItem>
-            <MenuItem value="Доставлен">Доставлен</MenuItem>
-            <MenuItem value="Отменен">Отменен</MenuItem>
-          </Select>
-        </FormControl>
+        <CustomSelect
+          value={status}
+          onChange={e => setStatus(e.target.value)}
+          label="Статус"
+          options={[
+            { value: 'Не обработан', text: 'Не обработан' },
+            { value: 'В обработке', text: 'В обработке' },
+            { value: 'Собран', text: 'Собран' },
+            { value: 'Доставлен', text: 'Доставлен' },
+            { value: 'Отменен', text: 'Отменен' }
+          ]}
+        />
       }
       <div>
         <span>Даю согласие на обработку персональных данных</span>
@@ -199,7 +193,13 @@ function OrderForm({
           onChange={e => setChecked(e.target.checked)}
         />
       </div>
-      <Button onClick={handleSubmit}>Оформить заказ</Button>
+      <Button
+        onClick={handleSubmit}
+        text='Оформить заказ'
+        style={{
+          width: '250px',
+        }}
+      />
       {isAlertVisible && <AlertJsx
         message={'Заказ успешно оформлен. Менеджер свяжется с вами.'}
         onClose={() => setIsAlertVisible(false)}
@@ -221,45 +221,7 @@ const Container = styled.div`
     align-items: center;
 `
 
-const Input = styled(TextField)`
-  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px; 
-    border-color: #56195d;
 
-  }
-
-  & .MuiInputLabel-root.Mui-focused {
-    color: #56195d; 
-  }
-
-  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px;
-  }
-    width: 100%;
-    max-width: 450px;
-    background-color: #f7f7f7;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`
-
-const Button = styled.button`
-    width: 250px;
-    margin: 0 auto;
-    padding: 12px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    font-size: 22px;
-    font-weight: 700;
-
-    &:hover {
-      background-color: #FFD700;
-      color: #000;
-      box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 17px;
-    }
-`
 
 const StyledTextarea = styled(TextareaAutosize)`
   width: 100%;

@@ -1,19 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { colors } from '../../colors'
 
 function Button({
   text,
-  onClick
+  onClick,
+  active = false,
+  ...props
 }) {
   return (
-    <Btn onClick={onClick}>
+    <Btn
+      onClick={onClick}
+      className={active ? 'active' : ''}
+      {...props}
+    >
       {text}
     </Btn>
   )
 }
 
 export default Button
+
 
 const Btn = styled.button`
   width: 100%;
@@ -26,8 +33,14 @@ const Btn = styled.button`
   font-weight: 600;
   &:hover {
       /* background-color: #5065f6; */
-      background-color: #FFD700;
+      background-color: ${colors.gold};
       color: #000;
   }
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &.active {
+    background-color: ${colors.gold};
+    color: #000;
+  }
 `
+
