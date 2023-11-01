@@ -1,26 +1,26 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { modalSlice } from '../features/modal/modalSlice'
+
 import logo from '../../public/images/favicon/android-chrome-192x192.png';
-import useOnHoverOutside from '../hooks/useOnHoverOutside'
+import useOnHoverOutside from '../shared/hooks/useOnHoverOutside'
 import Categories from '../features/categories/Categories'
+import useCartSum from '../features/cart/useCartSum'
+import { colors } from '../shared/const/colors';
 
 function Navbar() {
     const [isNavActive, setIsNavActive] = useState(false);
-    const isAuth = useSelector(state => state.auth.isAuth)
-    const dropdownRef = useRef(null); 
+    const dropdownRef = useRef(null);
     const [isMenuDropDownOpen, setMenuDropDownOpen] = useState(false);
-  
+
     const closeHoverMenu = () => {
-      setMenuDropDownOpen(false);
+        setMenuDropDownOpen(false);
     };
-  
-    useOnHoverOutside(dropdownRef, closeHoverMenu); 
-    
-    const dispatch = useDispatch()
+
+    useOnHoverOutside(dropdownRef, closeHoverMenu);
+
+    const cartSum = useCartSum()
 
     const toggleNav = () => {
         setIsNavActive(!isNavActive);
@@ -41,20 +41,17 @@ function Navbar() {
             <NavContainer>
                 <HideOnMobile>
                     <NavLink to='/'>
-                        <NavLogo src={logo}/>
+                        <NavLogo src={logo} />
                     </NavLink>
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
-                    <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
-                    {/* {isAuth === true ?  */}
-                        <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
-                        {/* : */}
-                        {/* <NavLink onClick={() => dispatch(modalSlice.actions.open())}> */}
-                            {/* Профиль */}
-                        {/* </NavLink> */}
-                    {/* } */}
+                    <NavLink to='/cart' onClick={closeNav}>
+                        {cartSum > 0 && <Span>{cartSum}₽ </Span>}
+                        Корзина
+                    </NavLink>
+                    <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
                 </NavLinks>
-                <Hamburger 
+                <Hamburger
                     className={isNavActive ? 'hamburger-active' : ''}
                     onClick={toggleNav}
                 >
@@ -65,14 +62,14 @@ function Navbar() {
             </NavContainer>
             <NavBottom className={isNavActive ? 'active' : ''}>
                 <NavBottomContainer>
-                    {!isNavActive && 
+                    {!isNavActive &&
                         <NavBottomItem onMouseOver={() => setMenuDropDownOpen(true)}>
                             Каталог товаров
-                            {isMenuDropDownOpen && 
+                            {isMenuDropDownOpen &&
                                 <MyMenu ref={dropdownRef}>
                                     <CategoriesContainer onClick={handleCategoryClick}>
-                                        <Categories/>
-                                    </CategoriesContainer>   
+                                        <Categories />
+                                    </CategoriesContainer>
                                 </MyMenu>
                             }
                         </NavBottomItem>
@@ -89,10 +86,7 @@ function Navbar() {
             <MobileNav className={isNavActive ? 'active' : ''} onClick={closeNav}>
                 <NavLink to='/'>Каталог</NavLink>
                 <NavLink to='/cart'>Корзина</NavLink>
-                {isAuth === true ? 
-                    <NavLink to='/profile'>Профиль</NavLink>:
-                    <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
-                }
+                <NavLink to='/profile'>Профиль</NavLink>
                 <NavLink to='/payment'>Оплата</NavLink>
                 <NavLink to='/delivery'>Доставка по Москве</NavLink>
                 <NavLink to='/support'>Помощь в выборе</NavLink>
@@ -136,6 +130,10 @@ const MobileNav = styled.div`
     }
 `
 
+const Span = styled.span`
+    color: ${colors.gold};
+`
+
 const MyMenu = styled.div`
     position: absolute;
     z-index: 1000;
@@ -174,7 +172,6 @@ background: linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252
 
 const CategoriesContainer = styled.div`
     margin: 0 auto;
-
 `
 
 const NavLogo = styled.img`

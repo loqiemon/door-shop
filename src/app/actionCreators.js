@@ -1,7 +1,7 @@
 import axios from "axios";
 import { cartSlice } from '../features/cart/cartSlice';
 import { categoriesSlice } from '../features/categories/categoriesSlice';
-import { API_URL } from "../services/constants";
+import { API_URL } from "../shared/const/constants";
 import { authSlice } from "../features/auth/authSlice";
 import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";

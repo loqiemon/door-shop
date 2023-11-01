@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import useInput from '../../hooks/useInput'
+import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { registerFunc } from '../../app/actionCreators'
 

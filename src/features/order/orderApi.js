@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { API_URL } from "../../services/constants"
+import { API_URL } from "../../shared/const/constants"
 
 export const orderApi = createApi({
   reducerPath: 'orderApi',

@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import useInput from '../../hooks/useInput'
+import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../app/actionCreators'
 import { convertImageToBase64 } from '../../utils/convertImage'
@@ -14,12 +14,12 @@ function CategoryForm() {
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     const imageBase64 = await convertImageToBase64(file);
-    setSelectedImage(imageBase64); 
+    setSelectedImage(imageBase64);
   };
 
   const handleSubmit = () => {
-    if(selectedImage.length !== 0 && val.value) {
-      dispatch(addCategory({type: val.value, image: selectedImage}))
+    if (selectedImage.length !== 0 && val.value) {
+      dispatch(addCategory({ type: val.value, image: selectedImage }))
       val.onChange('');
       setSelectedImage('');
     }
@@ -27,21 +27,21 @@ function CategoryForm() {
 
   return (
     <Container>
-        <Title>Добавление категории</Title>
-        <Form>
-            <Input 
-                placeholder='Название категории...'
-                value={val.value}
-                onChange={e => val.onChange(e.target.value)}
-            />
-            <Input
-              placeholder='Фото'
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            <Button onClick={handleSubmit}>Добавить</Button>
-        </Form>
+      <Title>Добавление категории</Title>
+      <Form>
+        <Input
+          placeholder='Название категории...'
+          value={val.value}
+          onChange={e => val.onChange(e.target.value)}
+        />
+        <Input
+          placeholder='Фото'
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+        <Button onClick={handleSubmit}>Добавить</Button>
+      </Form>
     </Container>
   )
 }

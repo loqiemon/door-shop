@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
 
 import Loader from '../../components/Loader'
-import useInput from '../../hooks/useInput'
+import useInput from '../../shared/hooks/useInput'
 import { useGetOrderByTelephoneQuery } from './orderApi';
 import { useSelector } from 'react-redux';
 import CustomInput from '../../shared/ui/Input/CustomInput';

@@ -54,6 +54,7 @@ function CsvForm() {
             name="file"
             accept=".csv"
             onChange={(e) => setCsv(e.target.files[0])}
+            style={{ height: '60px' }}
           />
           <CustomSelect
             label="Тип товара"

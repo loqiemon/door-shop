@@ -7,11 +7,11 @@ function ContactsPage() {
     <Container>
       <Paragraph>
         Мы работаем и принимаем заказы по сервису, ремонту, установке, а также по покупке дверной фурнитуры.
-        <br/><br/>Принимаем заказы: 
+        <br /><br />Принимаем заказы:
       </Paragraph>
       <List>
-        <ListItem><ChechMark/>Круглосуточно (через сайт или электронную почту)</ListItem>
-        <ListItem><ChechMark/>По телефону или в чатах telegram, watsapp в часы работы магазина.</ListItem>
+        <ListItem><ChechMark />Круглосуточно (через сайт или электронную почту)</ListItem>
+        <ListItem><ChechMark />По телефону или в чатах telegram, whatsapp в часы работы магазина.</ListItem>
       </List>
       <Paragraph>
         <span>Режим работы: с понедельника по пятницу с 10:00 до 18:00</span>

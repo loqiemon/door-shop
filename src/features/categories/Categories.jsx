@@ -1,58 +1,58 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import useSearch from '../../hooks/useSearch'
+import useSearch from '../../shared/hooks/useSearch'
 import Loader from '../../components/Loader';
 import { fetchCategories } from '../../app/actionCreators';
 
 
 function Categories() {
-  const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
-  const [searchText, setSearchText] = useState('');
-  const { searchedArray } = useSearch(categories, searchText, 'type')
+    const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
+    const [searchText, setSearchText] = useState('');
+    const { searchedArray } = useSearch(categories, searchText, 'type')
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (categories.length === 0) {
-        dispatch(fetchCategories())
-    }
-  }, [])
-
-  return (
-    <Container>
-        <CategoriesHeader>
-            <CategoriesTitle>Каталог</CategoriesTitle>
-            <CategoriesInput 
-                placeholder='Поиск...'
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-            />
-        </CategoriesHeader>
-        {isLoading && <Loader/>}
-        {!isLoading && 
-            <CategoriesContainer>
-                {searchedArray.length === 0 ? 
-                    <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle>: 
-                    <>
-                        {searchedArray.map(category => 
-                            <CategoriesItem
-                                to={`/catalog/${category.id}/1`}
-                                key={category.type}
-                                className='categories_item'
-                            >
-                                {category.image && <CategoriesImage src={category.image} />}
-                                <CategoriesText>{category.type}</CategoriesText>
-                            </CategoriesItem>
-                        )}
-                    </>
-                }
-            </CategoriesContainer>
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(fetchCategories())
         }
-    </Container>
-  )
+    }, [])
+
+    return (
+        <Container>
+            <CategoriesHeader>
+                <CategoriesTitle>Каталог</CategoriesTitle>
+                <CategoriesInput
+                    placeholder='Поиск...'
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                />
+            </CategoriesHeader>
+            {isLoading && <Loader />}
+            {!isLoading &&
+                <CategoriesContainer>
+                    {searchedArray.length === 0 ?
+                        <CategoriesSearchTitle>Таких категорий нет</CategoriesSearchTitle> :
+                        <>
+                            {searchedArray.map(category =>
+                                <CategoriesItem
+                                    to={`/catalog/${category.id}/1`}
+                                    key={category.type}
+                                    className='categories_item'
+                                >
+                                    {category.image && <CategoriesImage src={category.image} />}
+                                    <CategoriesText>{category.type}</CategoriesText>
+                                </CategoriesItem>
+                            )}
+                        </>
+                    }
+                </CategoriesContainer>
+            }
+        </Container>
+    )
 }
 
 export default Categories

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 
 
-import { colors } from '../../colors';
+import { colors } from '../../const/colors';
 
 
 function CustomInput({

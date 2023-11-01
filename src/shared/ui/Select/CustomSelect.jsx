@@ -23,6 +23,7 @@ function CustomSelect({
         label="Type"
         {...props}
       >
+        <MenuItem value=''>Не выбрано</MenuItem>
         {options.map(option => (
           <MenuItem value={option.value}>{option.text}</MenuItem>
         ))}

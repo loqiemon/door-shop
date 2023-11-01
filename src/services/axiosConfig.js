@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from './constants';
+import { API_URL } from '../shared/const/constants';
 
 const $api = axios.create({
     // withCredentials: true,
@@ -13,7 +13,7 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use((config) => {
     return config;
-},async (error) => {
+}, async (error) => {
     const originalRequest = error.config;
     console.log(error, 'originalRequest')
     if (originalRequest.url !== `${API_URL}Auth/login` && err.response) {

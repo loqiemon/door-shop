@@ -13,7 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useDeleteOrderMutation, useGetOrdersQuery, usePutOrderMutation } from './orderApi';
 import Loader from '../../components/Loader';
-import Pagination from '../../components/Pagination';
+import Pagination from '../../shared/ui/Pagination/Pagination';
 import OrderFillters from './OrderFillters';
 import Modal from '../modal/Modal';
 import OrderForm from './OrderForm';

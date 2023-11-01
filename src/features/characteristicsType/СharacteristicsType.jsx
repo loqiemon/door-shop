@@ -11,9 +11,9 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
 import Loader from '../../components/Loader';
-import useSearch from '../../hooks/useSearch';
-import useInput from '../../hooks/useInput';
-import usePagination from '../../hooks/usePagination';
+import useSearch from '../../shared/hooks/useSearch';
+import useInput from '../../shared/hooks/useInput';
+import usePagination from '../../shared/hooks/usePagination';
 import Modal from '../modal/Modal';
 import СharacteristicsTypeForm from './СharacteristicsTypeForm';
 import { useDeleteCharacteristicsTypeMutation, useGetCharacteristicsTypesQuery, usePostCharacteristicsTypeMutation, usePutCharacteristicsTypeMutation } from './characteristicsTypeApi';
@@ -22,11 +22,11 @@ function СharacteristicsType() {
   const { featuresTypes, isLoading, isFetching } = useGetCharacteristicsTypesQuery()
   const [isOpen, setIsOpen] = useState(false);
   const [editInput, setEditInput] = useState({});
-  const { value: search, onChange: setSearch} = useInput('')
-  const { searchedArray } = useSearch(featuresTypes , search, 'name')
+  const { value: search, onChange: setSearch } = useInput('')
+  const { searchedArray } = useSearch(featuresTypes, search, 'name')
   const [edit, setEdit] = useState(false);
 
-  const { 
+  const {
     paginatedData,
     rowsPerPage,
     page,
@@ -53,68 +53,68 @@ function СharacteristicsType() {
 
   return (
     <>
-      {(isLoading || isFetching) && <LoaderDiv><Loader/></LoaderDiv>}
+      {(isLoading || isFetching) && <LoaderDiv><Loader /></LoaderDiv>}
       {!isLoading && !isFetching &&
         <TableContainer1>
-          <div style={{display: 'flex', gap: '15px'}}>
-              {children}
-              <Input 
+          <div style={{ display: 'flex', gap: '15px' }}>
+            {children}
+            <Input
               placeholder='Поиск...'
               value={search}
               onChange={e => setSearch(e.target.value)}
-              />
+            />
           </div>
           <TableContainer2 component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                      <TableRow>
-                          <TableCellHeader align="left">Название</TableCellHeader>
-                          <TableCellHeader align="left">Влияет на цену?</TableCellHeader>
-                          <TableCellHeader align="left">Действия</TableCellHeader>
-                      </TableRow>
-                  </TableHead>
-                  <TableBody>
-                      {paginatedData.map((row, rowIndex) => (
-                          <TableRow
-                              key={rowIndex}
-                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                          >
-                              <TableCell>{row.name}</TableCell>
-                              <TableCell>{row.price ? 'Да': 'Нет'}</TableCell>
-                              <TableCell>
-                                  <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
-                                  <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
-                              </TableCell>
-                          </TableRow>
-                      ))}
-                  </TableBody>
-              </Table>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCellHeader align="left">Название</TableCellHeader>
+                  <TableCellHeader align="left">Влияет на цену?</TableCellHeader>
+                  <TableCellHeader align="left">Действия</TableCellHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {paginatedData.map((row, rowIndex) => (
+                  <TableRow
+                    key={rowIndex}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.price ? 'Да' : 'Нет'}</TableCell>
+                    <TableCell>
+                      <EditButton onClick={() => handleEdit(row)}><i className="fa-regular fa-pen-to-square"></i></EditButton>
+                      <DeleteButton onClick={() => handleDelete(row.id)}><i className="fa-solid fa-trash-can"></i></DeleteButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer2>
           <TablePagination
-              rowsPerPageOptions={[5, 10]}
-              component="div"
-              count={searchedArray.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              style={{overflowY: 'hidden'}}
+            rowsPerPageOptions={[5, 10]}
+            component="div"
+            count={searchedArray.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            style={{ overflowY: 'hidden' }}
           />
-          {isOpen &&     
-              <Modal
-                  children={
-                    edit ? 
-                    <СharacteristicsTypeForm
-                      handleSend={acceptEdit}
-                      defaulValues={editInput}
-                    />:
-                    <СharacteristicsTypeForm
-                      handleSend={usePostCharacteristicsTypeMutation}
-                    />
-                  }
-                  onClose={() => setIsOpen(false)}
-              >
-              </Modal>
+          {isOpen &&
+            <Modal
+              children={
+                edit ?
+                  <СharacteristicsTypeForm
+                    handleSend={acceptEdit}
+                    defaulValues={editInput}
+                  /> :
+                  <СharacteristicsTypeForm
+                    handleSend={usePostCharacteristicsTypeMutation}
+                  />
+              }
+              onClose={() => setIsOpen(false)}
+            >
+            </Modal>
           }
         </TableContainer1>
       }
@@ -186,6 +186,6 @@ const Input = styled.input`
 
 const TableContainer2 = styled(TableContainer)`
     height: 500px;
-` 
+`
 
 

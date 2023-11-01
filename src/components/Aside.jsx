@@ -1,33 +1,22 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { motion } from "framer-motion"
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
 import Button from '../shared/ui/Button/Button';
-
+import CustomSelect from '../shared/ui/Select/CustomSelect';
+import CustomInput from '../shared/ui/Input/CustomInput';
 
 function valuetext(value) {
   return `${value} руб`;
 }
 
 const marks = [
-  {
-    value: 0,
-    label: '0 руб',
-  },
-  {
-    value: 200,
-    label: '200т.р.',
-  },
+  { value: 0, label: '0 руб' },
+  { value: 200, label: '200т.р.' },
 ];
 
 
@@ -69,13 +58,13 @@ function Aside({
         />
       </AsideItem>
       <AsideItem>
-        <Input
+        <CustomInput
           value={filters.minPrice}
           onChange={e => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
           id="outlined-basic"
           label="Цена от"
         />
-        <Input
+        <CustomInput
           value={filters.maxPrice}
           onChange={e => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
           id="outlined-basic"
@@ -92,84 +81,48 @@ function Aside({
             marks={marks}
           />
         </MyBox>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={filters.country}
-            onChange={e => setFilters((prev) => ({ ...prev, country: e.target.value }))}
-            label="Type"
-          >
-            <MenuItem value="">
-              <em>Не указана</em>
-            </MenuItem>
-            {countrys && countrys.map(country =>
-              <MenuItem
-                value={country}
-                key={country}
-              >
-                {country}
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Производитель</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={filters.manufacturer}
-            onChange={e => setFilters((prev) => ({ ...prev, manufacturer: e.target.value }))}
-            label="Type"
-          >
-            <MenuItem value="">
-              <em>Не указан</em>
-            </MenuItem>
-            {manufacturers && manufacturers.map(manufacturer =>
-              <MenuItem
-                value={manufacturer}
-                key={manufacturer}
-              >
-                {manufacturer}
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Цвет</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={filters.colors}
-            onChange={e => setFilters((prev) => ({ ...prev, colors: e.target.value }))}
-            label="Type"
-          >
-            <MenuItem value="">
-              <em>Не указан</em>
-            </MenuItem>
-            {colors && colors.map(color =>
-              <MenuItem
-                value={color}
-                key={color}
-              >
-                {color}
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Сортировка</InputLabel>
-          <Select
-            value={filters.sortType}
-            onChange={e => setFilters((prev) => ({ ...prev, sortType: e.target.value }))}
-            label="Type"
-          >
-            <MenuItem value="asc">По возрастанию</MenuItem>
-            <MenuItem value="desc">По убыванию</MenuItem>
-          </Select>
-        </FormControl>
-
+        <CustomSelect
+          label={'Страна'}
+          value={filters.country}
+          onChange={e => setFilters(prev => ({ ...prev, country: e.target.value }))}
+          options={countrys && countrys.map(country => {
+            return {
+              value: country,
+              text: country
+            }
+          })}
+        />
+        <CustomSelect
+          label={'Производитель'}
+          value={filters.manufacturer}
+          onChange={e => setFilters(prev => ({ ...prev, manufacturer: e.target.value }))}
+          options={manufacturers && manufacturers.map(manufacturer => {
+            return {
+              value: manufacturer,
+              text: manufacturer
+            }
+          })}
+        />
+        <CustomSelect
+          label={'Цвет'}
+          value={filters.colors}
+          onChange={e => setFilters(prev => ({ ...prev, colors: e.target.value }))}
+          options={colors && colors.map(color => {
+            return {
+              value: color,
+              text: color
+            }
+          })}
+        />
+        <CustomSelect
+          label={'Сортировка'}
+          value={filters.sortType}
+          onChange={e => setFilters(prev => ({ ...prev, sortType: e.target.value }))}
+          options={[
+            { value: 'asc', text: 'По возрастанию' },
+            { value: 'desc', text: 'По убыванию' }
+          ]}
+        />
       </AsideItem>
       <Button text='Применить' onClick={requestProducts} />
     </AsideList>
@@ -177,21 +130,6 @@ function Aside({
 }
 
 export default Aside
-
-
-const Flex = styled(motion.div)`
-  width: 100%;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-
-  span {
-    font-weight: 600;
-    font-size: 20px;
-  }
-`
-
 
 const MyBox = styled(Box)`
   margin: 0 auto;
@@ -235,24 +173,3 @@ const Search = styled.input`
   padding: 5px;
 `
 
-const Input = styled(TextField)`
-  & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px; 
-    border-color: #56195d;
-    /* border-color: #FFD700; */
-  }
-
-  & .MuiInputLabel-root.Mui-focused {
-    color: #56195d; 
-    /* color: #FFD700; */
-  }
-
-  & .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border-radius: 15px;
-  }
-
-  background-color: #f7f7f7;
-  padding: 12px;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-`

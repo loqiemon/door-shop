@@ -10,19 +10,19 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { v4 as uuidv4 } from 'uuid';
 
-import useInput from '../../hooks/useInput'
+import useInput from '../../shared/hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
 import { convertImageToBase64 } from '../../utils/convertImage';
-import AlertJsx from '../../components/Alert'
+import AlertJsx from '../../shared/ui/Alert/Alert'
 import isOurPhoto from '../../utils/isOurPhoto'
-import { API_URL } from '../../services/constants';
+import { API_URL } from '../../shared/const/constants';
 
 
 function ProductsForm({
   handleSubmit,
   inputValues,
   btnText = 'Добавить',
-  title = 'Добавление товара' 
+  title = 'Добавление товара'
 }) {
   const nameInput = useInput(inputValues.name);
   const vendorCodeInput = useInput(inputValues.vendorCode);
@@ -34,7 +34,7 @@ function ProductsForm({
   const wholesalePriceInput = useInput(inputValues.wholesalePrice);
   const isAvaibleInput = useInput(inputValues.isAvaible);
   const [selectedImage, setSelectedImage] = useState(inputValues.image || []);
-  const [accessoryTypeId , setAccessoryTypeId ] = useState(inputValues.accessoryType);
+  const [accessoryTypeId, setAccessoryTypeId] = useState(inputValues.accessoryType);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
@@ -82,7 +82,7 @@ function ProductsForm({
     const imageBase64Array = await Promise.all(Array.from(files).map(convertImageToBase64));
     setSelectedImage([...selectedImage, ...imageBase64Array]);
   };
-  
+
   const handleRemoveImage = (index) => {
     const newImages = [...selectedImage];
     newImages.splice(index, 1);
@@ -103,7 +103,7 @@ function ProductsForm({
       characteristics.find(item => item.characteristicTypeId === featureNameSelect.id) === undefined
     ) {
       const feature = {
-        characteristicTypeId : featureNameSelect.id,
+        characteristicTypeId: featureNameSelect.id,
         value: featureValueInput.value.trim(),
         priceModifier: parseFloat(featurePriceModifierInput.value)
       }
@@ -119,7 +119,7 @@ function ProductsForm({
     const a = characteristicTypes.find(item => item.id === id)
     return a
   }
-  
+
 
   const handleClick = () => {
     const retailPrice = parseFloat(retailPriceInput.value);
@@ -141,19 +141,19 @@ function ProductsForm({
     };
 
     if (
-        !nameInput.value ||
-        !manufacturerInput.value ||
-        !countryInput.value ||
-        isNaN(retailPrice) ||
-        isNaN(wholesalePrice) ||
-        !accessoryTypeId ||
-        !vendorCodeInput.value ||
-        !selectedImage.length > 0
+      !nameInput.value ||
+      !manufacturerInput.value ||
+      !countryInput.value ||
+      isNaN(retailPrice) ||
+      isNaN(wholesalePrice) ||
+      !accessoryTypeId ||
+      !vendorCodeInput.value ||
+      !selectedImage.length > 0
     ) {
-        alert('Пожалуйста, заполните все поля и выберите значение в селекте');
-        return;
+      alert('Пожалуйста, заполните все поля и выберите значение в селекте');
+      return;
     }
-    
+
     handleSubmit(productData)
       .then(() => {
         setAlertState('Успешно');
@@ -178,8 +178,8 @@ function ProductsForm({
 
   return (
     <Container>
-        <Title>{title}</Title>
-        <Form>
+      <Title>{title}</Title>
+      <Form>
         <Input
           value={nameInput.value}
           onChange={e => nameInput.onChange(e.target.value)}
@@ -242,17 +242,17 @@ function ProductsForm({
               onChange={handleChange}
               label="Type"
             >
-            <MenuItem value="">
+              <MenuItem value="">
                 <em>None</em>
-            </MenuItem>
-            {categories.map(category => 
-                <MenuItem 
-                    value={category.id}
-                    key={category.id}
+              </MenuItem>
+              {categories.map(category =>
+                <MenuItem
+                  value={category.id}
+                  key={category.id}
                 >
-                    {category.type}
+                  {category.type}
                 </MenuItem>
-            )}
+              )}
             </Select>
           </FormControl>
         }
@@ -265,7 +265,7 @@ function ProductsForm({
           renderInput={(params) => <TextField {...params} label="Тип хар-ки" />}
           isOptionEqualToValue={(option, value) => option.name === value || value === ""}
           value={featureNameSelect}
-          onChange={(e, newValue) => {setFeatureNameSelect(newValue)}}
+          onChange={(e, newValue) => { setFeatureNameSelect(newValue) }}
           inputValue={featureNameInput.value}
           onInputChange={(e, newInputValue) => featureNameInput.onChange(newInputValue)}
         />
@@ -285,14 +285,14 @@ function ProductsForm({
           label="Модификатор цены"
         />
         <Button onClick={addCharacteristic}>Добавить характеристику</Button>
-        {characteristics.map((characteristic, index) => 
-          <div 
+        {characteristics.map((characteristic, index) =>
+          <div
             onClick={() => deleteCharacteristic(index)}
 
             key={index}
           >
-            {characteristicTypes.length > 0 && 
-            findCharacteristic(characteristic.characteristicTypeId).name}: {characteristic.value} {characteristic.priceModifier}
+            {characteristicTypes.length > 0 &&
+              findCharacteristic(characteristic.characteristicTypeId).name}: {characteristic.value} {characteristic.priceModifier}
           </div>
         )}
         <div>
@@ -304,12 +304,12 @@ function ProductsForm({
           ))}
         </div>
         <Button onClick={handleClick}>{btnText}</Button>
-        </Form>
-        {isAlertVisible && <AlertJsx 
-          message={alertState}
-          onClose={() => setIsAlertVisible(false)}
-          type={alertState === 'Успешно' ? 'success' : 'error'} />
-        }
+      </Form>
+      {isAlertVisible && <AlertJsx
+        message={alertState}
+        onClose={() => setIsAlertVisible(false)}
+        type={alertState === 'Успешно' ? 'success' : 'error'} />
+      }
     </Container>
   )
 }

@@ -8,71 +8,43 @@ import PlaceIcon from '@mui/icons-material/Place';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import logo from '../../public/images/favicon/android-chrome-192x192.png';
-import { EMAIL, PHONENUMBER } from '../services/constants'
+import { EMAIL, PHONENUMBER } from '../shared/const/constants';
 
 function Footer() {
-  return (
-    <Container>
-        <ContainerCenter>
-            {/* <SubContainer>
-                <Title>О компании</Title>
-                <List>
-                    <Link to="/refund">Правила возврата</Link>
-                    <Link to='/delivery'>Доставка</Link>
-                    <Link to='/clients'>Наши клиенты</Link>
-                    <Link to='/support'>Поддержка</Link>
-                    <Link to='/payment'>Оплата</Link>
-                </List>
-            </SubContainer> */}
-            {/* <SubContainer>
-                <Title>Магазин</Title>
-                <List>
-                    <Link>Правила возврата</Link>
-                    <Link></Link>
-                    <Link></Link>
-                    <Link></Link>
-                </List>
-            </SubContainer> */}
-            {/* <SubContainer>
-                <Title>Услуги</Title>
-                <List>
-                    <Link>Дверное производство</Link>
-                    <Link>Строительство</Link>
-                    <Link to='/install'>Установка</Link>
-                </List>
-            </SubContainer> */}
-            <SubContainer>
-                <Title>Информация</Title>
-                <List>
-                    <Link to='/about'>О компании</Link>
-                    <Link to='/payment'>Оплата</Link>
-                    <Link to='/delivery'>Доставка</Link>
-                    <Link to='/requisites'>Реквизиты</Link>
-                    {/* <Link to='/policy'>Политика конфиденциальности</Link> */}
-                    <Link to='/support'>Помощь в выборе</Link>
-                    <Link to='/install'>Установка</Link>
-                    <Link to='/contacts'>Контакты</Link>
-                    <Link to="/refund">Возврат товара</Link>
-                </List>
-            </SubContainer>
-            <SubContainer>
-                <Image src={logo} />
-            </SubContainer>
-            <SubContainer>
-                <Title>Контакты</Title>
-                <List>
-                    <Phone href={`tel: ${PHONENUMBER}`} ><TelegramIcon/><WhatsAppIcon/>{PHONENUMBER}</Phone>
-                    <Link href={`email: ${EMAIL}`} ><EmailIcon/> {EMAIL}</Link>
-                </List>
-                <Title>Наш адрес</Title>
-                <List>
-                    <Link><PlaceIcon/> Без шоурума</Link>
-                    <Link><AccessTimeIcon/> Работаем с 10:00 до 18:00 (ПН-ПТ)</Link>
-                </List>
-            </SubContainer>
-        </ContainerCenter>
-    </Container>
-  )
+    return (
+        <Container>
+            <ContainerCenter>
+                <SubContainer>
+                    <Title>Информация</Title>
+                    <List>
+                        <Link to='/about'>О компании</Link>
+                        <Link to='/payment'>Оплата</Link>
+                        <Link to='/delivery'>Доставка</Link>
+                        <Link to='/requisites'>Реквизиты</Link>
+                        <Link to='/support'>Помощь в выборе</Link>
+                        <Link to='/install'>Установка</Link>
+                        <Link to='/contacts'>Контакты</Link>
+                        <Link to="/refund">Возврат товара</Link>
+                    </List>
+                </SubContainer>
+                <SubContainer>
+                    <Image src={logo} />
+                </SubContainer>
+                <SubContainer>
+                    <Title>Контакты</Title>
+                    <List>
+                        <Phone href={`tel: ${PHONENUMBER}`} ><TelegramIcon /><WhatsAppIcon />{PHONENUMBER}</Phone>
+                        <Link href={`email: ${EMAIL}`} ><EmailIcon /> {EMAIL}</Link>
+                    </List>
+                    <Title>Наш адрес</Title>
+                    <List>
+                        <Link><PlaceIcon /> Без шоурума</Link>
+                        <Link><AccessTimeIcon /> Работаем с 10:00 до 18:00 (ПН-ПТ)</Link>
+                    </List>
+                </SubContainer>
+            </ContainerCenter>
+        </Container>
+    )
 }
 
 export default Footer
@@ -85,9 +57,6 @@ const Image = styled.img`
 `
 
 const Container = styled.footer`
-    /* position: absolute;
-    bottom: 0; */
-    /* z-index: 1015; */
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -124,11 +93,6 @@ const SubContainer = styled.footer`
     padding: 10px;
     background-color: #000;
     gap: 15px;
-    /* width: 30%; */
-
-    /* @media (max-width: 991px) {
-        width: 50%;
-    } */
 `
 
 const Title = styled.h2`

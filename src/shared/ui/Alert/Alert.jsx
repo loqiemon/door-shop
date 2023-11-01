@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
 
-function AlertJsx({ 
+function AlertJsx({
   message,
   onClose,
-  type = 'error' 
+  type = 'error',
+  htmlElem = 'root'
 }) {
   const [visible, setVisible] = useState(true);
 
@@ -28,7 +29,7 @@ function AlertJsx({
         <span>{message}</span>
       </AlertMy>
     ) : null,
-    document.getElementById('root') 
+    document.getElementById(htmlElem)
   );
 }
 

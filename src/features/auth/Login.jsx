@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import TelegramIcon from '@mui/icons-material/Telegram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
-import useInput from '../../hooks/useInput'
+import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { loginFunc } from '../../app/actionCreators'
 import { useNavigate } from 'react-router-dom'
-import { PHONENUMBER } from '../../services/constants'
+import { PHONENUMBER } from '../../shared/const/constants'
 import CustomInput from '../../shared/ui/Input/CustomInput';
 import Button from '../../shared/ui/Button/Button';
 

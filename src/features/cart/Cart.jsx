@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
@@ -8,29 +8,17 @@ import Sheet from '@mui/joy/Sheet';
 
 
 import OrderForm from '../order/OrderForm';
-import { editInCart, readCart, removeFromCart } from './cartSlice';
+import { editInCart, removeFromCart } from './cartSlice';
 import isOurPhoto from '../../utils/isOurPhoto'
-
+import useCartSum from './useCartSum';
 
 
 function Cart() {
   const user = useSelector((state) => state.auth.user)
-  const [totalPrice, setTotalPrice] = useState(0);
   const cartItems = useSelector((state) => state.cart.cartItems)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(readCart())
-  }, []);
-
-  useEffect(() => {
-    if (user && user.role === 'user') {
-      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.wholesalePrice) * item.count, 0))
-    } else {
-      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.retailPrice) * item.count, 0))
-    }
-  }, [cartItems]);
-
+  const totalPrice = useCartSum();
 
   const handleIncrement = (item) => {
     dispatch(editInCart({ ...item, count: parseInt(item.count) + 1 }))
@@ -45,13 +33,19 @@ function Cart() {
   };
 
   const handleChange = (e, item) => {
-    if (e.target.value > 1) {
+    if (e.target.value > 0) {
       dispatch(editInCart({ ...item, count: e.target.value }))
     } else {
       dispatch(removeFromCart(item.id))
     }
   }
 
+  const productSum = (product) => {
+    if (user.role === 'user') {
+      return product.wholesalePrice * product.count
+    }
+    return product.retailPrice * product.count
+  }
 
   return (
     <Container>
@@ -101,7 +95,7 @@ function Cart() {
                         <td>
                           <Counter>
                             <CounterBtn onClick={() => handleDecrement(item)}>
-                              <i className="fa-solid fa-minus"></i>
+                              <i className="fa-solid fa-minus" />
                             </CounterBtn>
                             <CounterInput
                               type="number"
@@ -109,14 +103,16 @@ function Cart() {
                               value={item.count}
                             />
                             <CounterBtn onClick={() => handleIncrement(item)}>
-                              <i className="fa-solid fa-plus"></i>
+                              <i className="fa-solid fa-plus" />
                             </CounterBtn>
                           </Counter>
                         </td>
-                        {/* <td>{(item.retailPrice + item.variant.priceModifier) * item.count} руб.</td> */}
-                        <td>{(user.role === 'user' ? item.wholesalePrice : item.retailPrice) * item.count} руб.</td>
+                        <td>{productSum(item)}р.</td>
                         <td>
-                          <i className="fa-solid fa-trash" onClick={() => dispatch(removeFromCart(item.id))}></i>
+                          <i
+                            className="fa-solid fa-trash"
+                            onClick={() => dispatch(removeFromCart(item.id))}
+                          />
                         </td>
                       </TableRow>
                     )
