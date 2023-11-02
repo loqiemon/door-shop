@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../app/actionCreators'
-import { convertImageToBase64 } from '../../utils/convertImage'
+import { convertImageToBase64 } from '../../utils/convertImageToBase64'
 
 
 function CategoryForm() {

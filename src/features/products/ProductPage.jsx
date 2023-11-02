@@ -1,31 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Carousel from 'react-material-ui-carousel'
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { addToCart, readCart, removeFromCart } from '../cart/cartSlice'
-import { fetchProduct } from '../../app/actionCreators'
 import Loader from '../../components/Loader'
 import isOurPhoto from '../../utils/isOurPhoto';
-import Button from '../../shared/ui/Button/Button';
-
-
+import Button from '../../shared/ui/button/Button';
+import { useGetProductQuery } from './productApi';
+import MyAccordion from '../../shared/ui/accordion/MyAccordion'
+import Radio from '../../shared/ui/radio/Radio';
+import MyCarousel from '../../shared/ui/carousel/MyCarousel';
 
 function ProductPage() {
   const { categoryId, productId, page } = useParams();
-  const [product, setProduct] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const [variant, setVariant] = useState({});
 
   const user = useSelector((state) => state.auth.user)
@@ -33,14 +23,14 @@ function ProductPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { data, isLoading } = useGetProductQuery(productId, {
+    refetchOnMountOrArgChange: true
+  })
+
+  const product = data || {};
+
   useEffect(() => {
     dispatch(readCart())
-    setIsLoading(true)
-    fetchProduct(productId)
-      .then(response => {
-        setProduct(response);
-        setIsLoading(false);
-      })
   }, []);
 
 
@@ -65,6 +55,17 @@ function ProductPage() {
     if (chara.length > 0) setVariant(chara[0])
   }
 
+  const isAvailable = (product) => {
+    return product?.isAvailable?.trim() === 'В наличии' ? 'available' : 'unavailable'
+  }
+
+  const countPrice = (product) => {
+    if (user.role === 'user') {
+      return product.wholesalePrice
+    }
+    return product.retailPrice
+  }
+
   return (
     <ContainerCommon>
       {isLoading && <MyLoader><Loader /></MyLoader>}
@@ -76,14 +77,14 @@ function ProductPage() {
         {!isLoading &&
           <>
             <SubContainer>
-              {isOurPhoto(product.image).length === 1 ?
-                <Image src={isOurPhoto(product.image)[0]} key={product.id} /> :
-                <MyCarousel>
-                  {isOurPhoto(product.image).map(
-                    (imgPath, i) => <Image src={imgPath} key={imgPath} />
-                  )}
-                </MyCarousel>
-              }
+              <MyCarousel>
+                {isOurPhoto(product.image).map(
+                  image => <Image
+                    src={image}
+                    key={image}
+                  />
+                )}
+              </MyCarousel>
               {isInCart(product.id) === true ? (
                 <Button
                   onClick={() => dispatch(removeFromCart(product.id))}
@@ -105,66 +106,36 @@ function ProductPage() {
                 <Characteristic>Название: <Name>{product.name}</Name></Characteristic>
                 <Characteristic>Страна: <Name>{product.country}</Name></Characteristic>
                 <Characteristic>Производитель: <Name>{product.manufacturer}</Name></Characteristic>
-                {user.role === 'user' ?
-                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.wholesalePrice + variant.priceModifier : product.wholesalePrice} руб</Name></Characteristic> :
-                  <Characteristic>Цена: <Name>{variant.priceModifier ? product.retailPrice + variant.priceModifier : product.retailPrice} руб</Name></Characteristic>
-                }
-                <FormControl>
-                  <FormLabel id="demo-controlled-radio-buttons-group"></FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={variant.id}
-                    onChange={e => handleChange(e.target.value)}
-                  >
-                    {product?.characteristics &&
-                      product?.characteristics.length > 0 &&
-                      product.characteristics.map(feature =>
-                        <FormControlLabel
-                          key={feature.value}
-                          value={feature.id}
-                          control={<Radio />}
-                          label={`${feature.value} +${feature.value} руб`}
-                        />
-                      )}
-                  </RadioGroup>
-                </FormControl>
-
-                <Characteristic>
-                  Наличие: <Name style={{ color: product?.isAvaible?.trim() === 'В наличии' ? '#A8DF8E' : '#C70039' }}>{product.isAvaible}</Name>
+                <Characteristic>Цена:
+                  <Name>{countPrice(product)} руб</Name>
                 </Characteristic>
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+                <Radio
+                  value={variant.id}
+                  options={product?.characteristics}
+                  onChange={handleChange}
+                />
+                <Characteristic>
+                  Наличие:
+                  <Name
+                    className={isAvailable(product)}
                   >
-                    <Typography>Описание</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>
-                      <Name>{product.description}</Name>
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography>Доп. Характеристики</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {product.characteristic.length > 0 && product.characteristic.map(feature =>
-                      <Typography>
+                    {product?.isAvaible ? product?.isAvaible : 'Под заказ'}
+                  </Name>
+                </Characteristic>
+                <MyAccordion
+                  label={'Описание'}
+                  text={product?.description}
+                />
+                <MyAccordion label={'Доп. Характеристики'}>
+                  {product.characteristic.length > 0 &&
+                    product.characteristic.map(feature =>
+                      <Typography key={feature.id}>
                         <Name>
                           {feature.characteristicType.name}: {feature.value}
                         </Name>
                       </Typography>
                     )}
-                  </AccordionDetails>
-                </Accordion>
+                </MyAccordion>
               </TextContainer>
             </SubContainer>
           </>
@@ -236,11 +207,6 @@ const TextContainer = styled.div`
 const Characteristic = styled.div`
   display: flex;
   font-size: 18px;
-  /* flex-direction: column; */
-`
-
-const MyCarousel = styled(Carousel)`
-  
 `
 
 const Image = styled.img`
@@ -248,11 +214,23 @@ const Image = styled.img`
   height: 450px;
   align-self: center;
   object-fit: contain;
+
+  @media (max-width: 767px) {
+    width: 320px;
+    height: 320px;
+  }
 `
 
 const Name = styled.span`
   font-weight: 600;
   margin-left: 10px;
+
+  .available {
+    color: #A8DF8E;
+  }
+  .unavailable {
+    color: #C70039;
+  }
 `
 
 const Span = styled.span`

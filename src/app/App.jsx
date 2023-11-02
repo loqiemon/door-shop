@@ -34,41 +34,40 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) { 
-        dispatch(checkAuth())
+    if (localStorage.getItem('accessToken')) {
+      dispatch(checkAuth())
     }
-    // getCurrency()
   }, [])
 
   return (
     <>
-       <BrowserRouter>
-        {isOpen && 
+      <BrowserRouter>
+        {isOpen &&
           <Modal onClose={() => dispatch(modalSlice.actions.close())}>
-            {showRegister === true ? 
-                <Register setShowRegister={setShowRegister}/>
-                : 
-                <Login setShowRegister={setShowRegister}/>
+            {showRegister === true ?
+              <Register setShowRegister={setShowRegister} />
+              :
+              <Login setShowRegister={setShowRegister} />
             }
           </Modal>}
-        <Navbar/>
+        <Navbar />
         <Routes>
-          <Route path='/' element={<Categories/>}/>
-          <Route path='/catalog/:categoryId/:page' element={<MainPage/>}/>
-          <Route path='/cart' element={<CartPage/>}/>
-          <Route path='/profile' element={<ProfilePage/>}/>
-          <Route path="/payment" element={<PaymentPage/>}/>
-          <Route path="/delivery"  element={<DeliveryPage/>}/>
-          <Route path="/support"  element={<SupportPage/>}/>
-          <Route path="/install"  element={<InstallPage/>}/>
-          <Route path="/contacts"  element={<ContactsPage/>}/>
-          <Route path="/refund"  element={<RefundPage/>}/>
-          <Route path="/about"  element={<AboutPage/>}/>
-          <Route path="/requisites"  element={<RequisitesPage/>}/>
-          <Route path="/product/:categoryId/:productId/:page"  element={<ProductPage/>}/>
+          <Route path='/' element={<Categories />} />
+          <Route path='/catalog/:categoryId/:page' element={<MainPage />} />
+          <Route path='/cart' element={<CartPage />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/delivery" element={<DeliveryPage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/install" element={<InstallPage />} />
+          <Route path="/contacts" element={<ContactsPage />} />
+          <Route path="/refund" element={<RefundPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/requisites" element={<RequisitesPage />} />
+          <Route path="/product/:categoryId/:productId/:page" element={<ProductPage />} />
         </Routes>
-        <Footer/>
-       </BrowserRouter> 
+        <Footer />
+      </BrowserRouter>
     </>
   )
 }

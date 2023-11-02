@@ -16,7 +16,7 @@ import useInput from '../../shared/hooks/useInput';
 import usePagination from '../../shared/hooks/usePagination';
 import Modal from '../modal/Modal';
 import { deleteCategory, editCategory, fetchCategories } from '../../app/actionCreators';
-import { convertImageToBase64 } from '../../utils/convertImage';
+import { convertImageToBase64 } from '../../utils/convertImageToBase64';
 import CustomInput from '../../shared/ui/Input/CustomInput';
 import Button from '../../shared/ui/Button/Button';
 

@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import useInput from '../../shared/hooks/useInput'
 import { fetchCategories } from '../../app/actionCreators';
-import { convertImageToBase64 } from '../../utils/convertImage';
+import { convertImageToBase64 } from '../../utils/convertImageToBase64';
 import AlertJsx from '../../shared/ui/Alert/Alert'
 import isOurPhoto from '../../utils/isOurPhoto'
 import { API_URL } from '../../shared/const/constants';

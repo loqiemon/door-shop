@@ -21,6 +21,7 @@ const ModalContainer = styled.div`
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   max-height: 900px;
+  height: 90vh;
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {

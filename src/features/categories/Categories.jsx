@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import useSearch from '../../shared/hooks/useSearch'
 import Loader from '../../components/Loader';
-import { fetchCategories } from '../../app/actionCreators';
+import { useGetCategoriesQuery } from './categoriesApi';
 
 
 function Categories() {
-    const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)
+    const { data, isLoading, error } = useGetCategoriesQuery();
+    const categories = data || [];
     const [searchText, setSearchText] = useState('');
     const { searchedArray } = useSearch(categories, searchText, 'type')
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (categories.length === 0) {
-            dispatch(fetchCategories())
-        }
-    }, [])
 
     return (
         <Container>
@@ -59,14 +51,11 @@ export default Categories
 
 
 const CategoriesContainer = styled.div`
-    /* margin-top: 20px; */
     width: 100%;
-    /* height: 100%; */
     display: flex;
     flex-wrap: wrap;
     max-width: 1280px;
     margin: 0 auto;
-    /* padding-top: 20px; */
     gap: 0;
     margin-bottom: 80px;
     @media (max-width: 1200px) {
@@ -74,7 +63,6 @@ const CategoriesContainer = styled.div`
         padding-bottom: 40px;
         justify-content: space-between;
     }
-    /* overflow-y: scroll; */
 `
 
 const Container = styled.div`
@@ -102,11 +90,8 @@ const CategoriesItem = styled(Link)`
 
     &:hover {
         cursor: pointer;
-        /* background-color: #0064fa; */
-        /* background-color: #56195d; */
         background-color: #FFD700;
         color: #000;
-        /* transform: scale(1.07); */
     }
 
     @media (max-width: 1200px) {

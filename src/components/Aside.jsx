@@ -49,15 +49,15 @@ function Aside({
 
 
   return (
-    <AsideList className={classes}>
-      <AsideItem>
+    <List className={classes}>
+      <ListItem>
         <Search
           placeholder='Поиск'
           value={filters.search}
           onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
         />
-      </AsideItem>
-      <AsideItem>
+      </ListItem>
+      <ListItem>
         <CustomInput
           value={filters.minPrice}
           onChange={e => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
@@ -123,9 +123,9 @@ function Aside({
             { value: 'desc', text: 'По убыванию' }
           ]}
         />
-      </AsideItem>
+      </ListItem>
       <Button text='Применить' onClick={requestProducts} />
-    </AsideList>
+    </List>
   )
 }
 
@@ -136,7 +136,7 @@ const MyBox = styled(Box)`
   width: 90%;
 `
 
-const AsideList = styled.aside`
+const List = styled.aside`
   width: 270px;
   width: 20%;
   min-width: 200px;
@@ -157,7 +157,7 @@ const AsideList = styled.aside`
   }
 `
 
-const AsideItem = styled.div`
+const ListItem = styled.div`
     width: 100%;
     padding: 15px;
     display: flex;
