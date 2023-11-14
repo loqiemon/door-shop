@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function useOnHoverOutside(ref, handler) {
+export function useOnHoverOutside(ref, handler) {
   useEffect(
     () => {
       const listener = (event) => {

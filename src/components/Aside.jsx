@@ -6,9 +6,12 @@ import Slider from '@mui/material/Slider';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../app/actionCreators';
-import Button from '../shared/ui/Button/Button';
-import CustomSelect from '../shared/ui/Select/CustomSelect';
-import CustomInput from '../shared/ui/Input/CustomInput';
+import {
+  Button,
+  CustomSelect,
+  CustomInput
+} from '../shared/ui';
+
 
 function valuetext(value) {
   return `${value} руб`;
@@ -136,7 +139,7 @@ const MyBox = styled(Box)`
   width: 90%;
 `
 
-const List = styled.aside`
+const List = styled.div`
   width: 270px;
   width: 20%;
   min-width: 200px;

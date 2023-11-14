@@ -11,12 +11,15 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
 import Loader from '../../components/Loader';
-import useSearch from '../../shared/hooks/useSearch';
-import useInput from '../../shared/hooks/useInput';
-import usePagination from '../../shared/hooks/usePagination';
+import { useSearch, useInput, usePagination } from '../../shared/hooks';
 import Modal from '../modal/Modal';
 import СharacteristicsTypeForm from './СharacteristicsTypeForm';
-import { useDeleteCharacteristicsTypeMutation, useGetCharacteristicsTypesQuery, usePostCharacteristicsTypeMutation, usePutCharacteristicsTypeMutation } from './characteristicsTypeApi';
+import {
+  useDeleteCharacteristicsTypeMutation,
+  useGetCharacteristicsTypesQuery,
+  usePostCharacteristicsTypeMutation,
+  usePutCharacteristicsTypeMutation
+} from './characteristicsTypeApi';
 
 function СharacteristicsType() {
   const { featuresTypes, isLoading, isFetching } = useGetCharacteristicsTypesQuery()

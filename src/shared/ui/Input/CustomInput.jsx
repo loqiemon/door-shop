@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { colors } from '../../const/colors';
 
 
-function CustomInput({
+export function CustomInput({
   onChange,
   value,
   ...props

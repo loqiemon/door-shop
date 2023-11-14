@@ -13,14 +13,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Aside from '../components/Aside';
 import Loader from '../components/Loader';
-import Pagination from '../shared/ui/Pagination/Pagination';
 import { addToCart, readCart, removeFromCart } from '../features/cart/cartSlice';
 import { useGetProductsQuery } from '../features/products/productApi';
-import copyToClipboard from '../utils/copyToClipboard'
-import isOurPhoto from '../utils/isOurPhoto'
-import Button from '../shared/ui/Button/Button';
+import { isOurPhoto, copyToClipboard } from '../shared/helpers';
 import { colors } from '../shared/const/colors';
-
+import { Button, Pagination } from '../shared/ui';
 
 function MainPage() {
   const { categoryId, page } = useParams();

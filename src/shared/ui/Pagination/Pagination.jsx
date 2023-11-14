@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Pagination as MUIPagination } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
-function Pagination({
+export function Pagination({
   page,
   goToPage,
   totalCount,

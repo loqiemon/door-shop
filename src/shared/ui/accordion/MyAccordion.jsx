@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styled from 'styled-components';
 
 
-function MyAccordion({
+export function MyAccordion({
   label,
   text,
   children
@@ -31,7 +31,6 @@ function MyAccordion({
   )
 }
 
-export default MyAccordion
 
 const Name = styled.span`
   font-weight: 600;

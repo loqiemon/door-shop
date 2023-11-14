@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import useInput from '../../shared/hooks/useInput'
+
+import { useInput } from '../../shared/hooks'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../app/actionCreators'
-import { convertImageToBase64 } from '../../utils/convertImageToBase64'
+import { convertImageToBase64 } from '../../shared/helpers/convertImageToBase64'
 
 
 function CategoryForm() {

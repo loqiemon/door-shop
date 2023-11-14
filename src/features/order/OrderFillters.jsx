@@ -5,9 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import CustomSelect from '../../shared/ui/Select/CustomSelect';
-import Button from '../../shared/ui/Button/Button';
+import { CustomInput, CustomSelect, Button } from '../../shared/ui';
+
 
 function OrderFillters({
   filters,

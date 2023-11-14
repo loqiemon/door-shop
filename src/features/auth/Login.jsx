@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import TelegramIcon from '@mui/icons-material/Telegram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
-import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
-import { loginFunc } from '../../app/actionCreators'
 import { useNavigate } from 'react-router-dom'
+
+
+import { loginFunc } from '../../app/actionCreators'
 import { PHONENUMBER } from '../../shared/const/constants'
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import Button from '../../shared/ui/Button/Button';
+import { CustomInput, Button } from '../../shared/ui';
+import { useInput } from '../../shared/hooks'
 
 function Login({ setShowRegister }) {
   const { value: login, onChange: handleLogin } = useInput();

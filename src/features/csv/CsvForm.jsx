@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from '../../app/actionCreators';
 import { usePostCsvMutation } from './csvApi';
 import Loader from '../../components/Loader';
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import CustomSelect from '../../shared/ui/Select/CustomSelect';
-import Button from '../../shared/ui/Button/Button';
+import { CustomInput, CustomSelect, Button } from '../../shared/ui/';
+
 
 function CsvForm() {
   const [csv, setCsv] = useState();

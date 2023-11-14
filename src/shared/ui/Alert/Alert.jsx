@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
 
-function AlertJsx({
+export function AlertJsx({
   message,
   onClose,
   type = 'error',

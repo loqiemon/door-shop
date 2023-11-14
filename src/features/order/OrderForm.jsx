@@ -4,16 +4,14 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import Checkbox from '@mui/material/Checkbox';
 import { useSelector } from 'react-redux'
 
-import useInput from '../../shared/hooks/useInput'
+
 import { useDispatch } from 'react-redux';
 import { usePostOrderMutation, usePutOrderMutation } from './orderApi';
 import { PHONENUMBER } from '../../shared/const/constants';
 import { clearCart } from '../cart/cartSlice';
-import AlertJsx from '../../shared/ui/Alert/Alert';
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import Button from '../../shared/ui/Button/Button';
-import CustomSelect from '../../shared/ui/Select/CustomSelect';
 
+import { useInput } from '../../shared/hooks';
+import { CustomInput, CustomSelect, Button, AlertJsx } from '../../shared/ui';
 // import { addOrderRequest } from '../../app/actionCreators';
 
 function OrderForm({

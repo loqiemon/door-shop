@@ -9,7 +9,7 @@ import Sheet from '@mui/joy/Sheet';
 
 import OrderForm from '../order/OrderForm';
 import { editInCart, removeFromCart } from './cartSlice';
-import isOurPhoto from '../../utils/isOurPhoto'
+import { isOurPhoto } from '../../shared/helpers';
 import useCartSum from './useCartSum';
 
 

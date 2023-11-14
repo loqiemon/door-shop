@@ -2,74 +2,71 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 
-import MainPage from '../pages/MainPage'
-import CartPage from '../pages/CartPage'
-import PaymentPage from '../pages/Info/PaymentPage'
-import InstallPage from '../pages/Info/InstallPage'
-import DeliveryPage from '../pages/Info/DeliveryPage'
-import SupportPage from '../pages/Info/SupportPage'
-import ContactsPage from '../pages/Info/ContactsPage'
-import RefundPage from '../pages/Info/RefundPage'
+import ReactDOM from 'react-dom/client'
 import Navbar from '../components/Navbar'
 
 import Modal from '../features/modal/Modal'
 import Login from '../features/auth/Login'
 import { modalSlice } from '../features/modal/modalSlice'
-import Categories from '../features/categories/Categories'
-
+import '../index.scss'
+import { Provider } from 'react-redux'
 import { checkAuth } from './actionCreators'
-
-import Register from '../features/auth/Register'
-import ProfilePage from '../pages/ProfilePage'
-import ProductPage from '../features/products/ProductPage'
-import Footer from '../components/Footer'
-import AboutPage from '../pages/Info/AboutPage'
-import RequisitesPage from '../pages/Info/RequisitesPage'
-
+import { store } from './store.js'
+import '../../public/fonts/bookmanOldStyle/bookmanoldstyle_bold.ttf';
+import '../../public/fonts/bookmanOldStyle/bookmanoldstyle.ttf';
+import { RouterProvider } from 'react-router-dom'
+import { appRouter } from './appRouter'
+const root = document.getElementById('root');
 
 
-function App() {
-  const [showRegister, setShowRegister] = useState(false);
-  const { isOpen } = useSelector(state => state.modal);
-  const dispatch = useDispatch();
+ReactDOM.createRoot(root).render(
+  <Provider store={store}>
+    <RouterProvider router={appRouter()} />
+  </Provider>
+)
 
-  useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
-      dispatch(checkAuth())
-    }
-  }, [])
+// function App() {
+//   const [showRegister, setShowRegister] = useState(false);
+//   const { isOpen } = useSelector(state => state.modal);
+//   const dispatch = useDispatch();
 
-  return (
-    <>
-      <BrowserRouter>
-        {isOpen &&
-          <Modal onClose={() => dispatch(modalSlice.actions.close())}>
-            {showRegister === true ?
-              <Register setShowRegister={setShowRegister} />
-              :
-              <Login setShowRegister={setShowRegister} />
-            }
-          </Modal>}
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Categories />} />
-          <Route path='/catalog/:categoryId/:page' element={<MainPage />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/delivery" element={<DeliveryPage />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/install" element={<InstallPage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
-          <Route path="/refund" element={<RefundPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/requisites" element={<RequisitesPage />} />
-          <Route path="/product/:categoryId/:productId/:page" element={<ProductPage />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
-  )
-}
+//   useEffect(() => {
+//     if (localStorage.getItem('accessToken')) {
+//       dispatch(checkAuth())
+//     }
+//   }, [])
 
-export default App
+//   return (
+//     <>
+//       <BrowserRouter>
+//         {isOpen &&
+//           <Modal onClose={() => dispatch(modalSlice.actions.close())}>
+//             {showRegister === true ?
+//               <Register setShowRegister={setShowRegister} />
+//               :
+//               <Login setShowRegister={setShowRegister} />
+//             }
+//           </Modal>}
+//         <Navbar />
+//         <Routes>
+//           <Route path='/' element={<Categories />} />
+//           <Route path='/catalog/:categoryId/:page' element={<MainPage />} />
+//           <Route path='/cart' element={<CartPage />} />
+//           <Route path='/profile' element={<ProfilePage />} />
+//           <Route path="/payment" element={<PaymentPage />} />
+//           <Route path="/delivery" element={<DeliveryPage />} />
+//           <Route path="/support" element={<SupportPage />} />
+//           <Route path="/install" element={<InstallPage />} />
+//           <Route path="/contacts" element={<ContactsPage />} />
+//           <Route path="/refund" element={<RefundPage />} />
+//           <Route path="/about" element={<AboutPage />} />
+//           <Route path="/requisites" element={<RequisitesPage />} />
+//           <Route path="/product/:categoryId/:productId/:page" element={<ProductPage />} />
+//         </Routes>
+//         <Footer />
+//       </BrowserRouter>
+//     </>
+//   )
+// }
+
+// export default App

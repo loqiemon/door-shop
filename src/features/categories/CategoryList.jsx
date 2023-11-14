@@ -11,14 +11,12 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
 
-import useSearch from '../../shared/hooks/useSearch';
-import useInput from '../../shared/hooks/useInput';
-import usePagination from '../../shared/hooks/usePagination';
+
 import Modal from '../modal/Modal';
 import { deleteCategory, editCategory, fetchCategories } from '../../app/actionCreators';
-import { convertImageToBase64 } from '../../utils/convertImageToBase64';
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import Button from '../../shared/ui/Button/Button';
+import { convertImageToBase64 } from '../../shared/helpers/convertImageToBase64';
+import { CustomInput, Button } from '../../shared/ui';
+import { useSearch, useInput, usePagination } from '../../shared/hooks';
 
 function CategoryList({ children }) {
   const { categories, isLoading, getCategoriesError } = useSelector(state => state.categories)

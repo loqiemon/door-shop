@@ -5,14 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography';
 
-import { addToCart, readCart, removeFromCart } from '../cart/cartSlice'
-import Loader from '../../components/Loader'
-import isOurPhoto from '../../utils/isOurPhoto';
-import Button from '../../shared/ui/button/Button';
+import { addToCart, readCart, removeFromCart } from '../cart/cartSlice';
 import { useGetProductQuery } from './productApi';
-import MyAccordion from '../../shared/ui/accordion/MyAccordion'
-import Radio from '../../shared/ui/radio/Radio';
-import MyCarousel from '../../shared/ui/carousel/MyCarousel';
+import Loader from '../../components/Loader';
+import { isOurPhoto } from '../../shared/helpers';
+import { MyAccordion, Radio, Button, MyCarousel } from '../../shared/ui';
 
 function ProductPage() {
   const { categoryId, productId, page } = useParams();

@@ -1,6 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
+const Modal = ({ children, onClose }) => {
+  const handleModalClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+  return (
+    <ModalOverlay onClick={handleModalClick}>
+      <ModalContainer>
+        {children}
+        <ModalSpan onClick={onClose}>&#10006;</ModalSpan>
+      </ModalContainer>
+    </ModalOverlay>
+  );
+};
+
+export default Modal;
+
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -53,21 +73,3 @@ const ModalSpan = styled.button`
     transform: scale(1.2);
   }
 `;
-
-const Modal = ({ children, onClose }) => {
-  const handleModalClick = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-  return (
-    <ModalOverlay onClick={handleModalClick}>
-      <ModalContainer>
-        {children}
-        <ModalSpan onClick={onClose}>&#10006;</ModalSpan>
-      </ModalContainer>
-    </ModalOverlay>
-  );
-};
-
-export default Modal;

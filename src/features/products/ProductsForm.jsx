@@ -8,15 +8,13 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
-import { v4 as uuidv4 } from 'uuid';
 
-import useInput from '../../shared/hooks/useInput'
+
+import { useInput } from '../../shared/hooks'
 import { fetchCategories } from '../../app/actionCreators';
-import { convertImageToBase64 } from '../../utils/convertImageToBase64';
-import AlertJsx from '../../shared/ui/Alert/Alert'
-import isOurPhoto from '../../utils/isOurPhoto'
+import { isOurPhoto, convertImageToBase64 } from '../../shared/helpers';
 import { API_URL } from '../../shared/const/constants';
-
+import { AlertJsx } from '../../shared/ui';
 
 function ProductsForm({
   handleSubmit,

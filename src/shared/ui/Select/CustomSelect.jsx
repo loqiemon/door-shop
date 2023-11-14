@@ -4,9 +4,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-function CustomSelect({
+export function CustomSelect({
   onChange,
-  value,
+  value = '',
   options = [],
   label,
   children,
@@ -25,7 +25,7 @@ function CustomSelect({
       >
         <MenuItem value=''>Не выбрано</MenuItem>
         {options.map(option => (
-          <MenuItem value={option.value}>{option.text}</MenuItem>
+          <MenuItem value={option.value} key={option.value}>{option.text}</MenuItem>
         ))}
         {children}
       </Select>

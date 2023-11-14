@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckIcon from '@mui/icons-material/Check';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import BackpackIcon from '@mui/icons-material/Backpack';
@@ -13,12 +8,11 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useDeleteOrderMutation, useGetOrdersQuery, usePutOrderMutation } from './orderApi';
 import Loader from '../../components/Loader';
-import Pagination from '../../shared/ui/Pagination/Pagination';
 import OrderFillters from './OrderFillters';
 import Modal from '../modal/Modal';
 import OrderForm from './OrderForm';
-import Button from '../../shared/ui/Button/Button';
 
+import { MyAccordion, Pagination, Button } from '../../shared/ui';
 
 function Orders() {
   const [filters, setFilters] = useState({
@@ -100,25 +94,19 @@ function Orders() {
                   {order.paymentType === 'cash' ? 'Наличными' : 'Картой'}
                 </Span>
                 <Span><Bold>Комментарий: </Bold>{order.commentary}</Span>
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Товары</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {order.accessories.map(item =>
-                      <Product key={item.id}>
-                        <Span><Bold>Наименование: </Bold>{item.name}</Span>
-                        <Span><Bold>Артикул: </Bold>{item.vendorCode}</Span>
-                        <Span><Bold>Кол-во: </Bold>{item.count}</Span>
-                        <Span><Bold>Сумма: </Bold>{item.retailPrice * item.count}</Span>
-                      </Product>
-                    )}
-                  </AccordionDetails>
-                </Accordion>
+                <MyAccordion
+                  label='Товары'
+                >
+                  {order.accessories.map(item =>
+                    <Product key={item.id}>
+                      <Span><Bold>Наименование: </Bold>{item.name}</Span>
+                      <Span><Bold>Артикул: </Bold>{item.vendorCode}</Span>
+                      <Span><Bold>Кол-во: </Bold>{item.count}</Span>
+                      <Span><Bold>Сумма: </Bold>{item.retailPrice * item.count}</Span>
+                    </Product>
+                  )}
+                </MyAccordion>
+
                 {/* <Span
                   style={{ color: 'red', cursor: 'pointer', marginTop: '10px' }}
                   onClick={() => deleteOrder(order.id)}
@@ -211,6 +199,7 @@ const Span = styled.span`
   font-size: 18px;
   display: flex;
   align-items: center;
+  
   gap: 10px;
 `
 

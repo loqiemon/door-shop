@@ -14,10 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Carousel from 'react-material-ui-carousel'
 
 import Loader from '../../components/Loader';
-import Pagination from '../../shared/ui/Pagination/Pagination';
-import { useGetProductsQuery } from './productApi';
-import isOurPhoto from '../../utils/isOurPhoto'
 
+import { useGetProductsQuery } from './productApi';
+import { isOurPhoto } from '../../shared/helpers';
+import { Pagination } from '../../shared/ui';
 
 function ProductList({ handleEdit, handleDelete, children }) {
   const [filters, setFilters] = useState({

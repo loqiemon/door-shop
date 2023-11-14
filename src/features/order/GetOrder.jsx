@@ -5,14 +5,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TextField from '@mui/material/TextField';
+
 
 import Loader from '../../components/Loader'
-import useInput from '../../shared/hooks/useInput'
+import { useInput } from '../../shared/hooks'
 import { useGetOrderByTelephoneQuery } from './orderApi';
 import { useSelector } from 'react-redux';
-import CustomInput from '../../shared/ui/Input/CustomInput';
-import Button from '../../shared/ui/Button/Button';
+import { CustomInput, Button } from '../../shared/ui';
+
 
 function GetOrder() {
   const phone = useInput('');

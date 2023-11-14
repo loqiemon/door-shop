@@ -1,15 +1,10 @@
 import axios from "axios";
-import { cartSlice } from '../features/cart/cartSlice';
 import { categoriesSlice } from '../features/categories/categoriesSlice';
 import { API_URL } from "../shared/const/constants";
 import { authSlice } from "../features/auth/authSlice";
-import AuthService from '../services/AuthService'
 import { modalSlice } from "../features/modal/modalSlice";
-// import { productsSlice } from "../features/products/productsSlice";
 import { filtersSlice } from "../features/filters/filtersSlice";
-// import { addOrder, addOrderError, addOrderSuccess } from '../features/order/orderSlice'
-import $api from "../services/axiosConfig";
-
+import $api from "../shared/configs/axiosConfig";
 
 
 //КАТЕГОРИИ
@@ -131,112 +126,6 @@ export const checkAuth = () => async (dispatch) => {
     }
 }
 //АВТОРИЗАЦИЯ
-
-
-//Товары
-// export const fetchProducts = ({
-//     categoryId,
-//     pageNumber,
-//     PageSize,
-//     minPrice,
-//     maxPrice,
-//     searchByName,
-//     searchByVendorCode,
-//     country,
-//     manufacturer
-// }) => async (dispatch) => {
-//     try {
-//         dispatch(productsSlice.actions.productsFetching())
-//         const requestParams = new URLSearchParams()
-//         categoryId && requestParams.append("typeId", categoryId);
-//         pageNumber && requestParams.append("PageNumber", pageNumber);
-//         PageSize && requestParams.append("PageSize", PageSize);
-//         minPrice && requestParams.append("minRetailPrice", parseFloat(minPrice));
-//         maxPrice && requestParams.append("maxRetailPrice", parseFloat(maxPrice));
-//         searchByName && requestParams.append("searchByName", searchByName);
-//         searchByVendorCode && requestParams.append("searchByVendorCode", searchByVendorCode);
-//         country && requestParams.append("country", country);
-//         manufacturer && requestParams.append("manufacturer", manufacturer);
-//         const apiUrl = `${API_URL}Accessories?${requestParams}`;
-//         const response = await axios.get(apiUrl);
-//         dispatch(productsSlice.actions.productsFetchingSuccess(response.data));
-
-//     } catch (e) {
-//         if (e) {
-//             dispatch(productsSlice.actions.productsFetchingError(e.message))
-//         }
-//     }
-// }
-
-// export const fetchProduct = async (productId) => {
-//     try {
-//         const apiUrl = `${API_URL}Accessories/${productId}`;
-//         const response = await axios.get(apiUrl);
-//         return response.data
-//     } catch (e) {
-//         if (e) {
-//             return (e.message)
-//         }
-//     }
-// }
-
-
-// export const addProduct = (product) => async (dispatch) => {
-//     try {
-//         const { id, ...product1 } = product;
-//         dispatch(productsSlice.actions.addProduct());
-//         const response = await $api.post(API_URL + "Accessories", { ...product1, image: product1.image.join(' ') });
-
-//         dispatch(productsSlice.actions.addProductSuccess(response.data))
-
-//         setTimeout(() => {
-//             dispatch(productsSlice.actions.deleteAlert())
-//         }, 5000)
-//     } catch (e) {
-//         if (e) {
-//             dispatch(productsSlice.actions.addProductError(e.message))
-//             setTimeout(() => {
-//                 dispatch(productsSlice.actions.deleteAlert())
-//             }, 5000)
-//         }
-//     }
-// }
-
-// export const deleteProduct = (id) => async (dispatch) => {
-//     try {
-//         await $api.delete(API_URL + `Accessories/${id}`);
-//         dispatch(productsSlice.actions.deleteProductSuccess(id))
-//         setTimeout(() => {
-//             dispatch(productsSlice.actions.deleteAlert())
-//         }, 5000)
-//     } catch (e) {
-//         if (e) {
-//             dispatch(productsSlice.actions.deleteProductError(e.message))
-//             setTimeout(() => {
-//                 dispatch(productsSlice.actions.deleteAlert())
-//             }, 5000)
-//         }
-//     }
-// }
-
-// export const editProduct = (product) => async (dispatch) => {
-//     try {
-//         const response = await $api.put(API_URL + `Accessories/${product.id}`, { ...product, image: product.image.join(' ') });
-//         dispatch(productsSlice.actions.editProductSuccess({ ...product, image: product.image.join(' ') }))
-//         setTimeout(() => {
-//             dispatch(productsSlice.actions.deleteAlert())
-//         }, 5000)
-//     } catch (e) {
-//         if (e) {
-//             dispatch(productsSlice.actions.editProductError(e.message))
-//             setTimeout(() => {
-//                 dispatch(productsSlice.actions.deleteAlert())
-//             }, 5000)
-//         }
-//     }
-// }
-
-//Товары
 
 //Фильтры
 

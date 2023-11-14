@@ -2,19 +2,20 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import СharacteristicsType from '../features/characteristicsType/СharacteristicsType'
+
 
 import { logoutFunc } from '../app/actionCreators'
 
 import ProductsAdminPage from '../features/products/ProductsAdminPage'
 import CategoriesAdminPage from '../features/categories/CategoriesAdminPage'
+import СharacteristicsType from '../features/characteristicsType/СharacteristicsType'
 import { useDeleteProductMutation, usePostProductMutation, usePutProductMutation } from '../features/products/productApi'
 import CsvForm from '../features/csv/CsvForm'
 import Orders from '../features/order/Orders'
 import GetOrder from '../features/order/GetOrder'
 import { modalSlice } from '../features/modal/modalSlice'
 import Register from '../features/auth/Register'
-
+import { Button } from '../shared/ui'
 
 function ProfilePage() {
   const [currentContent, setCurrentContent] = useState('profile');
@@ -93,59 +94,39 @@ function ProfilePage() {
     <ProfileContainer>
       <ProfileTitle>Настройки</ProfileTitle>
       <ProfileAside>
-        <ContentButton
-          name='profile'
-          text='Профиль'
-          currentContent={currentContent}
-          setCurrentContent={setCurrentContent}
+        <Button
+          onClick={() => setCurrentContent('profile')}
+          text={'Профиль'}
+          active={isCurrentContent('profile')}
         />
         {isHaveRole('admin') &&
-          <ContentButton
-            name='products'
-            text='Товары'
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
-        {isHaveRole('admin') &&
-          <ContentButton
-            name='categories'
-            text='Категории'
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
-        {isHaveRole('admin') &&
-          <ContentButton
-            name='orders'
-            text='Заказы'
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
-        {/* {isHaveRole('admin') && 
-            <ContentButton 
-              name='characteristictsTypes'
-              text='Типы хар-к' 
-              currentContent={currentContent}
-              setCurrentContent={setCurrentContent}
+          <>
+            <Button
+              onClick={() => setCurrentContent('products')}
+              text={'Товары'}
+              active={isCurrentContent('products')}
             />
-          } */}
-        {isHaveRole('admin') &&
-          <ContentButton
-            name='csv'
-            text='CSV'
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
-        }
-        {isHaveRole('admin') &&
-          <ContentButton
-            name='users'
-            text='Оптовики'
-            currentContent={currentContent}
-            setCurrentContent={setCurrentContent}
-          />
+            <Button
+              onClick={() => setCurrentContent('categories')}
+              text={'Категории'}
+              active={isCurrentContent('categories')}
+            />
+            <Button
+              onClick={() => setCurrentContent('orders')}
+              text={'Заказы'}
+              active={isCurrentContent('orders')}
+            />
+            <Button
+              onClick={() => setCurrentContent('csv')}
+              text={'CSV'}
+              active={isCurrentContent('csv')}
+            />
+            <Button
+              onClick={() => setCurrentContent('users')}
+              text={'Оптовики'}
+              active={isCurrentContent('users')}
+            />
+          </>
         }
       </ProfileAside>
       <ProfileContent>
@@ -153,9 +134,9 @@ function ProfilePage() {
           {isCurrentContent('profile') && (
             <ProfileCurrent>
               <GetOrder />
-              <Button onClick={logout}>Выйти из аккаунта</Button>
-              <Button onClick={login}>Войти</Button>
-              <Button onClick={login}>Зарегистрироваться</Button>
+              <Button onClick={logout} text={'Выйти из аккаунта'} />
+              <Button onClick={login} text={'Войти'} />
+              <Button onClick={login} text={'Войти'} />
             </ProfileCurrent>
           )}
           {isCurrentContent('products') && (
@@ -199,28 +180,13 @@ function ProfilePage() {
 export default ProfilePage
 
 
-function ContentButton({ currentContent, name, text, setCurrentContent }) {
-  return (
-    currentContent === name ? (
-      <ActiveMenuItem onClick={() => setCurrentContent(name)}>{text}</ActiveMenuItem>
-    ) : (
-      <ProfileAsideItem onClick={() => setCurrentContent(name)}>{text}</ProfileAsideItem>
-    )
-  )
-}
-
 const ProfileContainer = styled.div`
     width: 100%;
     max-width: 1280px;
-    /* height: 100%; */
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     padding-top: 20px;
-  
-    /* @media (max-width: 576px) {
-      height: 1000px;
-    } */
 `
 
 const ProfileCurrent = styled.div`
@@ -303,23 +269,4 @@ const Content = styled.div`
   /* height: 100%; */
 `
 
-const Button = styled.button`
-    padding: 12px;
-    max-width: 250px;
-    background-color: #f7f7f7;
-    border-radius: 15px;
-    transition: all .35s ease-in;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    max-height: 60px;
-    &:hover {
-      /* background-color: #56195d; */
-      background-color: #FFD700;
-      color: #000;
-    }
-`
 
-const ActiveMenuItem = styled(ProfileAsideItem)`
-  /* background-color: #56195d; */
-  background-color: #FFD700;
-  color: #000;
-`;

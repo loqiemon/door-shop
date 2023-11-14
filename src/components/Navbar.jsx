@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 
 import logo from '../../public/images/favicon/android-chrome-192x192.png';
-import useOnHoverOutside from '../shared/hooks/useOnHoverOutside'
+import { useOnHoverOutside } from '../shared/hooks'
 import Categories from '../features/categories/Categories'
 import useCartSum from '../features/cart/useCartSum'
 import { colors } from '../shared/const/colors';

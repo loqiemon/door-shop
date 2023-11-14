@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { colors } from '../../const/colors'
 
-function Button({
+export function Button({
   text,
   onClick,
   active = false,
@@ -33,6 +33,7 @@ const Btn = styled.button`
   font-size: 20px;
   transition: all .3s ease-in;
   font-weight: 600;
+  overflow: hidden;
   &:hover {
     /* background-color: #5065f6; */
     background-color: ${colors.gold};

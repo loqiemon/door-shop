@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import useSearch from '../../shared/hooks/useSearch'
+import { useSearch } from '../../shared/hooks'
 import Loader from '../../components/Loader';
 import { useGetCategoriesQuery } from './categoriesApi';
 

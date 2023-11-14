@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 
-function usePagination({ array }) {
+export function usePagination({ array }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -26,4 +26,4 @@ function usePagination({ array }) {
   })
 }
 
-export default usePagination
+

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import useInput from '../../shared/hooks/useInput'
 import { useDispatch } from 'react-redux'
-import { registerFunc } from '../../app/actionCreators'
 
+import { registerFunc } from '../../app/actionCreators'
+import { useInput } from '../../shared/hooks'
 
 function Register({ setShowRegister }) {
   const { value: login, onChange: handleLogin } = useInput('')
