@@ -11,15 +11,15 @@ import Categories from '../features/categories/Categories'
 function Navbar() {
     const [isNavActive, setIsNavActive] = useState(false);
     const isAuth = useSelector(state => state.auth.isAuth)
-    const dropdownRef = useRef(null); 
+    const dropdownRef = useRef(null);
     const [isMenuDropDownOpen, setMenuDropDownOpen] = useState(false);
-  
+
     const closeHoverMenu = () => {
-      setMenuDropDownOpen(false);
+        setMenuDropDownOpen(false);
     };
-  
-    useOnHoverOutside(dropdownRef, closeHoverMenu); 
-    
+
+    useOnHoverOutside(dropdownRef, closeHoverMenu);
+
     const dispatch = useDispatch()
 
     const toggleNav = () => {
@@ -41,20 +41,20 @@ function Navbar() {
             <NavContainer>
                 <HideOnMobile>
                     <NavLink to='/'>
-                        <NavLogo src={logo}/>
+                        <NavLogo src={logo} />
                     </NavLink>
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
                     <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
                     {/* {isAuth === true ?  */}
-                        <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
-                        {/* : */}
-                        {/* <NavLink onClick={() => dispatch(modalSlice.actions.open())}> */}
-                            {/* Профиль */}
-                        {/* </NavLink> */}
+                    <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
+                    {/* : */}
+                    {/* <NavLink onClick={() => dispatch(modalSlice.actions.open())}> */}
+                    {/* Профиль */}
+                    {/* </NavLink> */}
                     {/* } */}
                 </NavLinks>
-                <Hamburger 
+                <Hamburger
                     className={isNavActive ? 'hamburger-active' : ''}
                     onClick={toggleNav}
                 >
@@ -65,14 +65,14 @@ function Navbar() {
             </NavContainer>
             <NavBottom className={isNavActive ? 'active' : ''}>
                 <NavBottomContainer>
-                    {!isNavActive && 
+                    {!isNavActive &&
                         <NavBottomItem onMouseOver={() => setMenuDropDownOpen(true)}>
                             Каталог товаров
-                            {isMenuDropDownOpen && 
+                            {isMenuDropDownOpen &&
                                 <MyMenu ref={dropdownRef}>
                                     <CategoriesContainer onClick={handleCategoryClick}>
-                                        <Categories/>
-                                    </CategoriesContainer>   
+                                        <Categories />
+                                    </CategoriesContainer>
                                 </MyMenu>
                             }
                         </NavBottomItem>
@@ -89,8 +89,8 @@ function Navbar() {
             <MobileNav className={isNavActive ? 'active' : ''} onClick={closeNav}>
                 <NavLink to='/'>Каталог</NavLink>
                 <NavLink to='/cart'>Корзина</NavLink>
-                {isAuth === true ? 
-                    <NavLink to='/profile'>Профиль</NavLink>:
+                {isAuth === true ?
+                    <NavLink to='/profile'>Профиль</NavLink> :
                     <NavLink onClick={() => dispatch(modalSlice.actions.open())}>Профиль</NavLink>
                 }
                 <NavLink to='/payment'>Оплата</NavLink>
@@ -158,9 +158,21 @@ const Nav = styled.nav`
   /* background: url('../../public/logo.svg') center center/cover no-repeat; */
   background: #6a11cb;
 /* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
+    /* background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9)); */
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9)); */
+    /* background: linear-gradient(to right, #2193b0, #6dd5ed);
+    background: linear-gradient(to right, #cc2b5e, #753a88);
+    background: linear-gradient(to right, #42275a, #734b6d);
+    background: linear-gradient(to right, #bdc3c7, #2c3e50);
+    background: linear-gradient(to right, #de6262, #ffb88c);
+    background: linear-gradient(to right, #06beb6, #48b1bf);
+    background: linear-gradient(to right, #eb3349, #f45c43);
+    background: linear-gradient(to right, #56ab2f, #a8e063); */
+    background: linear-gradient(to right, #000428, #004e92);
+    /* background: linear-gradient(to right, #7b4397, #dc2430); */
+    /* background: linear-gradient(to right, #141e30, #243b55); */
+    
 
 
   @media (max-width: 767px) {

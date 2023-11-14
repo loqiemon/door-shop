@@ -44,10 +44,10 @@ function Aside({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (countrys.length === 0) {
-    dispatch(fetchFilters(categoryId))
-    // }
-  }, []);
+    if (categoryId) {
+      dispatch(fetchFilters(categoryId))
+    }
+  }, [categoryId]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -141,17 +141,17 @@ function Aside({
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={filters.colors}
-            onChange={e => setFilters((prev) => ({ ...prev, colors: e.target.value }))}
+            value={filters.color}
+            onChange={e => setFilters((prev) => ({ ...prev, color: e.target.value }))}
             label="Type"
           >
             <MenuItem value="">
               <em>Не указан</em>
             </MenuItem>
-            {colors && colors.map(color =>
-              <MenuItem
+            {colors && colors.map((color, index) =>
+              color !== null && color.length > 0 && <MenuItem
                 value={color}
-                key={color}
+                key={index}
               >
                 {color}
               </MenuItem>

@@ -239,16 +239,26 @@ export const editProduct = (product) => async (dispatch) => {
 //Товары
 
 //Фильтры
-
 export const fetchFilters = (accessoryTypeId) => async (dispatch) => {
     try {
-        dispatch(filtersSlice.actions.fetchFilters())
-        const response = await axios.get(`${API_URL}Accessories/unique-countries-and-manufacturers?accessoryTypeId=${accessoryTypeId}`);
-        dispatch(filtersSlice.actions.fetchFiltersSuccess(response.data))
-    } catch (e) {
-        dispatch(filtersSlice.actions.fetchFiltersError(e.message))
+        dispatch(filtersSlice.actions.fetchFilters());
+        const url = `${API_URL}Accessories/unique-countries-and-manufacturers?accessoryTypeId=${accessoryTypeId}`;
+        const response = await axios.get(url);
+        dispatch(filtersSlice.actions.fetchFiltersSuccess(response.data));
+    } catch (error) {
+        dispatch(filtersSlice.actions.fetchFiltersError(error.message));
     }
 }
+// export const fetchFilters = (accessoryTypeId) => async (dispatch) => {
+//     try {
+//         console.log(accessoryTypeId, 'accessoryTypeId')
+//         dispatch(filtersSlice.actions.fetchFilters())
+//         const response = await axios.get(`${API_URL}Accessories/unique-countries-and-manufacturers?accessoryTypeId=${accessoryTypeId}`);
+//         dispatch(filtersSlice.actions.fetchFiltersSuccess(response.data))
+//     } catch (e) {
+//         dispatch(filtersSlice.actions.fetchFiltersError(e.message))
+//     }
+// }
 
 //Фильтры
 

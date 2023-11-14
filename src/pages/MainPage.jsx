@@ -73,7 +73,7 @@ function MainPage() {
     let pageNumberToSet = 1;
     let filtersAreEqual = true;
 
-
+    console.log(filters)
     for (const key in filters) {
       if (filters.hasOwnProperty(key) && acceptFilters.hasOwnProperty(key)) {
         if (filters[key] !== acceptFilters[key]) {

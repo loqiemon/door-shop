@@ -88,7 +88,7 @@ function Orders() {
                   {order.status === 'Доставлен' && <><CheckMark />Доставлен</>}
                   {order.status === 'Отменен' && <><CloseIcon style={{ color: 'red' }} />Отменен</>}
                 </Span>
-                <Span><Bold>Дата заказа: </Bold>{new Date(order.date).toLocaleDateString()}</Span>
+                <Span><Bold>Дата заказа: </Bold>{new Date(order.date).toLocaleDateString()} {new Date(order.date).toLocaleTimeString()}</Span>
                 <Span><Bold>Сумма заказа: </Bold>{order.sum} руб</Span>
                 <Span>
                   <Bold>Тип оплаты: </Bold>
@@ -114,18 +114,31 @@ function Orders() {
                     )}
                   </AccordionDetails>
                 </Accordion>
-                {/* <Span
+                <Container2>
+                  <Button
+                    style={{ color: 'red', cursor: 'pointer', marginTop: '10px' }}
+                    onClick={() => {
+                      const confirmDelete = window.confirm('Are you sure you want to delete this order?');
+                      if (confirmDelete) {
+                        deleteOrder(order.id);
+                      }
+                    }}
+                  >
+                    Удалить
+                  </Button>
+                  {/* <Span
                   style={{ color: 'red', cursor: 'pointer', marginTop: '10px' }}
                   onClick={() => deleteOrder(order.id)}
                 >
                   Удалить
                 </Span> */}
-                <Button
-                  style={{ cursor: 'pointer', marginTop: '10px' }}
-                  onClick={() => handleEdit(order)}
-                >
-                  Редактировать
-                </Button>
+                  <Button
+                    style={{ cursor: 'pointer', marginTop: '10px' }}
+                    onClick={() => handleEdit(order)}
+                  >
+                    Редактировать
+                  </Button>
+                </Container2>
               </Order>
             ))}
           </Container2>
@@ -238,4 +251,5 @@ const Button = styled.button`
       background-color: #FFD700;
       color: #000;
     }
+    margin-bottom: 10px;
 `
