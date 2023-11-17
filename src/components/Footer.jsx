@@ -9,12 +9,13 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import logo from '../../public/images/favicon/android-chrome-192x192.png';
 import { EMAIL, PHONENUMBER } from '../services/constants'
+import VisaMaster from '../../public/images/visa-mastercard-mir@2x.png'
 
 function Footer() {
-  return (
-    <Container>
-        <ContainerCenter>
-            {/* <SubContainer>
+    return (
+        <Container>
+            <ContainerCenter>
+                {/* <SubContainer>
                 <Title>О компании</Title>
                 <List>
                     <Link to="/refund">Правила возврата</Link>
@@ -24,7 +25,7 @@ function Footer() {
                     <Link to='/payment'>Оплата</Link>
                 </List>
             </SubContainer> */}
-            {/* <SubContainer>
+                {/* <SubContainer>
                 <Title>Магазин</Title>
                 <List>
                     <Link>Правила возврата</Link>
@@ -33,7 +34,7 @@ function Footer() {
                     <Link></Link>
                 </List>
             </SubContainer> */}
-            {/* <SubContainer>
+                {/* <SubContainer>
                 <Title>Услуги</Title>
                 <List>
                     <Link>Дверное производство</Link>
@@ -41,38 +42,42 @@ function Footer() {
                     <Link to='/install'>Установка</Link>
                 </List>
             </SubContainer> */}
-            <SubContainer>
-                <Title>Информация</Title>
-                <List>
-                    <Link to='/about'>О компании</Link>
-                    <Link to='/payment'>Оплата</Link>
-                    <Link to='/delivery'>Доставка</Link>
-                    <Link to='/requisites'>Реквизиты</Link>
-                    {/* <Link to='/policy'>Политика конфиденциальности</Link> */}
-                    <Link to='/support'>Помощь в выборе</Link>
-                    <Link to='/install'>Установка</Link>
-                    <Link to='/contacts'>Контакты</Link>
-                    <Link to="/refund">Возврат товара</Link>
-                </List>
-            </SubContainer>
-            <SubContainer>
-                <Image src={logo} />
-            </SubContainer>
-            <SubContainer>
-                <Title>Контакты</Title>
-                <List>
-                    <Phone href={`tel: ${PHONENUMBER}`} ><TelegramIcon/><WhatsAppIcon/>{PHONENUMBER}</Phone>
-                    <Link href={`email: ${EMAIL}`} ><EmailIcon/> {EMAIL}</Link>
-                </List>
-                <Title>Наш адрес</Title>
-                <List>
-                    <Link><PlaceIcon/> Без шоурума</Link>
-                    <Link><AccessTimeIcon/> Работаем с 10:00 до 18:00 (ПН-ПТ)</Link>
-                </List>
-            </SubContainer>
-        </ContainerCenter>
-    </Container>
-  )
+                <SubContainer>
+                    <Title>Информация</Title>
+                    <List>
+                        <Link to='/about'>О компании</Link>
+                        <Link to='/payment'>Оплата</Link>
+                        <Link to='/delivery'>Доставка</Link>
+                        <Link to='/requisites'>Реквизиты</Link>
+                        {/* <Link to='/policy'>Политика конфиденциальности</Link> */}
+                        <Link to='/support'>Помощь в выборе</Link>
+                        <Link to='/install'>Установка</Link>
+                        <Link to='/contacts'>Контакты</Link>
+                        <Link to="/refund">Возврат товара</Link>
+                        <Link to='/policy'>Политика конфиденциальности</Link>
+                        <Link to="/deal">Договор публичной оферты</Link>
+                    </List>
+                </SubContainer>
+                <SubContainer>
+                    <Image src={logo} />
+                </SubContainer>
+                <SubContainer>
+                    <Title>Контакты</Title>
+                    <List>
+                        <Phone href={`tel: ${PHONENUMBER}`} ><TelegramIcon /><WhatsAppIcon />{PHONENUMBER}</Phone>
+                        <Link href={`email: ${EMAIL}`} ><EmailIcon /> {EMAIL}</Link>
+                    </List>
+                    <Title>Наш адрес</Title>
+                    <List>
+                        <Link><PlaceIcon /> Без шоурума</Link>
+                        <Link><AccessTimeIcon /> Работаем с 10:00 до 18:00 (ПН-ПТ)</Link>
+                    </List>
+                    <Link>Мы принимаем <Visa src={VisaMaster} /></Link>
+                </SubContainer>
+            </ContainerCenter>
+
+        </Container>
+    )
 }
 
 export default Footer
@@ -182,4 +187,9 @@ const Phone = styled.a`
         font-size: 21px;
     }
     
+`
+
+const Visa = styled.img`
+    height: 100px;
+    width: 100px;
 `
