@@ -172,7 +172,7 @@ export const fetchProduct = async (productId) => {
     try {
         const apiUrl = `${API_URL}Accessories/${productId}`;
         const response = await axios.get(apiUrl);
-        return response.data
+        return response.data[0]
     } catch (e) {
         if (e) {
             return (e.message)

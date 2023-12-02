@@ -112,7 +112,7 @@ function ProductPage() {
                     onChange={e => handleChange(e.target.value)}
                   >
                     {product?.characteristics &&
-                      product?.characteristics.length > 0 &&
+                      product?.characteristics?.length > 0 &&
                       product.characteristics.map(feature =>
                         <FormControlLabel
                           key={feature.value}
@@ -150,7 +150,7 @@ function ProductPage() {
                     <Typography>Доп. Характеристики</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    {product.characteristic.length > 0 && product.characteristic.map(feature =>
+                    {product?.characteristic?.length > 0 && product.characteristic.map(feature =>
                       <Typography>
                         <Name>
                           {feature.characteristicType.name}: {feature.value}
