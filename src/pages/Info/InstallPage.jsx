@@ -7,15 +7,15 @@ function InstallPage() {
     <Container>
       <Title>Установка</Title>
       <Paragraph>
-        Все наши специалисты имеют опыт более 10 лет в монтаже дверей разных модификаций, установке и замене дверных замков, а также дверных панелей и фурнитуры.  
+        Все наши специалисты имеют опыт более 10 лет в монтаже дверей разных модификаций, установке и замене дверных замков, а также дверных панелей и фурнитуры.
       </Paragraph>
       <List>
-        <ListItem><ChechMark/>Ремонт дверей</ListItem>
-        <ListItem><ChechMark/>Замена замков</ListItem>
-        <ListItem><ChechMark/>Перекодировка</ListItem>
-        <ListItem><ChechMark/>Установка замков </ListItem>
-        <ListItem><ChechMark/>Замена дверных панелей</ListItem>
-        <ListItem><ChechMark/>Вскрытие дверей </ListItem>
+        <ListItem><ChechMark />Ремонт дверей</ListItem>
+        <ListItem><ChechMark />Замена замков</ListItem>
+        <ListItem><ChechMark />Перекодировка</ListItem>
+        <ListItem><ChechMark />Установка замков </ListItem>
+        <ListItem><ChechMark />Замена дверных панелей</ListItem>
+        <ListItem><ChechMark />Вскрытие дверей </ListItem>
       </List>
       <Paragraph>
         За консультацией обращаться по телефону <Link type='tel' href='tel:+7-977-454-67-77'>+7-977-454-67-77</Link>

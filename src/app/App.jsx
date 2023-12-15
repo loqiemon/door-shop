@@ -27,6 +27,7 @@ import AboutPage from '../pages/Info/AboutPage'
 import RequisitesPage from '../pages/Info/RequisitesPage'
 import PolicyPage from '../pages/Info/PolicyPage'
 import DealPage from '../pages/Info/DealPage'
+import CreatePage from '../pages/Info/CreatePage'
 
 
 
@@ -68,7 +69,8 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/policy" element={<PolicyPage />} />
           <Route path="/deal" element={<DealPage />} />
-          <Route path="/requisites" element={<RequisitesPage />} />
+          <Route path="/deal" element={<DealPage />} />
+          <Route path="/create" element={<CreatePage />} />
           <Route path="/product/:categoryId/:productId/:page" element={<ProductPage />} />
         </Routes>
         <Footer />

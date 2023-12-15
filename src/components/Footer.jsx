@@ -56,6 +56,7 @@ function Footer() {
                         <Link to="/refund">Возврат товара</Link>
                         <Link to='/policy'>Политика конфиденциальности</Link>
                         <Link to="/deal">Договор публичной оферты</Link>
+                        <Link to="/create">Производство и монтаж <br /> дверных панелей</Link>
                     </List>
                 </SubContainer>
                 <SubContainer>

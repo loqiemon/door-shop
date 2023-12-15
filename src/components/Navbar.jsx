@@ -84,6 +84,8 @@ function Navbar() {
                     <NavBottomItem to='/install' >Установка</NavBottomItem>
                     <NavBottomItem to='/contacts' >Контакты</NavBottomItem>
                     <NavBottomItem to='/refund' >Возврат товара</NavBottomItem>
+                    <NavBottomItem to='/create' >Производство дверных панелей</NavBottomItem>
+
                 </NavBottomContainer>
             </NavBottom>
             <MobileNav className={isNavActive ? 'active' : ''} onClick={closeNav}>
@@ -99,6 +101,7 @@ function Navbar() {
                 <NavLink to='/install'>Установка</NavLink>
                 <NavLink to='/contacts'>Контакты</NavLink>
                 <NavLink to='/refund'>Возврат товара</NavLink>
+                <NavLink to='/create' >Производство дверных панелей</NavLink>
             </MobileNav>
         </Nav>
     )
@@ -246,6 +249,7 @@ const NavBottomItem = styled(Link)`
     cursor: pointer;
     transition: all .35s ease-in;
     padding: 12px 5px;
+    /* font-size: 20px; */
 
     &:hover {
         background-color: #1f1e1e;
