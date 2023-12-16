@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { modalSlice } from '../features/modal/modalSlice'
 import logo from '../../public/images/favicon/android-chrome-192x192.png';
 import useOnHoverOutside from '../hooks/useOnHoverOutside'
 import Categories from '../features/categories/Categories'
+import useCartSum from '../features/cart/useCartSum';
 
 function Navbar() {
     const [isNavActive, setIsNavActive] = useState(false);
@@ -17,6 +19,8 @@ function Navbar() {
     const closeHoverMenu = () => {
         setMenuDropDownOpen(false);
     };
+
+    const cartSum = useCartSum();
 
     useOnHoverOutside(dropdownRef, closeHoverMenu);
 
@@ -45,7 +49,10 @@ function Navbar() {
                     </NavLink>
                 </HideOnMobile>
                 <NavLinks className={isNavActive ? 'active' : ''}>
-                    <NavLink to='/cart' onClick={closeNav}>Корзина</NavLink>
+                    <NavLink to='/cart' onClick={closeNav}>
+                        {cartSum > 0 && <Span>{cartSum}₽ </Span>}
+                        Корзина
+                    </NavLink>
                     {/* {isAuth === true ?  */}
                     <NavLink to='/profile' onClick={closeNav}>Профиль</NavLink>
                     {/* : */}
@@ -54,14 +61,20 @@ function Navbar() {
                     {/* </NavLink> */}
                     {/* } */}
                 </NavLinks>
-                <Hamburger
-                    className={isNavActive ? 'hamburger-active' : ''}
-                    onClick={toggleNav}
-                >
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </Hamburger>
+                <>
+                    <NavLink to='/cart' onClick={closeNav} className='cart-mobile'>
+                        {cartSum > 0 && <Span>{cartSum}₽ </Span>}
+                        <ShoppingCartIcon />
+                    </NavLink>
+                    <Hamburger
+                        className={isNavActive ? 'hamburger-active' : ''}
+                        onClick={toggleNav}
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </Hamburger>
+                </>
             </NavContainer>
             <NavBottom className={isNavActive ? 'active' : ''}>
                 <NavBottomContainer>
@@ -108,6 +121,10 @@ function Navbar() {
 }
 
 export default Navbar
+
+const Span = styled.span`
+    color: #FFD700;
+`
 
 const MobileNav = styled.div`
     display: none;
@@ -195,7 +212,7 @@ const CategoriesContainer = styled.div`
 const NavLogo = styled.img`
     border: none;
     @media (max-width: 767px) {
-        width: 75px;
+        width: 115px;
         height: 75px;
         object-fit: cover;
     }
@@ -292,7 +309,21 @@ export const NavLink = styled(Link)`
     font-size: 25px;
     font-weight: 600;
 
+    &.cart-mobile {
+        display: none;
+    }
+
     @media (max-width: 767px) {
+        &.cart-mobile {
+            display: flex;
+            font-weight: 500;
+            font-size: 20px;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: auto;
+            margin-right: 7px;
+        }
         font-size: 30px;
         color: #fff;
         width: 100%;

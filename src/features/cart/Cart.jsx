@@ -26,9 +26,9 @@ function Cart() {
   useEffect(() => {
     // setTotalPrice(cartItems.reduce((acc, item) => acc+(item.retailPrice + item.variant.priceModifier)*item.count, 0))
     if (user && user.role === 'user') {
-      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.wholesalePrice) * item.count, 0))
+      setTotalPrice(Number(cartItems.reduce((acc, item) => acc + (item.wholesalePrice) * item.count, 0)).toFixed(2))
     } else {
-      setTotalPrice(cartItems.reduce((acc, item) => acc + (item.retailPrice) * item.count, 0))
+      setTotalPrice(Number(cartItems.reduce((acc, item) => acc + (item.retailPrice) * item.count, 0)).toFixed(2))
     }
   }, [cartItems]);
 
@@ -115,7 +115,7 @@ function Cart() {
                           </Counter>
                         </td>
                         {/* <td>{(item.retailPrice + item.variant.priceModifier) * item.count} руб.</td> */}
-                        <td>{(user.role === 'user' ? item.wholesalePrice : item.retailPrice) * item.count} руб.</td>
+                        <td>{Number((user.role === 'user' ? item.wholesalePrice : item.retailPrice) * item.count).toFixed(2)} руб.</td>
                         <td>
                           <i className="fa-solid fa-trash" onClick={() => dispatch(removeFromCart(item.id))}></i>
                         </td>

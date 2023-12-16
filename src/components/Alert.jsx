@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
 
-function AlertJsx({ 
+function AlertJsx({
   message,
   onClose,
-  type = 'error' 
+  type = 'error'
 }) {
   const [visible, setVisible] = useState(true);
 
@@ -28,7 +28,7 @@ function AlertJsx({
         <span>{message}</span>
       </AlertMy>
     ) : null,
-    document.getElementById('root') 
+    document.getElementById('root')
   );
 }
 
@@ -36,7 +36,7 @@ export default AlertJsx;
 
 
 const AlertMy = styled(Alert)`
-  position: absolute;
+  position: fixed;
   /* bottom: 0;
   right: 0; */
   top: 50%;

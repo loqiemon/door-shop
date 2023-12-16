@@ -52,10 +52,10 @@ function OrderForm({
 
   const handleSubmit = () => {
     const pattern = /^[0-9]{11}$/;
-    if (!pattern.test(phone)) {
-      alert("Номер должен быть в формате 89005553535");
-      return
-    }
+    // if (!pattern.test(phone)) {
+    //   alert("Номер должен быть в формате 89005553535");
+    //   return
+    // }
     if (
       name.length > 0 &&
       address.length > 0 &&
@@ -90,9 +90,11 @@ function OrderForm({
             alert(`Не удалось добавить заказ. Свяжитесь с нами ${PHONENUMBER} `);
           });
       } else {
+        console.log(orderProp)
         const editOrder = {
           id: orderProp.id,
           ...orderProp,
+          sum: parseInt(orderProp.sum),
           name,
           mail: email,
           adress: address,
@@ -138,7 +140,7 @@ function OrderForm({
       <Input
         value={address}
         onChange={e => setAddress(e.target.value)}
-        label='Адрес'
+        label='Город'
       />
       <Input
         value={phone}

@@ -17,13 +17,13 @@ import Carousel from 'react-material-ui-carousel'
 
 
 const images = [
-  door1, door2, door3, door4, door5, door6, door7, door8, door9, door10, door11, door12
+  door1, door2, door3, door4, door5, door6, door7, door9, door10, door11, door12
 ]
 
 function CreatePage() {
   return (
     <Container>
-      <Title>Установка</Title>
+      {/* <Title>Установка</Title> */}
       <Paragraph>
         Отделка МДФ  панелями  придаст   более  украшенный  вид  вашей   входной   двери. Наша  компания  предоставит   огромный  выбор  дверных панелей  любых  размеров, цветов, толщины  и  материалов,  которые  можно  заказать  по  индивидуальным   параметрам  заказчика. Наши мастера, имеющие  многолетний  опыт  произведут   замеры, расчеты, ремонт, а также  смогут   осуществить  замену    панелей  на  входной  двери.
       </Paragraph>

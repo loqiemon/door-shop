@@ -66,7 +66,7 @@ function Footer() {
                     <Title>Контакты</Title>
                     <List>
                         <Phone href={`tel: ${PHONENUMBER}`} ><TelegramIcon /><WhatsAppIcon />{PHONENUMBER}</Phone>
-                        <Link href={`email: ${EMAIL}`} ><EmailIcon /> {EMAIL}</Link>
+                        <Link2 href={`mailto: ${EMAIL}`} ><EmailIcon /> {EMAIL}</Link2>
                     </List>
                     <Title>Наш адрес</Title>
                     <List>
@@ -156,6 +156,25 @@ const List = styled.div`
     gap: 8px;
     @media (max-width: 767px) {
         align-items: center;
+    }
+`
+
+const Link2 = styled.a`
+color: rgba(255, 255, 255, 0.5);
+    font-size: 19px;
+    transition: all .35s ease-in;
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    &:hover {
+        color: #fff;
+    }
+
+    @media (max-width: 991px) {
+        font-size: 17px;
+    }
+    @media (max-width: 767px) {
+        font-size: 19px;
     }
 `
 

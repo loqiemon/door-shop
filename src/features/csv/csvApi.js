@@ -28,6 +28,20 @@ export const csvApi = createApi({
       },
       invalidatesTags: ['Products']
     }),
+    // postCsv: build.mutation({
+    //   query: (data) => {
+    //     return {
+    //       url: ``,
+    //       method: 'POST',
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    //         // 'Content-Type': 'multipart/form-data',
+    //       },
+    //       body: formData,
+    //     }
+    //   },
+    //   invalidatesTags: ['Products']
+    // }),
   })
 })
 

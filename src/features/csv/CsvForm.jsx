@@ -16,6 +16,7 @@ import Loader from '../../components/Loader';
 function CsvForm() {
   const [csv, setCsv] = useState();
   const [accessoryTypeId, setAccessoryTypeId] = useState();
+  const [accessoryTypeCharacteristics, setAccessoryTypeCharacteristics] = useState('');
 
   const dispatch = useDispatch();
 
@@ -45,6 +46,15 @@ function CsvForm() {
       }).catch((error) => {
         alert("Ошибка");
       })
+    }
+  }
+
+  const handleAddType = (e) => {
+    e.preventDefault();
+    if (accessoryTypeCharacteristics) {
+
+
+      setAccessoryTypeCharacteristics('');
     }
   }
 
@@ -85,6 +95,10 @@ function CsvForm() {
             </Select>
           </FormControl>
           <Button onClick={handleSubmit}>Отправить</Button>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <Input value={accessoryTypeCharacteristics} id="demo-simple-select-standard-label" placeholder='Тип характеристики' ></Input>
+          </FormControl>
+          <Button onClick={handleAddType}>Добавить</Button>
         </>
       )}
     </Container>
