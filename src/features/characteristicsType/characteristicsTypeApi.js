@@ -7,39 +7,37 @@ export const characteristicsTypeApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: API_URL
     }),
-    tagTypes: ['CharacteristicsTypes'],
+    tagTypes: ['CharacteristicTypes'],
     endpoints: (build) => ({
-        getCharacteristicsTypes: build.query({
+        getCharacteristicTypes: build.query({
             query: () => {
-                return ({ url: `CharacteristicsTypes` })
+                return ({ url: `CharacteristicTypes` })
             },
-            providesTags: ['CharacteristicsTypes']
+            providesTags: ['CharacteristicTypes']
         }),
         getCharacteristicsType: build.query({
             query: (id) => {
-                return ({ url: `CharacteristicsTypes/${id}` })
+                return ({ url: `CharacteristicTypes/${id}` })
             },
-            providesTags: ['CharacteristicsTypes']
+            providesTags: ['CharacteristicTypes']
         }),
         postCharacteristicsType: build.mutation({
             query(featureType) {
                 return {
-                    url: 'CharacteristicsTypes',
+                    url: 'CharacteristicTypes',
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                     },
-                    body: {
-                        ...featureType
-                    }
+                    body: { name: featureType, isActivePrice: false }
                 }
             },
-            invalidatesTags: ['CharacteristicsTypes']
+            invalidatesTags: ['CharacteristicTypes']
         }),
         putCharacteristicsType: build.mutation({
             query(characteristicsType) {
                 return {
-                    url: `CharacteristicsTypes`,
+                    url: `CharacteristicTypes`,
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -49,22 +47,23 @@ export const characteristicsTypeApi = createApi({
                     }
                 }
             },
-            invalidatesTags: ['CharacteristicsTypes']
+            invalidatesTags: ['CharacteristicTypes']
         }),
         deleteCharacteristicsType: build.mutation({
             query(id) {
                 return {
-                    url: `CharacteristicsTypes/${id}`,
+                    url: `CharacteristicTypes/${id}`,
                     method: 'DELETE',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                     }
                 }
             },
-            invalidatesTags: ['CharacteristicsTypes']
+            invalidatesTags: ['CharacteristicTypes']
         })
     })
 })
+
 
 export const {
     useGetCharacteristicsTypesQuery,

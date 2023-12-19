@@ -171,6 +171,7 @@ function MainPage() {
                       </CarouselMy>
                     }
                     <Name>{item.name}</Name>
+                    <Name>{item.manufacturer}</Name>
                     <IsAvaible className={isAvaibleFunc(item.isAvaible)}>
                       {item.isAvaible}
                     </IsAvaible>
@@ -282,7 +283,7 @@ const SellItem = styled.div`
   flex-direction: column;
   text-align: left;
   width: 45%;
-  height: 320px;
+  height: 380px;
   gap: 5px;
   padding: 20px;
   position: relative;

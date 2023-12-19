@@ -39,6 +39,7 @@ function ProductPage() {
       .then(response => {
         setProduct(response);
         setIsLoading(false);
+        console.log(response)
       })
   }, []);
 
@@ -79,13 +80,15 @@ function ProductPage() {
         {!isLoading &&
           <>
             <SubContainer>
-              {isOurPhoto(product.image).length === 1 ?
-                <Image src={isOurPhoto(product.image)[0]} key={product.id} /> :
-                <MyCarousel>
-                  {isOurPhoto(product.image).map(
-                    (imgPath, i) => <Image src={imgPath} key={imgPath} />
-                  )}
-                </MyCarousel>
+              {
+                product?.image &&
+                  isOurPhoto(product.image).length === 1 ?
+                  <Image src={isOurPhoto(product.image)[0]} key={product.id} /> :
+                  <MyCarousel>
+                    {isOurPhoto(product.image).map(
+                      (imgPath, i) => <Image src={imgPath} key={imgPath} />
+                    )}
+                  </MyCarousel>
               }
               {isInCart(product.id) === true ? (
                 <ButtonActive onClick={() => dispatch(removeFromCart(product.id))}>Уже в корзине</ButtonActive>

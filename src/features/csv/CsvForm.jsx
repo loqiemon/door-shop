@@ -11,6 +11,7 @@ import { fetchCategories } from '../../app/actionCreators';
 import { usePostCsvMutation } from './csvApi';
 import { API_URL } from '../../services/constants';
 import Loader from '../../components/Loader';
+import { usePostCharacteristicsTypeMutation } from '../characteristicsType/characteristicsTypeApi';
 
 
 function CsvForm() {
@@ -27,6 +28,7 @@ function CsvForm() {
 
   const categories = useSelector(state => state.categories.categories);
   const [postCsv, { isLoading, error }] = usePostCsvMutation();
+  const [postCharacteristicsType, { isLoading: isLoading2, error: error2 }] = usePostCharacteristicsTypeMutation();
 
   // useEffect(() => {
   //   if (error !== undefined) {
@@ -51,8 +53,15 @@ function CsvForm() {
 
   const handleAddType = (e) => {
     e.preventDefault();
+    console.log(accessoryTypeCharacteristics)
     if (accessoryTypeCharacteristics) {
-
+      postCharacteristicsType(accessoryTypeCharacteristics)
+        .then((response) => {
+          // alert('Успешно')
+        })
+        .catch((error) => {
+          alert("Ошибка");
+        })
 
       setAccessoryTypeCharacteristics('');
     }
@@ -96,7 +105,12 @@ function CsvForm() {
           </FormControl>
           <Button onClick={handleSubmit}>Отправить</Button>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <Input value={accessoryTypeCharacteristics} id="demo-simple-select-standard-label" placeholder='Тип характеристики' ></Input>
+            <Input
+              value={accessoryTypeCharacteristics}
+              id="demo-simple-select-standard-label"
+              placeholder='Тип характеристики'
+              onChange={(e) => setAccessoryTypeCharacteristics(e.target.value)}
+            />
           </FormControl>
           <Button onClick={handleAddType}>Добавить</Button>
         </>
